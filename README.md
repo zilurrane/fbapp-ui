@@ -1,16 +1,16 @@
-# EasyDEV Seed
+# FbApp Seed
 
-EasyDEV Seed is based on [Create React App](https://github.com/facebook/create-react-app). You can read full
+FbApp Seed is based on [Create React App](https://github.com/facebook/create-react-app). You can read full
 [guide](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
-Full version: [demo](http://previews.aspirity.com/easydev/) | [download](https://themeforest.net/item/easypro-developer-friendly-react-bootstrap-4-admin-template/21798550)
+Full version: [demo](http://previews.aspirity.com/FbApp/) | [download](https://themeforest.net/item/easypro-developer-friendly-react-bootstrap-4-admin-template/21798550)
 
 ## Installing and Running Code
 
 To get started follow this steps:
 
 - Install [Node](https://nodejs.org/en/).
-- Download and open this project (`cd path/to/easydev-seed`).
+- Download and open this project (`cd path/to/FbApp-seed`).
 - Install packages: `npm install` or `yarn install`.
 - Start the project locally: `npm start` or `yarn start` (running on port 3000).
 
