@@ -21,7 +21,9 @@ class Topbar extends PureComponent {
               changeMobileSidebarVisibility={changeMobileSidebarVisibility}
               changeSidebarVisibility={changeSidebarVisibility}
             />
-            <Link className="topbar__logo" to="/dashboard_default" />
+            <Link className="topbar__logo" to="/dashboard_default" >
+              <h3 className="topbar__logo__text">FbApp</h3>
+            </Link>
           </div>
           <div className="topbar__right">
             <TopbarProfile />

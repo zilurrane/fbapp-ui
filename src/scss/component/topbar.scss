@@ -58,13 +58,17 @@
   background-size: contain;
   display: none;
 
-  @include themify($themes) {
-    background-image: themed('logoImg');
-  }
+  // @include themify($themes) {
+  //   background-image: themed('logoImg');
+  // }
 
   @media screen and (min-width: 768px) {
     display: block;
   }
+}
+
+.topbar__logo .topbar__logo__text {
+  font-weight: 900;
 }
 
 .topbar__right {
