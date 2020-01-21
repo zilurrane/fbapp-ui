@@ -56,15 +56,15 @@
   background-position-y: center;
   background-position-x: left;
   background-size: contain;
-  display: none;
+  display: block;
 
   // @include themify($themes) {
   //   background-image: themed('logoImg');
   // }
 
-  @media screen and (min-width: 768px) {
-    display: block;
-  }
+  // @media screen and (min-width: 768px) {
+  //   display: block;
+  // }
 }
 
 .topbar__logo .topbar__logo__text {
