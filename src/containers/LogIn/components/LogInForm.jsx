@@ -63,9 +63,6 @@ class LogInForm extends PureComponent {
             ><EyeIcon />
             </button>
           </div>
-          <div className="account__forgot-password">
-            <a href="/">Forgot a password?</a>
-          </div>
         </div>
         <div className="form__form-group">
           <div className="form__form-group-field">
@@ -77,7 +74,6 @@ class LogInForm extends PureComponent {
           </div>
         </div>
         <Link className="btn btn-primary account__btn account__btn--small" to="/pages/one">Sign In</Link>
-        <Link className="btn btn-outline-primary account__btn account__btn--small" to="/log_in">Create Account</Link>
       </form>
     );
   }
