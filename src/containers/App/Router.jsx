@@ -9,8 +9,8 @@ import ExamplePageTwo from '../ExampleTwo/index';
 
 const Pages = () => (
   <Switch>
-    <Route path="/pages/one" component={ExamplePageOne} />
-    <Route path="/pages/two" component={ExamplePageTwo} />
+    <Route path="/app/one" component={ExamplePageOne} />
+    <Route path="/app/two" component={ExamplePageTwo} />
   </Switch>
 );
 
@@ -18,7 +18,7 @@ const wrappedRoutes = () => (
   <div>
     <Layout />
     <div className="container__wrap">
-      <Route path="/pages" component={Pages} />
+      <Route path="/app" component={Pages} />
     </div>
   </div>
 );
