@@ -1,17 +1,31 @@
 import React from 'react';
-import { Card, CardBody, Col } from 'reactstrap';
+import { Card, CardBody, Col, Row } from 'reactstrap';
+import DepartmentsTable from './DepartmentsTable';
 
 const ClassesCard = () => (
   <Col md={12}>
-    <Card>
-      <CardBody>
-        <div className="card__title">
-          <h5 className="bold-text">Classes title</h5>
-          <h5 className="subhead">Classes subhead</h5>
-        </div>
-        <p>Your content here</p>
-      </CardBody>
-    </Card>
+    <Row>
+      <Col md={6}>
+        <Card>
+          <CardBody>
+            <div className="card__title">
+              <h5 className="bold-text">Manage Departments</h5>
+            </div>
+            <DepartmentsTable />
+          </CardBody>
+        </Card>
+      </Col>
+      <Col md={6}>
+        <Card>
+          <CardBody>
+            <div className="card__title">
+              <h5 className="bold-text">Manage Classes</h5>
+            </div>
+            <DepartmentsTable />
+          </CardBody>
+        </Card>
+      </Col>
+    </Row>
   </Col>
 );
 
