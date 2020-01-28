@@ -7,7 +7,7 @@ import { getAllDepartments } from '../../../../redux/actions/departmentActions';
 class DepartmentsTable extends Component {
   static propTypes = {
     getAllDepartments: PropTypes.func.isRequired,
-    departments: PropTypes.arrayOf({ code: PropTypes.string, name: PropTypes.string }).isRequired,
+    departments: PropTypes.arrayOf(PropTypes.object).isRequired,
   };
 
   componentDidMount() {
