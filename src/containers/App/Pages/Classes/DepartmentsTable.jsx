@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Table } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAllDepartments } from '../../../../redux/actions/departmentActions'
+import { getAllDepartments } from '../../../../redux/actions/departmentActions';
 
 class DepartmentsTable extends Component {
   static propTypes = {
     getAllDepartments: PropTypes.func.isRequired,
-    departments: PropTypes.any,
+    departments: PropTypes.arrayOf({ code: PropTypes.string, name: PropTypes.string }).isRequired,
   };
 
   componentDidMount() {
@@ -26,15 +26,13 @@ class DepartmentsTable extends Component {
         </thead>
         <tbody>
           {
-            departments.map((d, index) => {
-              return (
-                <tr key={index}>
-                  <th scope="row">{index + 1}</th>
-                  <td>{d.code}</td>
-                  <td>{d.name}</td>
-                </tr>
-              )
-            })
+            departments.map((d, index) => (
+              <tr key={index + 1}>
+                <th scope="row">{index + 1}</th>
+                <td>{d.code}</td>
+                <td>{d.name}</td>
+              </tr>
+            ))
           }
         </tbody>
       </Table>
@@ -43,5 +41,5 @@ class DepartmentsTable extends Component {
 }
 
 const mapStateToProps = state => ({ departments: state.departments.departments });
-const mapDispatchToProps = { getAllDepartments: getAllDepartments };
+const mapDispatchToProps = { getAllDepartments };
 export default connect(mapStateToProps, mapDispatchToProps)(DepartmentsTable);

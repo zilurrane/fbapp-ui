@@ -11,7 +11,7 @@ const reducer = combineReducers({
   form: reduxFormReducer, // mounted under "form",
   theme: themeReducer,
   sidebar: sidebarReducer,
-  departments: departmentReducer
+  departments: departmentReducer,
 });
 
 const store = createStore(

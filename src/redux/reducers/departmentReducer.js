@@ -7,5 +7,5 @@ const reducer = (state = { loading: false, departments: [] }, action) => {
     default:
       return state;
   }
-}
+};
 export default reducer;
