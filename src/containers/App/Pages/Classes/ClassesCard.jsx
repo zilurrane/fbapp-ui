@@ -1,7 +1,8 @@
 import React, { Fragment, Component } from 'react';
 import { Card, CardBody, Col, Row } from 'reactstrap';
-import { Button, Modal } from 'antd';
+import { Button } from 'antd';
 import DepartmentsTable from './DepartmentsTable';
+import AddEditDepartmentFormModal from './AddEditDepartmentFormModal';
 
 class ClassesCard extends Component {
   state = { isAddEditDepartmentModalVisible: false };
@@ -13,8 +14,15 @@ class ClassesCard extends Component {
   };
 
   handleAddEditDepartmentModalSubmit = () => {
-    this.setState({
-      isAddEditDepartmentModalVisible: false,
+    const { form } = this.addEditDepartmentFormRef.props;
+    form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
+
+      console.log('Received values of form: ', values);
+      form.resetFields();
+      this.setState({ isAddEditDepartmentModalVisible: false });
     });
   };
 
@@ -22,6 +30,10 @@ class ClassesCard extends Component {
     this.setState({
       isAddEditDepartmentModalVisible: false,
     });
+  };
+
+  saveAddEditDepartmentFormRef = (formRef) => {
+    this.addEditDepartmentFormRef = formRef;
   };
 
   render() {
@@ -54,17 +66,12 @@ class ClassesCard extends Component {
             </Col>
           </Row>
         </Col>
-        <Modal
-          title="Add Department"
-          okText="Submit"
+        <AddEditDepartmentFormModal
+          wrappedComponentRef={this.saveAddEditDepartmentFormRef}
           visible={this.state.isAddEditDepartmentModalVisible}
-          onOk={this.handleAddEditDepartmentModalSubmit}
           onCancel={this.handleAddEditDepartmentModalCancel}
-        >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Modal>
+          onCreate={this.handleAddEditDepartmentModalSubmit}
+        />
       </Fragment>
     );
   }
