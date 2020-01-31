@@ -20,7 +20,7 @@
       "specialLink": [ "to", "hrefLeft", "hrefRight" ],
       "aspects": [ "noHref", "invalidHref", "preferButton" ]
     }],
-    "max-len": ["error", {"code": 120, "ignoreRegExpLiterals": true, "tabWidth": 4}],
+    "max-len": ["error", {"code": 200, "ignoreRegExpLiterals": true, "tabWidth": 4}],
     "no-console": [1],
     "linebreak-style": "off",
     "react/no-array-index-key": "off",
