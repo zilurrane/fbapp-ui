@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardBody, Col, Row } from 'reactstrap';
+import { Card, CardBody, Col, Row, Button } from 'reactstrap';
 import DepartmentsTable from './DepartmentsTable';
 
 const ClassesCard = () => (
@@ -10,6 +10,7 @@ const ClassesCard = () => (
           <CardBody>
             <div className="card__title">
               <h5 className="bold-text">Manage Departments</h5>
+              <Button className="card__actions" size="sm" color="primary">Add</Button>
             </div>
             <DepartmentsTable />
           </CardBody>

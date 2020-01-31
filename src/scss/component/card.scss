@@ -21,8 +21,7 @@
 }
 
 .card__title {
-  margin-bottom: 30px;
-  text-transform: uppercase;
+  margin-bottom: 10px;
   position: relative;
 
   &:not(:first-child) {
@@ -43,6 +42,14 @@
 
   h5 {
     font-size: 13px;
+  }
+
+  .card__actions {
+    position: absolute;
+    right: 0;
+    top: -10px;
+    margin-right: 0;
+    padding: 5px 10px;
   }
 }
 
