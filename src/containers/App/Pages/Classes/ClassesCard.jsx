@@ -4,6 +4,7 @@ import { Card, CardBody, Col, Row } from 'reactstrap';
 import { Button } from 'antd';
 import { connect } from 'react-redux';
 import DepartmentsTable from './DepartmentsTable';
+import ClassesTable from './ClassesTable';
 import AddEditDepartmentFormModal from './AddEditDepartmentFormModal';
 import { createDepartment } from '../../../../redux/actions/departmentActions';
 
@@ -66,7 +67,7 @@ class ClassesCard extends Component {
                   <div className="card__title">
                     <h5 className="bold-text">Manage Classes</h5>
                   </div>
-                  <DepartmentsTable />
+                  <ClassesTable />
                 </CardBody>
               </Card>
             </Col>
