@@ -15,7 +15,7 @@ class ClassesCard extends Component {
 
   handleAddEditDepartmentModalSubmit = () => {
     const { form } = this.addEditDepartmentFormRef.props;
-    form.validateFields((err, values) => {
+    form.validateFields((err) => {
       if (err) {
         return;
       }
