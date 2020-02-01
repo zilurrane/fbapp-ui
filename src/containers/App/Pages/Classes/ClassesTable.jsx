@@ -2,20 +2,21 @@ import React, { Component } from 'react';
 import { Table } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAllDepartments } from '../../../../redux/actions/departmentActions';
+import { getAllClassesByDepartmentCode } from '../../../../redux/actions/departmentActions';
 
 class ClassesTable extends Component {
   static propTypes = {
-    getAllDepartments: PropTypes.func.isRequired,
-    departments: PropTypes.arrayOf(PropTypes.object).isRequired,
-    // departmentCode: PropTypes.string.isRequired,
+    getAllClassesByDepartmentCode: PropTypes.func.isRequired,
+    classes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    departmentCode: PropTypes.string.isRequired,
   };
 
   componentDidMount() {
-    this.props.getAllDepartments();
+    this.props.getAllClassesByDepartmentCode(this.props.departmentCode);
   }
+
   render() {
-    const { departments } = this.props;
+    const { classes } = this.props;
     return (
       <Table size="sm" hover striped>
         <thead>
@@ -27,7 +28,7 @@ class ClassesTable extends Component {
         </thead>
         <tbody>
           {
-            departments.map((d, index) => (
+            classes.map((d, index) => (
               <tr key={index + 1}>
                 <th scope="row">{index + 1}</th>
                 <td>{d.code}</td>
@@ -35,12 +36,18 @@ class ClassesTable extends Component {
               </tr>
             ))
           }
+          {
+            classes.length === 0 &&
+            <tr>
+              <td colSpan="3">No classes found!</td>
+            </tr>
+          }
         </tbody>
       </Table>
     );
   }
 }
 
-const mapStateToProps = state => ({ departments: state.departments.departments });
-const mapDispatchToProps = { getAllDepartments };
+const mapStateToProps = (state, props) => ({ classes: state.departments.classes[props.departmentCode] || [] });
+const mapDispatchToProps = { getAllClassesByDepartmentCode };
 export default connect(mapStateToProps, mapDispatchToProps)(ClassesTable);

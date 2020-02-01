@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Row } from 'reactstrap';
-import { Button, Tabs, Descriptions } from 'antd';
+import { Button, Tabs, Descriptions, Divider } from 'antd';
 import { connect } from 'react-redux';
 import AddEditDepartmentFormModal from './AddEditDepartmentFormModal';
 import { createDepartment, getAllDepartments } from '../../../../redux/actions/departmentActions';
@@ -81,7 +81,24 @@ class ClassesCard extends Component {
                             </Button>
                           </Col>
                         </Row>
-                        <ClassesTable departmentCode={department.code} />
+                        <Row>
+                          <Col>
+                            <Divider />
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col>
+                            <div>
+                              <div className="card__title">
+                                <h5 className="bold-text">Manage Classes</h5>
+                                <Button className="card__actions" type="primary" onClick={this.showAddEditDepartmentModal}>
+                                  Add
+                                </Button>
+                              </div>
+                              <ClassesTable departmentCode={department.code} />
+                            </div>
+                          </Col>
+                        </Row>
                       </TabPane>
                     ))}
                   </Tabs>
