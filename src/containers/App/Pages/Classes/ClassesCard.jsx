@@ -1,10 +1,17 @@
 import React, { Fragment, Component } from 'react';
+import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Row } from 'reactstrap';
 import { Button } from 'antd';
+import { connect } from 'react-redux';
 import DepartmentsTable from './DepartmentsTable';
 import AddEditDepartmentFormModal from './AddEditDepartmentFormModal';
+import { createDepartment } from '../../../../redux/actions/departmentActions';
 
 class ClassesCard extends Component {
+  static propTypes = {
+    createDepartment: PropTypes.func.isRequired,
+  };
+
   state = { isAddEditDepartmentModalVisible: false };
 
   showAddEditDepartmentModal = () => {
@@ -15,10 +22,11 @@ class ClassesCard extends Component {
 
   handleAddEditDepartmentModalSubmit = () => {
     const { form } = this.addEditDepartmentFormRef.props;
-    form.validateFields((err) => {
+    form.validateFields((err, values) => {
       if (err) {
         return;
       }
+      this.props.createDepartment(values);
       form.resetFields();
       this.setState({ isAddEditDepartmentModalVisible: false });
     });
@@ -75,4 +83,5 @@ class ClassesCard extends Component {
   }
 }
 
-export default ClassesCard;
+const mapDispatchToProps = { createDepartment };
+export default connect(null, mapDispatchToProps)(ClassesCard);
