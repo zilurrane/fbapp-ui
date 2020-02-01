@@ -25,5 +25,6 @@
     "linebreak-style": "off",
     "react/no-array-index-key": "off",
     "function-paren-newline": "off",
+    "react/prefer-stateless-function": "off",
   }
 }
