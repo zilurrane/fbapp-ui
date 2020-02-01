@@ -10,6 +10,8 @@ const reducer = (state = { loading: false, departments: [], classes: {} }, actio
       return { ...state, loading: true };
     case 'CLASSES_BY_DEPARTMENTCODE_RECEIVED':
       return { ...state, classes: { ...state.classes, [action.payload.departmentCode]: action.payload.classes }, loading: true };
+    case 'CREATE_CLASS':
+      return { ...state, loading: true };
     default:
       return state;
   }

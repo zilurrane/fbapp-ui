@@ -18,10 +18,17 @@ function* getClassesByDepartmentCode({ departmentCode }) {
   yield put({ type: 'CLASSES_BY_DEPARTMENTCODE_RECEIVED', payload: { departmentCode, classes } });
 }
 
+function* createClass({ payload }) {
+  const postBody = JSON.stringify(payload);
+  yield fetch(`${baseApiUrl}classes/add`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  yield put({ type: 'GET_CLASSES_BY_DEPARTMENTCODE', departmentCode: payload.departmentCode });
+}
+
 function* actionWatcher() {
   yield all([
     takeLatest('GET_DEPARTMENTS', getAllDepartments),
     takeLatest('CREATE_DEPARTMENT', createDepartment),
+    takeLatest('CREATE_CLASS', createClass),
     takeLatest('GET_CLASSES_BY_DEPARTMENTCODE', getClassesByDepartmentCode),
   ]);
 }

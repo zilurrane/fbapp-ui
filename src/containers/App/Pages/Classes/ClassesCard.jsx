@@ -4,7 +4,8 @@ import { Card, CardBody, Col, Row } from 'reactstrap';
 import { Button, Tabs, Descriptions, Divider } from 'antd';
 import { connect } from 'react-redux';
 import AddEditDepartmentFormModal from './AddEditDepartmentFormModal';
-import { createDepartment, getAllDepartments } from '../../../../redux/actions/departmentActions';
+import AddEditClassFormModal from './AddEditClassFormModal';
+import { createDepartment, getAllDepartments, createClass } from '../../../../redux/actions/departmentActions';
 import ClassesTable from './ClassesTable';
 
 const { TabPane } = Tabs;
@@ -14,9 +15,10 @@ class ClassesCard extends Component {
     getAllDepartments: PropTypes.func.isRequired,
     createDepartment: PropTypes.func.isRequired,
     departments: PropTypes.arrayOf(PropTypes.object).isRequired,
+    createClass: PropTypes.func.isRequired,
   };
 
-  state = { isAddEditDepartmentModalVisible: false };
+  state = { isAddEditDepartmentModalVisible: false, isAddEditClassModalVisible: false, selectedDepartment: {} };
 
   componentDidMount() {
     this.props.getAllDepartments();
@@ -25,6 +27,13 @@ class ClassesCard extends Component {
   showAddEditDepartmentModal = () => {
     this.setState({
       isAddEditDepartmentModalVisible: true,
+    });
+  };
+
+  showAddEditClassModal = (department) => {
+    this.setState({
+      isAddEditClassModalVisible: true,
+      selectedDepartment: department,
     });
   };
 
@@ -40,14 +49,36 @@ class ClassesCard extends Component {
     });
   };
 
+  handleAddEditClassModalSubmit = () => {
+    const { form } = this.addEditClassFormRef.props;
+    form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
+      this.props.createClass({ ...values, departmentCode: this.state.selectedDepartment.code });
+      form.resetFields();
+      this.setState({ isAddEditClassModalVisible: false });
+    });
+  };
+
   handleAddEditDepartmentModalCancel = () => {
     this.setState({
       isAddEditDepartmentModalVisible: false,
     });
   };
 
+  handleAddEditClassModalCancel = () => {
+    this.setState({
+      isAddEditClassModalVisible: false,
+    });
+  };
+
   saveAddEditDepartmentFormRef = (formRef) => {
     this.addEditDepartmentFormRef = formRef;
+  };
+
+  saveAddEditClassFormRef = (formRef) => {
+    this.addEditClassFormRef = formRef;
   };
 
   render() {
@@ -56,7 +87,7 @@ class ClassesCard extends Component {
       <Fragment>
         <Col md={12}>
           <Row>
-            <Col md={12}>
+            <Col msd={12}>
               <Card>
                 <CardBody>
                   <div className="card__title">
@@ -91,7 +122,7 @@ class ClassesCard extends Component {
                             <div>
                               <div className="card__title">
                                 <h5 className="bold-text">Manage Classes</h5>
-                                <Button className="card__actions" type="primary" onClick={this.showAddEditDepartmentModal}>
+                                <Button className="card__actions" type="primary" onClick={() => this.showAddEditClassModal(department)}>
                                   Add
                                 </Button>
                               </div>
@@ -113,10 +144,17 @@ class ClassesCard extends Component {
           onCancel={this.handleAddEditDepartmentModalCancel}
           onCreate={this.handleAddEditDepartmentModalSubmit}
         />
+        <AddEditClassFormModal
+          wrappedComponentRef={this.saveAddEditClassFormRef}
+          visible={this.state.isAddEditClassModalVisible}
+          onCancel={this.handleAddEditClassModalCancel}
+          onCreate={this.handleAddEditClassModalSubmit}
+          selectedDepartment={this.state.selectedDepartment}
+        />
       </Fragment>
     );
   }
 }
 const mapStateToProps = state => ({ departments: state.departments.departments });
-const mapDispatchToProps = { getAllDepartments, createDepartment };
+const mapDispatchToProps = { getAllDepartments, createDepartment, createClass };
 export default connect(mapStateToProps, mapDispatchToProps)(ClassesCard);
