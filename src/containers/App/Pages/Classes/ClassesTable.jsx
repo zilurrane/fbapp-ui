@@ -8,6 +8,7 @@ class ClassesTable extends Component {
   static propTypes = {
     getAllDepartments: PropTypes.func.isRequired,
     departments: PropTypes.arrayOf(PropTypes.object).isRequired,
+    // departmentCode: PropTypes.string.isRequired,
   };
 
   componentDidMount() {
