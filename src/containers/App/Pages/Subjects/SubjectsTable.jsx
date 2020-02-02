@@ -28,18 +28,20 @@ class SubjectsTable extends Component {
       <Table size="sm" hover striped>
         <thead>
           <tr>
-            <th>#</th>
+            <th className="text-center">#</th>
             <th>Code</th>
             <th>Name</th>
+            <th className="text-center">Status</th>
           </tr>
         </thead>
         <tbody>
           {
             subjects.map((d, index) => (
               <tr key={index + 1}>
-                <th scope="row">{index + 1}</th>
+                <th scope="row" className="text-center">{index + 1}</th>
                 <td>{d.code}</td>
                 <td>{d.name}</td>
+                <td className="text-center">{d.isActive ? 'Active' : 'In-Active' }</td>
               </tr>
             ))
           }
