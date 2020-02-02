@@ -4,6 +4,7 @@ import { Select } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getAllDepartments, getAllClassesByDepartmentCode } from '../../../../redux/actions/departmentActions';
+import SubjectsTable from './SubjectsTable';
 
 const { Option } = Select;
 
@@ -58,9 +59,16 @@ class SubjectsCard extends Component {
                   <Col md={4} sm={12}>
                     <Select value={classCode} style={{ width: '100%' }} onChange={this.handleClassChange} placeholder="Select Class">
                       {
-                        classesByDepartmentCode.map(department => <Option value={department.code}> {department.name}</Option>)
+                        classesByDepartmentCode.map(departmentClass => <Option value={departmentClass.code}> {departmentClass.name}</Option>)
                       }
                     </Select>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    {
+                      departmentCode && classCode && <SubjectsTable departmentCode={departmentCode} classCode={classCode} />
+                    }
                   </Col>
                 </Row>
               </Col>

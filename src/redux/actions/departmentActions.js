@@ -16,3 +16,9 @@ export const createClass = classRecord => ({
   type: 'CREATE_CLASS',
   payload: classRecord,
 });
+
+export const getAllSubjectsByDepartmentCodeClassCode = (departmentCode, classCode) => ({
+  type: 'GET_SUBJECT_BY_DEPARTMENTCODE_CLASSCODE',
+  departmentCode,
+  classCode,
+});
