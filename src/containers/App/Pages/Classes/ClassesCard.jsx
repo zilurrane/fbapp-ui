@@ -87,7 +87,7 @@ class ClassesCard extends Component {
       <Fragment>
         <Col md={12}>
           <Row>
-            <Col msd={12}>
+            <Col md={12}>
               <Card>
                 <CardBody>
                   <div className="card__title">
