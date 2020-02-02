@@ -11,6 +11,7 @@ import Error404Page from './Pages/Error404';
 import UsersPage from './Pages/Users';
 import ClassesPage from './Pages/Classes';
 import FacultiesPage from './Pages/Faculties';
+import SubjectsPage from './Pages/Subjects';
 import StudentsPage from './Pages/Students';
 import BackupPage from './Pages/Backup';
 import FeedbackPage from './Pages/Feedback';
@@ -30,6 +31,7 @@ const appRoutes = () => (
         <Route path="/app/users" component={UsersPage} />
         <Route path="/app/classes" component={ClassesPage} />
         <Route path="/app/faculties" component={FacultiesPage} />
+        <Route path="/app/subjects" component={SubjectsPage} />
         <Route path="/app/students" component={StudentsPage} />
         <Route path="/app/backup" component={BackupPage} />
         <Route path="/app/feedback" component={FeedbackPage} />

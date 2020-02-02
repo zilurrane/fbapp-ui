@@ -31,6 +31,7 @@ class SidebarContent extends Component {
           <SidebarLink icon="home" title="Dashboard" route="/app/dashboard" onClick={this.hideSidebar} />
           <SidebarLink icon="user" title="Users" route="/app/users" onClick={this.hideSidebar} />
           <SidebarLink icon="list" title="Classes" route="/app/classes" onClick={this.hideSidebar} />
+          <SidebarLink icon="book" title="Subjects" route="/app/subjects" onClick={this.hideSidebar} />
           <SidebarLink icon="user" title="Faculties" route="/app/faculties" onClick={this.hideSidebar} />
           <SidebarLink icon="user" title="Students" route="/app/students" onClick={this.hideSidebar} />
           <SidebarLink icon="layers" title="Backup" route="/app/backup" onClick={this.hideSidebar} />
