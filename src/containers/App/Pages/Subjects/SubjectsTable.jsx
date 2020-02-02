@@ -48,7 +48,7 @@ class SubjectsTable extends Component {
           {
             subjects.length === 0 &&
             <tr>
-              <td colSpan="3">No subjects found!</td>
+              <td colSpan="4">No subjects found!</td>
             </tr>
           }
         </tbody>
