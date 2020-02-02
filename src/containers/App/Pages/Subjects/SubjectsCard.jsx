@@ -84,6 +84,8 @@ class SubjectsCard extends Component {
                         }
                       </Select>
                     </Col>
+                    <br />
+                    <br />
                     <Col md={4} sm={12}>
                       <Select value={classCode} style={{ width: '100%' }} onChange={this.handleClassChange} placeholder="Select Class">
                         {
