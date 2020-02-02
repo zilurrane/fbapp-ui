@@ -29,6 +29,12 @@ function* getSubjectsByDepartmentCodeClassCode({ departmentCode, classCode }) {
   yield put({ type: 'SUBJECTS_BY_DEPARTMENTCODE_CLASSCODE_RECEIVED', payload: { departmentCode, classCode, subjects } });
 }
 
+function* createSubject({ payload }) {
+  const postBody = JSON.stringify(payload);
+  yield fetch(`${baseApiUrl}subjects/add`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  yield put({ type: 'GET_SUBJECT_BY_DEPARTMENTCODE_CLASSCODE', departmentCode: payload.departmentCode, classCode: payload.classCode });
+}
+
 function* actionWatcher() {
   yield all([
     takeLatest('GET_DEPARTMENTS', getAllDepartments),
@@ -36,6 +42,7 @@ function* actionWatcher() {
     takeLatest('CREATE_CLASS', createClass),
     takeLatest('GET_CLASSES_BY_DEPARTMENTCODE', getClassesByDepartmentCode),
     takeLatest('GET_SUBJECT_BY_DEPARTMENTCODE_CLASSCODE', getSubjectsByDepartmentCodeClassCode),
+    takeLatest('CREATE_SUBJECT', createSubject),
   ]);
 }
 

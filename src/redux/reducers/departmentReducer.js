@@ -28,6 +28,8 @@ const reducer = (state = {
         },
         loading: false,
       };
+    case 'CREATE_SUBJECT':
+      return { ...state, loading: true };
     default:
       return state;
   }

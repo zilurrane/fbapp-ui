@@ -7,7 +7,7 @@ import { getAllSubjectsByDepartmentCodeClassCode } from '../../../../redux/actio
 class SubjectsTable extends Component {
   static propTypes = {
     getAllSubjectsByDepartmentCodeClassCode: PropTypes.func.isRequired,
-    classes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    subjects: PropTypes.arrayOf(PropTypes.object).isRequired,
     departmentCode: PropTypes.string.isRequired,
     classCode: PropTypes.string.isRequired,
   };
@@ -23,7 +23,7 @@ class SubjectsTable extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { subjects } = this.props;
     return (
       <Table size="sm" hover striped>
         <thead>
@@ -35,7 +35,7 @@ class SubjectsTable extends Component {
         </thead>
         <tbody>
           {
-            classes.map((d, index) => (
+            subjects.map((d, index) => (
               <tr key={index + 1}>
                 <th scope="row">{index + 1}</th>
                 <td>{d.code}</td>
@@ -44,9 +44,9 @@ class SubjectsTable extends Component {
             ))
           }
           {
-            classes.length === 0 &&
+            subjects.length === 0 &&
             <tr>
-              <td colSpan="3">No classes found!</td>
+              <td colSpan="3">No subjects found!</td>
             </tr>
           }
         </tbody>
@@ -55,6 +55,6 @@ class SubjectsTable extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({ classes: (state.departments.subjects[props.departmentCode] || {})[props.classCode] || [] });
+const mapStateToProps = (state, props) => ({ subjects: (state.departments.subjects[props.departmentCode] || {})[props.classCode] || [] });
 const mapDispatchToProps = { getAllSubjectsByDepartmentCodeClassCode };
 export default connect(mapStateToProps, mapDispatchToProps)(SubjectsTable);

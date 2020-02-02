@@ -22,3 +22,8 @@ export const getAllSubjectsByDepartmentCodeClassCode = (departmentCode, classCod
   departmentCode,
   classCode,
 });
+
+export const createSubject = subjectRecord => ({
+  type: 'CREATE_SUBJECT',
+  payload: subjectRecord,
+});
