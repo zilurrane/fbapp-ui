@@ -3,6 +3,8 @@ import { Table } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getAllSubjectsByDepartmentCodeClassCode } from '../../../../redux/actions/departmentActions';
+import { transformKeyToLabel } from '../../../../shared/helpers/array-helpers';
+import { subjectParameters } from '../../../../shared/constants/common-constants';
 
 class SubjectsTable extends Component {
   static propTypes = {
@@ -31,6 +33,7 @@ class SubjectsTable extends Component {
             <th className="text-center">#</th>
             <th>Code</th>
             <th>Name</th>
+            <th>Parameters</th>
             <th className="text-center">Status</th>
           </tr>
         </thead>
@@ -41,6 +44,7 @@ class SubjectsTable extends Component {
                 <th scope="row" className="text-center">{index + 1}</th>
                 <td>{d.code}</td>
                 <td>{d.name}</td>
+                <td>{transformKeyToLabel(d.parameters, { array: subjectParameters, isCsv: true })}</td>
                 <td className="text-center">{d.isActive ? 'Active' : 'In-Active' }</td>
               </tr>
             ))

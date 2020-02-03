@@ -43,7 +43,6 @@ class SubjectsCard extends Component {
       if (err) {
         return;
       }
-      console.log(values);
       this.props.createSubject({ ...values, departmentCode: this.state.departmentCode, classCode: this.state.classCode });
       form.resetFields();
       this.setState({ isAddEditSubjectModalVisible: false });
