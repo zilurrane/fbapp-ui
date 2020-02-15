@@ -30,17 +30,14 @@ const reducer = (state = {
       };
     case 'CREATE_SUBJECT':
       return { ...state, loading: true };
-    case 'GET_FACULTIES_BY_DEPARTMENTCODE_CLASSCODE':
+    case 'GET_FACULTIES_BY_DEPARTMENTCODE':
       return { ...state, loading: true };
-    case 'FACULTIES_BY_DEPARTMENTCODE_CLASSCODE_RECEIVED':
+    case 'FACULTIES_BY_DEPARTMENTCODE_RECEIVED':
       return {
         ...state,
         faculties: {
           ...state.faculties,
-          [action.payload.departmentCode]: {
-            ...state.faculties[action.payload.departmentCode],
-            [action.payload.classCode]: action.payload.faculties,
-          },
+          [action.payload.departmentCode]: action.payload.faculties,
         },
         loading: false,
       };

@@ -3,7 +3,7 @@ import { Card, CardBody, Col, Row } from 'reactstrap';
 import { Select, Button } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getAllDepartments, getAllClassesByDepartmentCode, createFaculty } from '../../../../redux/actions/departmentActions';
+import { getAllDepartments, createFaculty } from '../../../../redux/actions/departmentActions';
 import FacultiesTable from './FacultiesTable';
 import AddEditFacultyFormModal from './AddEditFacultyFormModal';
 
@@ -12,25 +12,18 @@ const { Option } = Select;
 class FacultiesCard extends Component {
   static propTypes = {
     getAllDepartments: PropTypes.func.isRequired,
-    getAllClassesByDepartmentCode: PropTypes.func.isRequired,
     createFaculty: PropTypes.func.isRequired,
     departments: PropTypes.arrayOf(PropTypes.object).isRequired,
-    classes: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
   };
 
-  state = { departmentCode: undefined, classCode: undefined, isAddEditFacultyModalVisible: false };
+  state = { departmentCode: undefined, isAddEditFacultyModalVisible: false };
 
   componentDidMount() {
     this.props.getAllDepartments();
   }
 
   handleDepartmentChange = (value) => {
-    this.setState({ departmentCode: value, classCode: undefined });
-    this.props.getAllClassesByDepartmentCode(value);
-  }
-
-  handleClassChange = (value) => {
-    this.setState({ classCode: value });
+    this.setState({ departmentCode: value });
   }
 
   showAddEditFacultyModal = () => {
@@ -43,7 +36,7 @@ class FacultiesCard extends Component {
       if (err) {
         return;
       }
-      this.props.createFaculty({ ...values, departmentCode: this.state.departmentCode, classCode: this.state.classCode });
+      this.props.createFaculty({ ...values, departmentCode: this.state.departmentCode });
       form.resetFields();
       this.setState({ isAddEditFacultyModalVisible: false });
     });
@@ -58,9 +51,8 @@ class FacultiesCard extends Component {
   };
 
   render() {
-    const { departments, classes } = this.props;
-    const { classCode, departmentCode } = this.state;
-    const classesByDepartmentCode = classes[departmentCode] || [];
+    const { departments } = this.props;
+    const { departmentCode } = this.state;
     return (
       <Fragment>
         <Col md={12}>
@@ -83,20 +75,11 @@ class FacultiesCard extends Component {
                         }
                       </Select>
                     </Col>
-                    <br />
-                    <br />
-                    <Col md={4} sm={12}>
-                      <Select value={classCode} style={{ width: '100%' }} onChange={this.handleClassChange} placeholder="Select Class">
-                        {
-                          classesByDepartmentCode.map(departmentClass => <Option value={departmentClass.code} key={departmentClass.code}> {departmentClass.name}</Option>)
-                        }
-                      </Select>
-                    </Col>
                   </Row>
                   <Row>
                     <Col>
                       {
-                        departmentCode && classCode &&
+                        departmentCode &&
                         <div>
                           <div className="card__title">
                             <h5 className="bold-text">&nbsp;</h5>
@@ -104,7 +87,7 @@ class FacultiesCard extends Component {
                               Add
                             </Button>
                           </div>
-                          <FacultiesTable departmentCode={departmentCode} classCode={classCode} />
+                          <FacultiesTable departmentCode={departmentCode} />
                         </div>
                       }
                     </Col>
@@ -125,6 +108,6 @@ class FacultiesCard extends Component {
   }
 }
 
-const mapStateToProps = state => ({ departments: state.departments.departments, classes: state.departments.classes || {} });
-const mapDispatchToProps = { getAllDepartments, getAllClassesByDepartmentCode, createFaculty };
+const mapStateToProps = state => ({ departments: state.departments.departments });
+const mapDispatchToProps = { getAllDepartments, createFaculty };
 export default connect(mapStateToProps, mapDispatchToProps)(FacultiesCard);
