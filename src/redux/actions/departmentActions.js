@@ -18,7 +18,7 @@ export const createClass = classRecord => ({
 });
 
 export const getAllSubjectsByDepartmentCodeClassCode = (departmentCode, classCode) => ({
-  type: 'GET_SUBJECT_BY_DEPARTMENTCODE_CLASSCODE',
+  type: 'GET_SUBJECTS_BY_DEPARTMENTCODE_CLASSCODE',
   departmentCode,
   classCode,
 });
@@ -26,4 +26,15 @@ export const getAllSubjectsByDepartmentCodeClassCode = (departmentCode, classCod
 export const createSubject = subjectRecord => ({
   type: 'CREATE_SUBJECT',
   payload: subjectRecord,
+});
+
+export const getAllFacultiesByDepartmentCodeClassCode = (departmentCode, classCode) => ({
+  type: 'GET_FACULTIES_BY_DEPARTMENTCODE_CLASSCODE',
+  departmentCode,
+  classCode,
+});
+
+export const createFaculty = facultyRecord => ({
+  type: 'CREATE_FACULTY',
+  payload: facultyRecord,
 });

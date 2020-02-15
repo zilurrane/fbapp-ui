@@ -32,7 +32,18 @@ function* getSubjectsByDepartmentCodeClassCode({ departmentCode, classCode }) {
 function* createSubject({ payload }) {
   const postBody = JSON.stringify(payload);
   yield fetch(`${baseApiUrl}subjects/add`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
-  yield put({ type: 'GET_SUBJECT_BY_DEPARTMENTCODE_CLASSCODE', departmentCode: payload.departmentCode, classCode: payload.classCode });
+  yield put({ type: 'GET_SUBJECTS_BY_DEPARTMENTCODE_CLASSCODE', departmentCode: payload.departmentCode, classCode: payload.classCode });
+}
+
+function* getFacultiesByDepartmentCodeClassCode({ departmentCode, classCode }) {
+  const faculties = yield fetch(`${baseApiUrl}faculties/department/${departmentCode}/class/${classCode}`).then(res => res.json());
+  yield put({ type: 'FACULTIES_BY_DEPARTMENTCODE_CLASSCODE_RECEIVED', payload: { departmentCode, classCode, faculties } });
+}
+
+function* createFaculty({ payload }) {
+  const postBody = JSON.stringify(payload);
+  yield fetch(`${baseApiUrl}faculties/add`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  yield put({ type: 'GET_FACULTIES_BY_DEPARTMENTCODE_CLASSCODE', departmentCode: payload.departmentCode, classCode: payload.classCode });
 }
 
 function* actionWatcher() {
@@ -41,8 +52,10 @@ function* actionWatcher() {
     takeLatest('CREATE_DEPARTMENT', createDepartment),
     takeLatest('CREATE_CLASS', createClass),
     takeLatest('GET_CLASSES_BY_DEPARTMENTCODE', getClassesByDepartmentCode),
-    takeLatest('GET_SUBJECT_BY_DEPARTMENTCODE_CLASSCODE', getSubjectsByDepartmentCodeClassCode),
+    takeLatest('GET_SUBJECTS_BY_DEPARTMENTCODE_CLASSCODE', getSubjectsByDepartmentCodeClassCode),
     takeLatest('CREATE_SUBJECT', createSubject),
+    takeLatest('GET_FACULTIES_BY_DEPARTMENTCODE_CLASSCODE', getFacultiesByDepartmentCodeClassCode),
+    takeLatest('CREATE_FACULTY', createFaculty),
   ]);
 }
 
