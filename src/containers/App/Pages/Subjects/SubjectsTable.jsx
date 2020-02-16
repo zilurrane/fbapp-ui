@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Table } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Button } from 'antd';
 import { getAllSubjectsByDepartmentCodeClassCode } from '../../../../redux/actions/departmentActions';
 import { transformKeyToLabel } from '../../../../shared/helpers/array-helpers';
 import { subjectParameters } from '../../../../shared/constants/common-constants';
+import LinkFacultyToSubjectModal from './LinkFacultyToSubjectModal';
 
 class SubjectsTable extends Component {
   static propTypes = {
@@ -13,6 +15,8 @@ class SubjectsTable extends Component {
     departmentCode: PropTypes.string.isRequired,
     classCode: PropTypes.string.isRequired,
   };
+
+  state = { linkFacultyToSubjectModalVisible: false };
 
   componentDidMount() {
     this.props.getAllSubjectsByDepartmentCodeClassCode(this.props.departmentCode, this.props.classCode);
@@ -24,39 +28,65 @@ class SubjectsTable extends Component {
     }
   }
 
+  showLinkFacultyToSubjectModal = (selectedSubject) => {
+    this.setState({ linkFacultyToSubjectModalVisible: true, selectedSubject });
+  };
+
+  handleLinkFacultyToSubjectModalSubmit = () => {
+    this.setState({ linkFacultyToSubjectModalVisible: false });
+  };
+
+  handleLinkFacultyToSubjectModalCancel = () => {
+    this.setState({ linkFacultyToSubjectModalVisible: false });
+  };
+
   render() {
     const { subjects } = this.props;
     return (
-      <Table size="sm" hover striped>
-        <thead>
-          <tr>
-            <th className="text-center">#</th>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Parameters</th>
-            <th className="text-center">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            subjects.map((d, index) => (
-              <tr key={index + 1}>
-                <th scope="row" className="text-center">{index + 1}</th>
-                <td>{d.code}</td>
-                <td>{d.name}</td>
-                <td>{transformKeyToLabel(d.parameters, { array: subjectParameters, isCsv: true })}</td>
-                <td className="text-center">{d.isActive ? 'Active' : 'In-Active' }</td>
-              </tr>
-            ))
-          }
-          {
-            subjects.length === 0 &&
+      <Fragment>
+        <Table size="sm" hover striped>
+          <thead>
             <tr>
-              <td colSpan="5">No subjects found!</td>
+              <th className="text-center">#</th>
+              <th>Code</th>
+              <th>Name</th>
+              <th>Parameters</th>
+              <th className="text-center">Status</th>
+              <th className="text-center">Faculty</th>
             </tr>
-          }
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {
+              subjects.map((subject, index) => (
+                <tr key={index + 1}>
+                  <th scope="row" className="text-center">{index + 1}</th>
+                  <td>{subject.code}</td>
+                  <td>{subject.name}</td>
+                  <td>{transformKeyToLabel(subject.parameters, { array: subjectParameters, isCsv: true })}</td>
+                  <td className="text-center">{subject.isActive ? 'Active' : 'In-Active'}</td>
+                  <td className="text-center">
+                    <Button type="link" onClick={() => this.showLinkFacultyToSubjectModal(subject)}>
+                      Link
+                    </Button>
+                  </td>
+                </tr>
+              ))
+            }
+            {
+              subjects.length === 0 &&
+              <tr>
+                <td colSpan="6">No subjects found!</td>
+              </tr>
+            }
+          </tbody>
+        </Table>
+        <LinkFacultyToSubjectModal
+          visible={this.state.linkFacultyToSubjectModalVisible}
+          selectedSubject={this.state.selectedSubject}
+          onCancel={this.handleLinkFacultyToSubjectModalCancel}
+          onCreate={this.handleLinkFacultyToSubjectModalSubmit}
+        />
+      </Fragment>
     );
   }
 }
