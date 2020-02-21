@@ -46,6 +46,11 @@ function* createFaculty({ payload }) {
   yield put({ type: 'GET_FACULTIES_BY_DEPARTMENTCODE', departmentCode: payload.departmentCode });
 }
 
+function* linkFacultyToSubject({ payload }) {
+  const postBody = JSON.stringify(payload);
+  yield fetch(`${baseApiUrl}subjects/link/faculty`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+}
+
 function* actionWatcher() {
   yield all([
     takeLatest('GET_DEPARTMENTS', getAllDepartments),
@@ -56,6 +61,7 @@ function* actionWatcher() {
     takeLatest('CREATE_SUBJECT', createSubject),
     takeLatest('GET_FACULTIES_BY_DEPARTMENTCODE', getFacultiesByDepartmentCode),
     takeLatest('CREATE_FACULTY', createFaculty),
+    takeLatest('LINK_FACULTY_TO_SUBJECT', linkFacultyToSubject),
   ]);
 }
 

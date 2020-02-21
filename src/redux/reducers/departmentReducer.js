@@ -42,6 +42,7 @@ const reducer = (state = {
         loading: false,
       };
     case 'CREATE_FACULTY':
+    case 'LINK_FACULTY_TO_SUBJECT':
       return { ...state, loading: true };
     default:
       return state;

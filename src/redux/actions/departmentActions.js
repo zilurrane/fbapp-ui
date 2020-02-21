@@ -37,3 +37,8 @@ export const createFaculty = facultyRecord => ({
   type: 'CREATE_FACULTY',
   payload: facultyRecord,
 });
+
+export const linkFacultyToSubject = facultySubjectRecord => ({
+  type: 'LINK_FACULTY_TO_SUBJECT',
+  payload: facultySubjectRecord,
+});
