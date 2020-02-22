@@ -42,3 +42,8 @@ export const linkFacultyToSubject = facultySubjectRecord => ({
   type: 'LINK_FACULTY_TO_SUBJECT',
   payload: facultySubjectRecord,
 });
+
+export const getFacultiesLinkedToSubject = subjectId => ({
+  type: 'GET_LINKED_FACULTIES_TO_SUBJECT',
+  payload: subjectId,
+});

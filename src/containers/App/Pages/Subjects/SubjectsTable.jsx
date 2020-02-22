@@ -3,7 +3,7 @@ import { Table } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button } from 'antd';
-import { getAllSubjectsByDepartmentCodeClassCode } from '../../../../redux/actions/departmentActions';
+import { getAllSubjectsByDepartmentCodeClassCode, getFacultiesLinkedToSubject } from '../../../../redux/actions/departmentActions';
 import { transformKeyToLabel } from '../../../../shared/helpers/array-helpers';
 import { subjectParameters } from '../../../../shared/constants/common-constants';
 import LinkFacultyToSubjectModal from './LinkFacultyToSubjectModal';
@@ -11,12 +11,13 @@ import LinkFacultyToSubjectModal from './LinkFacultyToSubjectModal';
 class SubjectsTable extends Component {
   static propTypes = {
     getAllSubjectsByDepartmentCodeClassCode: PropTypes.func.isRequired,
+    getFacultiesLinkedToSubject: PropTypes.func.isRequired,
     subjects: PropTypes.arrayOf(PropTypes.object).isRequired,
     departmentCode: PropTypes.string.isRequired,
     classCode: PropTypes.string.isRequired,
   };
 
-  state = { linkFacultyToSubjectModalVisible: false };
+  state = { linkFacultyToSubjectModalVisible: false, selectedSubject: undefined };
 
   componentDidMount() {
     this.props.getAllSubjectsByDepartmentCodeClassCode(this.props.departmentCode, this.props.classCode);
@@ -29,6 +30,8 @@ class SubjectsTable extends Component {
   }
 
   showLinkFacultyToSubjectModal = (selectedSubject) => {
+    // eslint-disable-next-line no-underscore-dangle
+    this.props.getFacultiesLinkedToSubject(selectedSubject._id);
     this.setState({ linkFacultyToSubjectModalVisible: true, selectedSubject });
   };
 
@@ -92,5 +95,5 @@ class SubjectsTable extends Component {
 }
 
 const mapStateToProps = (state, props) => ({ subjects: (state.departments.subjects[props.departmentCode] || {})[props.classCode] || [] });
-const mapDispatchToProps = { getAllSubjectsByDepartmentCodeClassCode };
+const mapDispatchToProps = { getAllSubjectsByDepartmentCodeClassCode, getFacultiesLinkedToSubject };
 export default connect(mapStateToProps, mapDispatchToProps)(SubjectsTable);

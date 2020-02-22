@@ -1,5 +1,5 @@
 const reducer = (state = {
-  loading: false, departments: [], classes: {}, subjects: {}, faculties: {},
+  loading: false, departments: [], classes: {}, subjects: {}, faculties: {}, subjectFacultyLinks: {},
 }, action) => {
   switch (action.type) {
     case 'GET_DEPARTMENTS':
@@ -43,7 +43,17 @@ const reducer = (state = {
       };
     case 'CREATE_FACULTY':
     case 'LINK_FACULTY_TO_SUBJECT':
+    case 'GET_LINKED_FACULTIES_TO_SUBJECT':
       return { ...state, loading: true };
+    case 'LINKED_FACULTIES_TO_SUBJECT_RECEIVED':
+      return {
+        ...state,
+        subjectFacultyLinks: {
+          ...state.subjectFacultyLinks,
+          [action.payload.subjectId]: action.payload.linkedFaculties,
+        },
+        loading: false,
+      };
     default:
       return state;
   }

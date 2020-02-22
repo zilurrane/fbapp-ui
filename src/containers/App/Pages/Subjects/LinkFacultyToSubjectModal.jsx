@@ -25,6 +25,7 @@ class LinkFacultyToSubjectModal extends Component {
     departments: PropTypes.arrayOf(PropTypes.object).isRequired,
     getAllFacultiesByDepartmentCode: PropTypes.func.isRequired,
     faculties: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
+    linkedFaculties: PropTypes.arrayOf(PropTypes.object).isRequired,
   };
 
   constructor(props) {
@@ -62,11 +63,12 @@ class LinkFacultyToSubjectModal extends Component {
 
   render() {
     const {
-      visible, onCancel, selectedSubject = { parameters: [] }, departments = [], faculties = {},
+      visible, onCancel, selectedSubject = { parameters: [] }, departments = [], faculties = {}, linkedFaculties,
     } = this.props;
     const { departmentCode, facultyId } = this.state;
     const facultiesPerDepartment = faculties[departmentCode] || [];
-
+    // eslint-disable-next-line no-console
+    console.log(linkedFaculties);
     return (
       <Modal
         title="Link Faculty to Subject"
@@ -114,9 +116,11 @@ class LinkFacultyToSubjectModal extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, props) => ({
   departments: state.departments.departments,
   faculties: state.departments.faculties,
+  // eslint-disable-next-line no-underscore-dangle
+  linkedFaculties: state.departments.subjectFacultyLinks[(props.selectedSubject || {})._id],
 });
 const mapDispatchToProps = { getAllFacultiesByDepartmentCode, linkFacultyToSubject };
 export default connect(mapStateToProps, mapDispatchToProps)(LinkFacultyToSubjectModal);
