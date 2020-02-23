@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Container, Row } from 'reactstrap';
-import StudentsCard from './StudentsCard';
+import DepartmentsTabs from './DepartmentsTabs';
 
 const StudentsPage = () => (
   <Container className="dashboard">
@@ -10,7 +10,7 @@ const StudentsPage = () => (
       </Col>
     </Row>
     <Row>
-      <StudentsCard />
+      <DepartmentsTabs />
     </Row>
   </Container>
 );
