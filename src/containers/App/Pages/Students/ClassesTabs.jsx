@@ -9,6 +9,7 @@ const { TabPane } = Tabs;
 
 class ClassesTabs extends Component {
   static propTypes = {
+    departmentCode: PropTypes.string.isRequired,
     classesByDepartmentCode: PropTypes.arrayOf(PropTypes.object).isRequired,
   };
 
@@ -25,7 +26,7 @@ class ClassesTabs extends Component {
   }
 
   render() {
-    const { classesByDepartmentCode } = this.props;
+    const { departmentCode, classesByDepartmentCode } = this.props;
     const { classCode } = this.state;
 
     return (
@@ -36,7 +37,7 @@ class ClassesTabs extends Component {
               {
                 classesByDepartmentCode.map(departmentClass => (
                   <TabPane tab={`${departmentClass.name}`} key={departmentClass.code}>
-                    <StudentsCard />
+                    <StudentsCard departmentCode={departmentCode} classCode={classCode} />
                   </TabPane>
                 ))
               }
