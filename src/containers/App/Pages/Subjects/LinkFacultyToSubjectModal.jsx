@@ -33,7 +33,7 @@ class LinkFacultyToSubjectModal extends Component {
     this.onParameterWiseFacultyCheckboxChangeEvent = this.onParameterWiseFacultyCheckboxChange.bind(this);
   }
 
-  state = { isParameterWiseDifferentFaculty: false, departmentCode: undefined, facultyId: undefined };
+  state = { isParameterWiseDifferentFaculty: false, departmentCode: undefined, faculty: undefined };
 
   onParameterWiseFacultyCheckboxChange(event) {
     const isParameterWiseDifferentFaculty = event.target.checked;
@@ -46,7 +46,7 @@ class LinkFacultyToSubjectModal extends Component {
   }
 
   handleFacultyChange = (value) => {
-    this.setState({ facultyId: value });
+    this.setState({ faculty: value });
   }
 
   linkFacultyToSubject = () => {
@@ -54,7 +54,7 @@ class LinkFacultyToSubjectModal extends Component {
       // TEST
     } else {
       // eslint-disable-next-line no-underscore-dangle
-      const subjectFacultyCombination = { subjectId: this.props.selectedSubject._id, facultyId: this.state.facultyId };
+      const subjectFacultyCombination = { subject: this.props.selectedSubject._id, faculty: this.state.faculty };
       const request = this.props.selectedSubject.parameters.map(parameter => ({ ...subjectFacultyCombination, parameter }));
       this.props.linkFacultyToSubject(request);
     }
@@ -65,7 +65,7 @@ class LinkFacultyToSubjectModal extends Component {
     const {
       visible, onCancel, selectedSubject = { parameters: [] }, departments = [], faculties = {}, linkedFaculties,
     } = this.props;
-    const { departmentCode, facultyId } = this.state;
+    const { departmentCode, faculty } = this.state;
     const facultiesPerDepartment = faculties[departmentCode] || [];
     // eslint-disable-next-line no-console
     console.log(linkedFaculties);
@@ -100,10 +100,10 @@ class LinkFacultyToSubjectModal extends Component {
                     </Select>
                   </Col>
                   <Col>
-                    <Select value={facultyId} style={{ width: '100%' }} onChange={this.handleFacultyChange} placeholder="Select Department">
+                    <Select value={faculty} style={{ width: '100%' }} onChange={this.handleFacultyChange} placeholder="Select Department">
                       {
                         // eslint-disable-next-line no-underscore-dangle
-                        facultiesPerDepartment.map(faculty => <Option value={faculty._id} key={faculty._id}> {faculty.name}</Option>)
+                        facultiesPerDepartment.map(currentFaculty => <Option value={currentFaculty._id} key={currentFaculty._id}> {currentFaculty.name}</Option>)
                       }
                     </Select>
                   </Col>
