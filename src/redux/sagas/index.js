@@ -57,6 +57,12 @@ function* getLinkedFacultiesToSubject({ payload }) {
   yield put({ type: 'LINKED_FACULTIES_TO_SUBJECT_RECEIVED', payload: { subjectId, linkedFaculties } });
 }
 
+function* generateStudents({ payload }) {
+  const generateStudentsRequestBody = JSON.stringify(payload);
+  yield fetch(`${baseApiUrl}students/generate`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: generateStudentsRequestBody }).then(res => res.json());
+  // yield put({ type: 'GET_STUDENTS_BY_DEPARTMENTCODE_CLASSCODE', departmentCode: payload.departmentCode, classCode: payload.classCode });
+}
+
 function* actionWatcher() {
   yield all([
     takeLatest('GET_DEPARTMENTS', getAllDepartments),
@@ -69,6 +75,7 @@ function* actionWatcher() {
     takeLatest('CREATE_FACULTY', createFaculty),
     takeLatest('LINK_FACULTY_TO_SUBJECT', linkFacultyToSubject),
     takeLatest('GET_LINKED_FACULTIES_TO_SUBJECT', getLinkedFacultiesToSubject),
+    takeLatest('GENERATE_STUDENTS', generateStudents),
   ]);
 }
 

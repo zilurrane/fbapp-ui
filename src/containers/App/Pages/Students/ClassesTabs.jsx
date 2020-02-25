@@ -37,7 +37,7 @@ class ClassesTabs extends Component {
               {
                 classesByDepartmentCode.map(departmentClass => (
                   <TabPane tab={`${departmentClass.name}`} key={departmentClass.code}>
-                    <StudentsCard departmentCode={departmentCode} classCode={classCode} />
+                    <StudentsCard departmentCode={departmentCode} classCode={departmentClass.code} />
                   </TabPane>
                 ))
               }

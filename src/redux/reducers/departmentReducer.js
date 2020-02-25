@@ -44,6 +44,7 @@ const reducer = (state = {
     case 'CREATE_FACULTY':
     case 'LINK_FACULTY_TO_SUBJECT':
     case 'GET_LINKED_FACULTIES_TO_SUBJECT':
+    case 'GENERATE_STUDENTS':
       return { ...state, loading: true };
     case 'LINKED_FACULTIES_TO_SUBJECT_RECEIVED':
       return {

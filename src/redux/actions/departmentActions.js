@@ -47,3 +47,8 @@ export const getFacultiesLinkedToSubject = subjectId => ({
   type: 'GET_LINKED_FACULTIES_TO_SUBJECT',
   payload: subjectId,
 });
+
+export const generateStudents = studentsGenerationRequest => ({
+  type: 'GENERATE_STUDENTS',
+  payload: studentsGenerationRequest,
+});
