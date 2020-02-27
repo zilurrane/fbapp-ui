@@ -52,3 +52,9 @@ export const generateStudents = studentsGenerationRequest => ({
   type: 'GENERATE_STUDENTS',
   payload: studentsGenerationRequest,
 });
+
+export const getStudentsByDepartmentCodeClassCode = (departmentCode, classCode) => ({
+  type: 'GET_STUDENTS_BY_DEPARTMENTCODE_CLASSCODE',
+  departmentCode,
+  classCode,
+});

@@ -1,6 +1,7 @@
 import { put, takeLatest, all } from 'redux-saga/effects';
 
 const baseApiUrl = 'https://fbapp-api.cfapps.io/api/';
+const baseGraphQLUrl = 'https://fbapp-api.cfapps.io/graphql';
 
 function* getAllDepartments() {
   const response = yield fetch(`${baseApiUrl}departments`).then(res => res.json());
@@ -60,7 +61,15 @@ function* getLinkedFacultiesToSubject({ payload }) {
 function* generateStudents({ payload }) {
   const generateStudentsRequestBody = JSON.stringify(payload);
   yield fetch(`${baseApiUrl}students/generate`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: generateStudentsRequestBody }).then(res => res.json());
-  // yield put({ type: 'GET_STUDENTS_BY_DEPARTMENTCODE_CLASSCODE', departmentCode: payload.departmentCode, classCode: payload.classCode });
+  yield put({ type: 'GET_STUDENTS_BY_DEPARTMENTCODE_CLASSCODE', departmentCode: payload.departmentCode, classCode: payload.classCode });
+}
+
+function* getStudentsByDepartmentCodeClassCode({ departmentCode, classCode }) {
+  const getStudentsQuery = {
+    query: `{ studentsByDepartmentCodeClassCode(departmentCode: "${departmentCode}", classCode: "${classCode}") { id userName createdDate isActive }}`,
+  };
+  const studentsResponse = yield fetch(`${baseGraphQLUrl}`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: JSON.stringify(getStudentsQuery) }).then(res => res.json());
+  yield put({ type: 'STUDENTS_BY_DEPARTMENTCODE_CLASSCODE_RECEIVED', payload: { departmentCode, classCode, students: studentsResponse.data.studentsByDepartmentCodeClassCode } });
 }
 
 function* actionWatcher() {
@@ -76,6 +85,7 @@ function* actionWatcher() {
     takeLatest('LINK_FACULTY_TO_SUBJECT', linkFacultyToSubject),
     takeLatest('GET_LINKED_FACULTIES_TO_SUBJECT', getLinkedFacultiesToSubject),
     takeLatest('GENERATE_STUDENTS', generateStudents),
+    takeLatest('GET_STUDENTS_BY_DEPARTMENTCODE_CLASSCODE', getStudentsByDepartmentCodeClassCode),
   ]);
 }
 
