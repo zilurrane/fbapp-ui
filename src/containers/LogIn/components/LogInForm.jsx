@@ -3,7 +3,6 @@ import { Field, reduxForm } from 'redux-form';
 import EyeIcon from 'mdi-react/EyeIcon';
 import KeyVariantIcon from 'mdi-react/KeyVariantIcon';
 import AccountOutlineIcon from 'mdi-react/AccountOutlineIcon';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import renderCheckBoxField from '../../../shared/components/form/CheckBox';
 
@@ -38,10 +37,10 @@ class LogInForm extends PureComponent {
               <AccountOutlineIcon />
             </div>
             <Field
-              name="name"
+              name="userName"
               component="input"
               type="text"
-              placeholder="Name"
+              placeholder="User Name"
             />
           </div>
         </div>
@@ -73,7 +72,7 @@ class LogInForm extends PureComponent {
             />
           </div>
         </div>
-        <Link className="btn btn-primary account__btn account__btn--small" to="/app/one">Sign In</Link>
+        <button type="submit" className="btn btn-primary account__btn account__btn--small">Sign In</button>
       </form>
     );
   }

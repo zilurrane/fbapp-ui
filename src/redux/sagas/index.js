@@ -72,6 +72,16 @@ function* getStudentsByDepartmentCodeClassCode({ departmentCode, classCode }) {
   yield put({ type: 'STUDENTS_BY_DEPARTMENTCODE_CLASSCODE_RECEIVED', payload: { departmentCode, classCode, students: studentsResponse.data.studentsByDepartmentCodeClassCode } });
 }
 
+function* loginUser({ payload }) {
+  const loginUserRequestBody = JSON.stringify(payload);
+  const userLoginResponse = yield fetch(`${baseApiUrl}users/login`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: loginUserRequestBody }).then(res => res.json());
+  if (userLoginResponse && userLoginResponse.userName) {
+    yield put({ type: 'LOGIN_SUCCESS', payload: { loggedInUserInfo: userLoginResponse } });
+  } else {
+    yield put({ type: 'LOGIN_FAILURE' });
+  }
+}
+
 function* actionWatcher() {
   yield all([
     takeLatest('GET_DEPARTMENTS', getAllDepartments),
@@ -86,6 +96,7 @@ function* actionWatcher() {
     takeLatest('GET_LINKED_FACULTIES_TO_SUBJECT', getLinkedFacultiesToSubject),
     takeLatest('GENERATE_STUDENTS', generateStudents),
     takeLatest('GET_STUDENTS_BY_DEPARTMENTCODE_CLASSCODE', getStudentsByDepartmentCodeClassCode),
+    takeLatest('LOGIN', loginUser),
   ]);
 }
 
