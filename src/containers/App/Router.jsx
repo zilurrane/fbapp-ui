@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import Layout from '../Layout/index';
 import MainWrapper from './MainWrapper';
 
-import LogIn from '../LogIn/index';
+import LogIn from '../Auth/LogIn/index';
 import ExamplePageOne from '../Example/index';
 import ExamplePageTwo from '../ExampleTwo/index';
 import DashboardPage from './Pages/Dashboard';

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import LogInForm from './components/LogInForm';
-import { loginUser } from '../../redux/actions/authActions';
+import { loginUser } from '../../../redux/actions/authActions';
 
 const onLoginFormSubmit = (formValues, loginUserAction) => {
   const { userName, password } = formValues;

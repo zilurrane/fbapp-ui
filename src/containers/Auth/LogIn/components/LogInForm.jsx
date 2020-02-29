@@ -4,7 +4,7 @@ import EyeIcon from 'mdi-react/EyeIcon';
 import KeyVariantIcon from 'mdi-react/KeyVariantIcon';
 import AccountOutlineIcon from 'mdi-react/AccountOutlineIcon';
 import PropTypes from 'prop-types';
-import renderCheckBoxField from '../../../shared/components/form/CheckBox';
+import renderCheckBoxField from '../../../../shared/components/form/CheckBox';
 
 class LogInForm extends PureComponent {
   static propTypes = {
