@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Col, Row, Select } from 'antd';
 import { getAllFacultiesByDepartmentCode } from '../../../redux/actions/departmentActions';
+import FeedbackFormTable from './FeedbackFormTable';
 
 const { Option } = Select;
 
@@ -41,6 +42,7 @@ class FeedbackFormBody extends Component {
             </Select>
           </Col>
         </Row>
+        <FeedbackFormTable />
       </Fragment>
     );
   }
