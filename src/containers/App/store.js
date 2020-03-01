@@ -2,7 +2,7 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { reducer as reduxFormReducer } from 'redux-form';
 import createSagaMiddleware from 'redux-saga';
 import { logger } from 'redux-logger';
-import { sidebarReducer, themeReducer, departmentReducer, authReducer } from '../../redux/reducers/index';
+import { sidebarReducer, themeReducer, departmentReducer, authReducer, feedbackReducer } from '../../redux/reducers/index';
 import rootSaga from '../../redux/sagas';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -13,6 +13,7 @@ const reducer = combineReducers({
   sidebar: sidebarReducer,
   departments: departmentReducer,
   auth: authReducer,
+  feedback: feedbackReducer,
 });
 
 const store = createStore(

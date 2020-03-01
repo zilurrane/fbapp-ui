@@ -82,6 +82,18 @@ function* loginUser({ payload }) {
   }
 }
 
+function* getAllFeedbackParameters() {
+  const getFeedbackParametersQuery = {
+    query: 'query Feedbackparameters { feedbackParameters { id, code, question, type, marks, options { value, label } } }',
+  };
+  const feedbackParametersResponse = yield fetch(`${baseGraphQLUrl}`, {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: JSON.stringify(getFeedbackParametersQuery),
+  }).then(res => res.json());
+  yield put({ type: 'FEEDBACK_PARAMETERS_RECEIVED', payload: { feedbackParameters: feedbackParametersResponse.data.feedbackParameters } });
+}
+
 function* actionWatcher() {
   yield all([
     takeLatest('GET_DEPARTMENTS', getAllDepartments),
@@ -97,6 +109,7 @@ function* actionWatcher() {
     takeLatest('GENERATE_STUDENTS', generateStudents),
     takeLatest('GET_STUDENTS_BY_DEPARTMENTCODE_CLASSCODE', getStudentsByDepartmentCodeClassCode),
     takeLatest('LOGIN', loginUser),
+    takeLatest('GET_FEEDBACK_PARAMETERS', getAllFeedbackParameters),
   ]);
 }
 

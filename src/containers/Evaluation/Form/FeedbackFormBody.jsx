@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Col, Row, Select } from 'antd';
 import { getAllFacultiesByDepartmentCode } from '../../../redux/actions/departmentActions';
+import { getAllFeedbackParameters } from '../../../redux/actions/feedbackActions';
 import FeedbackFormTable from './FeedbackFormTable';
 
 const { Option } = Select;
@@ -15,11 +16,14 @@ class FeedbackFormBody extends Component {
       departmentCode: PropTypes.string.isRequired,
     }).isRequired,
     faculties: PropTypes.arrayOf(PropTypes.object).isRequired,
+    feedbackParameters: PropTypes.arrayOf(PropTypes.object).isRequired,
     getAllFacultiesByDepartmentCode: PropTypes.func.isRequired,
+    getAllFeedbackParameters: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
     this.props.getAllFacultiesByDepartmentCode(this.props.loggedInUserInfo.departmentCode);
+    this.props.getAllFeedbackParameters();
   }
 
   onChange = value => console.log(value);
@@ -42,12 +46,12 @@ class FeedbackFormBody extends Component {
             </Select>
           </Col>
         </Row>
-        <FeedbackFormTable />
+        <FeedbackFormTable feedbackParameters={this.props.feedbackParameters} />
       </Fragment>
     );
   }
 }
 
-const mapStateToProps = (state, props) => ({ faculties: state.departments.faculties[props.loggedInUserInfo.departmentCode] || [] });
-const mapDispatchToProps = { getAllFacultiesByDepartmentCode };
+const mapStateToProps = (state, props) => ({ faculties: state.departments.faculties[props.loggedInUserInfo.departmentCode] || [], feedbackParameters: state.feedback.feedbackParameters || [] });
+const mapDispatchToProps = { getAllFacultiesByDepartmentCode, getAllFeedbackParameters };
 export default connect(mapStateToProps, mapDispatchToProps)(FeedbackFormBody);
