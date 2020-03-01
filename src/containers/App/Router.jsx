@@ -15,10 +15,17 @@ import SubjectsPage from './Pages/Subjects';
 import StudentsPage from './Pages/Students';
 import BackupPage from './Pages/Backup';
 import FeedbackPage from './Pages/Feedback';
+import EvaluationFormPage from '../Evaluation/Form';
 
 const authRoutes = () => (
   <Switch>
     <Route exact path="/auth/login" component={LogIn} />
+  </Switch>
+);
+
+const evaluationRoutes = () => (
+  <Switch>
+    <Route exact path="/evaluation/form" component={EvaluationFormPage} />
   </Switch>
 );
 
@@ -50,6 +57,7 @@ const Router = () => (
       <Switch>
         <Route exact path="/" component={LogIn} />
         <Route path="/auth" component={authRoutes} />
+        <Route path="/evaluation" component={evaluationRoutes} />
         <Route path="/app" component={appRoutes} />
       </Switch>
     </main>

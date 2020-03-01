@@ -14,7 +14,7 @@ const onLoginFormSubmit = (formValues, loginUserAction) => {
 
 const LogIn = ({ loginUserAction, isUserLoggedIn }) => {
   if (isUserLoggedIn) {
-    return <Redirect to="app/dashboard" />;
+    return <Redirect to="evaluation/form" />;
   }
 
   return (
