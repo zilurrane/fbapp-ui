@@ -1,5 +1,10 @@
+
+const storeLoggedInUserInfo = loggedInUserInfo => localStorage.setItem('loggedInUserInfo', JSON.stringify(loggedInUserInfo));
+const getLoggedInUserInfo = () => JSON.parse(localStorage.getItem('loggedInUserInfo') || '{}');
+const isUserLoggedIn = () => !!localStorage.getItem('loggedInUserInfo');
+
 const reducer = (state = {
-  isUserLoggedIn: false, loggedInUserInfo: {}, isLoginInProgress: false,
+  isUserLoggedIn: isUserLoggedIn(), loggedInUserInfo: getLoggedInUserInfo() || {}, isLoginInProgress: false,
 }, action) => {
   switch (action.type) {
     case 'LOGIN':
@@ -9,6 +14,7 @@ const reducer = (state = {
         isUserLoggedIn: false,
       };
     case 'LOGIN_SUCCESS':
+      storeLoggedInUserInfo(action.payload.loggedInUserInfo);
       return {
         ...state,
         loggedInUserInfo: action.payload.loggedInUserInfo,
