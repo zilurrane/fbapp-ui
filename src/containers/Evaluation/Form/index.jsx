@@ -20,6 +20,8 @@ const FeedbackFormPage = ({ loggedInUserInfo }) => (
 FeedbackFormPage.propTypes = {
   loggedInUserInfo: PropTypes.shape({
     userName: PropTypes.string.isRequired,
+    departmentCode: PropTypes.string.isRequired,
+    classCode: PropTypes.string.isRequired,
   }).isRequired,
 };
 

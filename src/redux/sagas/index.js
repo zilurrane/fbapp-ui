@@ -94,6 +94,33 @@ function* getAllFeedbackParameters() {
   yield put({ type: 'FEEDBACK_PARAMETERS_RECEIVED', payload: { feedbackParameters: feedbackParametersResponse.data.feedbackParameters } });
 }
 
+function* getFacultiesByDepartmentCodeClassCode({ departmentCode, classCode }) {
+  const query = {
+    query: `
+            query facultiesByDepartmentCodeClassCode {
+              facultiesByDepartmentCodeClassCode(departmentCode: "${departmentCode}", classCode: "${classCode}") {
+                subject {
+                  id
+                  name
+                  code
+                  parameters
+                }
+                faculty {
+                  id
+                  name
+                  qualification
+                }
+              }
+            }`,
+  };
+  const facultiesResponse = yield fetch(`${baseGraphQLUrl}`, {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: JSON.stringify(query),
+  }).then(res => res.json());
+  yield put({ type: 'FACULTIES_BY_DEPARTMENTCODE_CLASSCODE_RECEIVED', payload: { departmentCode, classCode, faculties: facultiesResponse.data.facultiesByDepartmentCodeClassCode } });
+}
+
 function* actionWatcher() {
   yield all([
     takeLatest('GET_DEPARTMENTS', getAllDepartments),
@@ -103,6 +130,7 @@ function* actionWatcher() {
     takeLatest('GET_SUBJECTS_BY_DEPARTMENTCODE_CLASSCODE', getSubjectsByDepartmentCodeClassCode),
     takeLatest('CREATE_SUBJECT', createSubject),
     takeLatest('GET_FACULTIES_BY_DEPARTMENTCODE', getFacultiesByDepartmentCode),
+    takeLatest('GET_FACULTIES_BY_DEPARTMENTCODE_CLASSCODE', getFacultiesByDepartmentCodeClassCode),
     takeLatest('CREATE_FACULTY', createFaculty),
     takeLatest('LINK_FACULTY_TO_SUBJECT', linkFacultyToSubject),
     takeLatest('GET_LINKED_FACULTIES_TO_SUBJECT', getLinkedFacultiesToSubject),

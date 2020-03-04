@@ -33,6 +33,12 @@ export const getAllFacultiesByDepartmentCode = departmentCode => ({
   departmentCode,
 });
 
+export const getAllFacultiesByDepartmentCodeClassCode = (departmentCode, classCode) => ({
+  type: 'GET_FACULTIES_BY_DEPARTMENTCODE_CLASSCODE',
+  departmentCode,
+  classCode,
+});
+
 export const createFaculty = facultyRecord => ({
   type: 'CREATE_FACULTY',
   payload: facultyRecord,
