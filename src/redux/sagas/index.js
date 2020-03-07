@@ -99,7 +99,7 @@ function* getFacultiesByDepartmentCodeClassCode({ departmentCode, classCode }) {
     query: `
             query facultiesByDepartmentCodeClassCode {
               facultiesByDepartmentCodeClassCode(departmentCode: "${departmentCode}", classCode: "${classCode}") {
-                subject {
+                subjects {
                   id
                   name
                   code
