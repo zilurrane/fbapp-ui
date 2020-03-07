@@ -9,6 +9,8 @@ import FeedbackFormTable from './FeedbackFormTable';
 
 const { Option } = Select;
 
+const getSubjectParametersArrayAsString = parameters => parameters.join('/');
+
 class FeedbackFormBody extends Component {
   static propTypes = {
     loggedInUserInfo: PropTypes.shape({
@@ -64,7 +66,7 @@ class FeedbackFormBody extends Component {
                 <List
                   size="small"
                   dataSource={this.state.selectedFaculty.subjects}
-                  renderItem={item => <List.Item>{item.name}</List.Item>}
+                  renderItem={item => <List.Item>{item.name} ({getSubjectParametersArrayAsString(item.parameters)})</List.Item>}
                 />
               </Col>
               <Col sm={3} />
