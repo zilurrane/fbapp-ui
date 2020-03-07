@@ -76,7 +76,10 @@ class FeedbackFormBody extends Component {
             </Fragment>
           }
         </Row>
-        <FeedbackFormTable feedbackParameters={this.props.feedbackParameters} />
+        <FeedbackFormTable
+          feedbackParameters={this.props.feedbackParameters}
+          selectedFaculty={this.state.selectedFaculty}
+        />
       </Fragment>
     );
   }
