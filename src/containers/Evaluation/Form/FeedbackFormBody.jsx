@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Col, Row, Select, List, Avatar } from 'antd';
 import { getAllFacultiesByDepartmentCodeClassCode } from '../../../redux/actions/departmentActions';
-import { getAllFeedbackParameters } from '../../../redux/actions/feedbackActions';
+import { getAllFeedbackParameters, submitFeedback } from '../../../redux/actions/feedbackActions';
 import FeedbackFormTable from './FeedbackFormTable';
 
 const { Option } = Select;
@@ -14,6 +14,7 @@ const getSubjectParametersArrayAsString = parameters => parameters.join('/');
 class FeedbackFormBody extends Component {
   static propTypes = {
     loggedInUserInfo: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
       userName: PropTypes.string.isRequired,
       departmentCode: PropTypes.string.isRequired,
       classCode: PropTypes.string.isRequired,
@@ -22,6 +23,7 @@ class FeedbackFormBody extends Component {
     feedbackParameters: PropTypes.arrayOf(PropTypes.object).isRequired,
     getAllFacultiesByDepartmentCodeClassCode: PropTypes.func.isRequired,
     getAllFeedbackParameters: PropTypes.func.isRequired,
+    submitFeedback: PropTypes.func.isRequired,
   };
 
   state = { selectedFaculty: undefined };
@@ -77,8 +79,10 @@ class FeedbackFormBody extends Component {
           }
         </Row>
         <FeedbackFormTable
+          loggedInUserInfo={this.props.loggedInUserInfo}
           feedbackParameters={this.props.feedbackParameters}
           selectedFaculty={this.state.selectedFaculty}
+          submitFeedback={this.props.submitFeedback}
         />
       </Fragment>
     );
@@ -89,5 +93,5 @@ const mapStateToProps = (state, props) => ({
   faculties: (state.departments.classFaculties[props.loggedInUserInfo.departmentCode] || {})[props.loggedInUserInfo.classCode] || [],
   feedbackParameters: state.feedback.feedbackParameters || [],
 });
-const mapDispatchToProps = { getAllFacultiesByDepartmentCodeClassCode, getAllFeedbackParameters };
+const mapDispatchToProps = { getAllFacultiesByDepartmentCodeClassCode, getAllFeedbackParameters, submitFeedback };
 export default connect(mapStateToProps, mapDispatchToProps)(FeedbackFormBody);

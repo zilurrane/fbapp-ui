@@ -66,9 +66,16 @@ const getFormField = (feedbackParameter, getFieldDecorator) => {
 
 class FeedbackFormTable extends Component {
   static propTypes = {
+    submitFeedback: PropTypes.func.isRequired,
     feedbackParameters: PropTypes.arrayOf(PropTypes.object).isRequired,
     form: PropTypes.shape(formShape).isRequired,
     selectedFaculty: PropTypes.shape(facultySubjectsShape),
+    loggedInUserInfo: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      userName: PropTypes.string.isRequired,
+      departmentCode: PropTypes.string.isRequired,
+      classCode: PropTypes.string.isRequired,
+    }).isRequired,
   }
 
   static defaultProps = {
@@ -77,9 +84,20 @@ class FeedbackFormTable extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields((err, feedback) => {
       if (!err) {
-        console.log('Received values of form: ', values, this.props.selectedFaculty);
+        console.log('Received values of form: ', feedback, this.props.selectedFaculty);
+        const feedbackRequest = {
+          fbNo: 1,
+          faculty: this.props.selectedFaculty.faculty.id,
+          // eslint-disable-next-line no-underscore-dangle
+          student: this.props.loggedInUserInfo._id,
+          departmentCode: this.props.loggedInUserInfo.departmentCode,
+          classCode: this.props.loggedInUserInfo.classCode,
+          feedback,
+        };
+        console.log(feedbackRequest);
+        this.props.submitFeedback(feedbackRequest);
       }
     });
   };

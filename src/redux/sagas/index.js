@@ -121,6 +121,12 @@ function* getFacultiesByDepartmentCodeClassCode({ departmentCode, classCode }) {
   yield put({ type: 'FACULTIES_BY_DEPARTMENTCODE_CLASSCODE_RECEIVED', payload: { departmentCode, classCode, faculties: facultiesResponse.data.facultiesByDepartmentCodeClassCode } });
 }
 
+function* submitFeedback({ feedbackRequest }) {
+  const postBody = JSON.stringify(feedbackRequest);
+  const feedbackResponse = yield fetch(`${baseApiUrl}feedbacks/add`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  yield put({ type: 'SUBMIT_FEEDBACK_DONE', feedbackResponse });
+}
+
 function* actionWatcher() {
   yield all([
     takeLatest('GET_DEPARTMENTS', getAllDepartments),
@@ -138,6 +144,7 @@ function* actionWatcher() {
     takeLatest('GET_STUDENTS_BY_DEPARTMENTCODE_CLASSCODE', getStudentsByDepartmentCodeClassCode),
     takeLatest('LOGIN', loginUser),
     takeLatest('GET_FEEDBACK_PARAMETERS', getAllFeedbackParameters),
+    takeLatest('SUBMIT_FEEDBACK', submitFeedback),
   ]);
 }
 
