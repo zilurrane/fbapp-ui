@@ -3,17 +3,21 @@ const reducer = (state = {
 }, action) => {
   switch (action.type) {
     case 'GET_FEEDBACK_PARAMETERS':
-    case 'SUBMIT_FEEDBACK':
       return {
         ...state,
         loading: true,
+      };
+    case 'SUBMIT_FEEDBACK':
+      return {
+        ...state,
+        isFeedbackSubmissionInProgress: true,
       };
     case 'FEEDBACK_PARAMETERS_RECEIVED':
       return { ...state, feedbackParameters: action.payload.feedbackParameters, loading: false };
     case 'SUBMIT_FEEDBACK_DONE':
       return {
         ...state,
-        loading: false,
+        isFeedbackSubmissionInProgress: false,
       };
     default:
       return state;

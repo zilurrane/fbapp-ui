@@ -124,7 +124,7 @@ function* getFacultiesByDepartmentCodeClassCode({ departmentCode, classCode }) {
 function* submitFeedback({ feedbackRequest }) {
   const postBody = JSON.stringify(feedbackRequest);
   const feedbackResponse = yield fetch(`${baseApiUrl}feedbacks/add`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
-  yield put({ type: 'SUBMIT_FEEDBACK_DONE', feedbackResponse });
+  yield put({ type: 'SUBMIT_FEEDBACK_DONE', payload: { feedbackResponse } });
 }
 
 function* actionWatcher() {
