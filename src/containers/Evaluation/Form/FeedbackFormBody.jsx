@@ -29,7 +29,7 @@ class FeedbackFormBody extends Component {
   state = { selectedFaculty: undefined };
 
   componentDidMount() {
-    this.props.getAllFacultiesByDepartmentCodeClassCode(this.props.loggedInUserInfo.departmentCode, this.props.loggedInUserInfo.classCode);
+    this.props.getAllFacultiesByDepartmentCodeClassCode(this.props.loggedInUserInfo.departmentCode, this.props.loggedInUserInfo.classCode, this.props.loggedInUserInfo._id);
     this.props.getAllFeedbackParameters();
   }
 
@@ -51,12 +51,14 @@ class FeedbackFormBody extends Component {
               onChange={this.onChange}
             >
               {
-                faculties.map(faculty => (
-                  <Option value={faculty.faculty.id} key={faculty.faculty.id}>
-                    {faculty.faculty.name}
-                  </Option>
-                ),
-                )
+                faculties.map((faculty) => {
+                  const optionStyle = { backgroundColor: faculty.isFeedbackSubmitted ? '#d9f8e3' : 'transparent' };
+                  return (
+                    <Option disabled={faculty.isFeedbackSubmitted} value={faculty.faculty.id} key={faculty.faculty.id} style={optionStyle}>
+                      {faculty.faculty.name}
+                    </Option>
+                  );
+                })
               }
             </Select>
           </Col>

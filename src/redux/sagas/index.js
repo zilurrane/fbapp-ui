@@ -94,17 +94,18 @@ function* getAllFeedbackParameters() {
   yield put({ type: 'FEEDBACK_PARAMETERS_RECEIVED', payload: { feedbackParameters: feedbackParametersResponse.data.feedbackParameters } });
 }
 
-function* getFacultiesByDepartmentCodeClassCode({ departmentCode, classCode }) {
+function* getFacultiesByDepartmentCodeClassCode({ departmentCode, classCode, studentId }) {
   const query = {
     query: `
             query facultiesByDepartmentCodeClassCode {
-              facultiesByDepartmentCodeClassCode(departmentCode: "${departmentCode}", classCode: "${classCode}") {
+              facultiesByDepartmentCodeClassCode(departmentCode: "${departmentCode}", classCode: "${classCode}", studentId: "${studentId}") {
                 subjects {
                   id
                   name
                   code
                   parameters
                 }
+                isFeedbackSubmitted
                 faculty {
                   id
                   name
@@ -125,6 +126,13 @@ function* submitFeedback({ feedbackRequest }) {
   const postBody = JSON.stringify(feedbackRequest);
   const feedbackResponse = yield fetch(`${baseApiUrl}feedbacks/add`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
   yield put({ type: 'SUBMIT_FEEDBACK_DONE', payload: { feedbackResponse } });
+  const { departmentCode, classCode, student } = feedbackRequest;
+  yield put({
+    type: 'GET_FACULTIES_BY_DEPARTMENTCODE_CLASSCODE',
+    departmentCode,
+    classCode,
+    studentId: student,
+  });
 }
 
 function* actionWatcher() {
