@@ -4,14 +4,15 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import FeedbackFormHeader from './FeedbackFormHeader';
 import FeedbackFormBody from './FeedbackFormBody';
+import { logOutUser } from '../../../redux/actions/authActions';
 
 const { Content, Footer } = Layout;
 
-const menu = (
+const getUserMenu = logOutUserAction => (
   <Menu>
-    <Menu.Item key="1">
+    <Menu.Item key="1" onClick={logOutUserAction}>
       <Icon type="user" />
-      1st menu item
+      Log Out
     </Menu.Item>
     <Menu.Item key="2">
       <Icon type="user" />
@@ -24,14 +25,14 @@ const menu = (
   </Menu>
 );
 
-const FeedbackFormPage = ({ loggedInUserInfo }) => (
+const FeedbackFormPage = ({ loggedInUserInfo, logOutUserAction }) => (
   <Layout className="layout">
     <Content>
       <Row className="account">
         <Col xs={{ span: 22, offset: 1 }} sm={{ span: 16, offset: 4 }} className="account__wrapper">
           <div className="account__card evaluation__form__card">
             <FeedbackFormHeader userName={loggedInUserInfo.userName} />
-            <Dropdown.Button type="link" overlay={menu} className="float-right" trigger={['click']} icon={<Icon type="user" />}>
+            <Dropdown.Button type="link" overlay={getUserMenu(logOutUserAction)} className="float-right" trigger={['click']} icon={<Icon type="user" />}>
               { loggedInUserInfo.userName }
             </Dropdown.Button>
             <Divider />
@@ -50,8 +51,9 @@ FeedbackFormPage.propTypes = {
     departmentCode: PropTypes.string.isRequired,
     classCode: PropTypes.string.isRequired,
   }).isRequired,
+  logOutUserAction: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({ loggedInUserInfo: state.auth.loggedInUserInfo });
-const mapDispatchToProps = null;
+const mapDispatchToProps = { logOutUserAction: logOutUser };
 export default connect(mapStateToProps, mapDispatchToProps)(FeedbackFormPage);

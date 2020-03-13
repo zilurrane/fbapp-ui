@@ -2,6 +2,7 @@
 const storeLoggedInUserInfo = loggedInUserInfo => localStorage.setItem('loggedInUserInfo', JSON.stringify(loggedInUserInfo));
 const getLoggedInUserInfo = () => JSON.parse(localStorage.getItem('loggedInUserInfo') || '{}');
 const isUserLoggedIn = () => !!localStorage.getItem('loggedInUserInfo');
+const logOutUser = () => localStorage.clear();
 
 const reducer = (state = {
   isUserLoggedIn: isUserLoggedIn(), loggedInUserInfo: getLoggedInUserInfo() || {}, isLoginInProgress: false,
@@ -20,6 +21,14 @@ const reducer = (state = {
         loggedInUserInfo: action.payload.loggedInUserInfo,
         isLoginInProgress: false,
         isUserLoggedIn: true,
+      };
+    case 'LOGOUT_USER':
+      logOutUser();
+      return {
+        ...state,
+        loggedInUserInfo: {},
+        isLoginInProgress: false,
+        isUserLoggedIn: false,
       };
     case 'LOGIN_FAILURE':
       return {
