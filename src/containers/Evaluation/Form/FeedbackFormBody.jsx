@@ -2,7 +2,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Col, Row, Select, List, Avatar } from 'antd';
+import { Col, Row, Select, List, Avatar, Alert } from 'antd';
 import { getAllFacultiesByDepartmentCodeClassCode } from '../../../redux/actions/departmentActions';
 import { getAllFeedbackParameters, submitFeedback } from '../../../redux/actions/feedbackActions';
 import FeedbackFormTable from './FeedbackFormTable';
@@ -33,9 +33,16 @@ class FeedbackFormBody extends Component {
     this.props.getAllFeedbackParameters();
   }
 
-  onChange = (value) => {
+  onFacultyChange = (value) => {
     const selectedFaculty = this.props.faculties.find(faculty => faculty.faculty.id === value);
     this.setState({ selectedFaculty });
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const selectedFaculty = prevState.selectedFaculty ? nextProps.faculties.find(faculty => faculty.faculty.id === prevState.selectedFaculty.faculty.id) : undefined;
+    return {
+      selectedFaculty,
+    };
   }
 
   render() {
@@ -48,13 +55,13 @@ class FeedbackFormBody extends Component {
             <Select
               style={{ width: '100%' }}
               placeholder="Select faculty"
-              onChange={this.onChange}
+              onChange={this.onFacultyChange}
             >
               {
                 faculties.map((faculty) => {
                   const optionStyle = { backgroundColor: faculty.isFeedbackSubmitted ? '#d9f8e3' : 'transparent' };
                   return (
-                    <Option disabled={faculty.isFeedbackSubmitted} value={faculty.faculty.id} key={faculty.faculty.id} style={optionStyle}>
+                    <Option value={faculty.faculty.id} key={faculty.faculty.id} style={optionStyle}>
                       {faculty.faculty.name}
                     </Option>
                   );
@@ -80,12 +87,23 @@ class FeedbackFormBody extends Component {
             </Fragment>
           }
         </Row>
-        <FeedbackFormTable
-          loggedInUserInfo={this.props.loggedInUserInfo}
-          feedbackParameters={this.props.feedbackParameters}
-          selectedFaculty={this.state.selectedFaculty}
-          submitFeedback={this.props.submitFeedback}
-        />
+        {
+          this.state.selectedFaculty && this.state.selectedFaculty.isFeedbackSubmitted ?
+            <Row className="feedback-form-message">
+              <Col>
+                <Alert message={`You have already submitted your feedback for ${this.state.selectedFaculty.faculty.name}`} type="success" showIcon />
+              </Col>
+            </Row>
+            :
+            (
+              <FeedbackFormTable
+                loggedInUserInfo={this.props.loggedInUserInfo}
+                feedbackParameters={this.props.feedbackParameters}
+                selectedFaculty={this.state.selectedFaculty}
+                submitFeedback={this.props.submitFeedback}
+              />
+            )
+        }
       </Fragment>
     );
   }
