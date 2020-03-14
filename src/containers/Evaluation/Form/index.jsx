@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import FeedbackFormHeader from './FeedbackFormHeader';
 import FeedbackFormBody from './FeedbackFormBody';
+import AppFooter from '../../Layout/footer/Footer';
 import { logOutUser } from '../../../redux/actions/authActions';
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 const FeedbackFormPage = ({ loggedInUserInfo, logOutUserAction }) => (
   <Layout className="layout">
@@ -21,7 +22,7 @@ const FeedbackFormPage = ({ loggedInUserInfo, logOutUserAction }) => (
         </Col>
       </Row>
     </Content>
-    <Footer style={{ textAlign: 'center' }}><b>Made with <span role="img" aria-label="love">&#128150;</span> in India by LifeCOMPILERS</b></Footer>
+    <AppFooter />
   </Layout>
 );
 
