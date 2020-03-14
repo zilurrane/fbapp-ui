@@ -3,7 +3,9 @@
   "version": "1.4.0",
   "private": true,
   "dependencies": {
-    "antd": "^3.26.11",
+    "@ant-design/compatible": "^1.0.0",
+    "@ant-design/icons": "^4.0.0",
+    "antd": "^4.0.0",
     "bfj": "6.1.1",
     "bootstrap": "^4.4.1",
     "case-sensitive-paths-webpack-plugin": "2.1.2",

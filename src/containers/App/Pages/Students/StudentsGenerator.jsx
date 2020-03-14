@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, InputNumber, Button } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { InputNumber, Button } from 'antd';
 import { connect } from 'react-redux';
 import { studentGenerationDefaults } from '../../../../shared/constants/common-constants';
 import { generateStudents } from '../../../../redux/actions/departmentActions';

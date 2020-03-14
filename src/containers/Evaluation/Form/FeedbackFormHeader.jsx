@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, Menu, Icon } from 'antd';
+import { PoweroffOutlined, UserOutlined } from '@ant-design/icons';
+import { Dropdown, Menu } from 'antd';
 
 const getUserMenu = logOutUserAction => (
   <Menu>
     <Menu.Item key="1">
-      <Icon type="user" />
+      <UserOutlined />
       Change Password
     </Menu.Item>
     <Menu.Item key="2" onClick={logOutUserAction}>
-      <Icon type="poweroff" />
+      <PoweroffOutlined />
       Log Out
     </Menu.Item>
   </Menu>
@@ -23,7 +24,7 @@ const FeedbackFormHeader = ({ userName, logOutUserAction }) => (
       </span>
     </h3>
     <h4 className="account__subhead subhead">Feedback Analytics that matters!!!</h4>
-    <Dropdown.Button type="link" overlay={getUserMenu(logOutUserAction)} className="float-right" trigger={['click']} icon={<Icon type="user" />}>
+    <Dropdown.Button type="link" overlay={getUserMenu(logOutUserAction)} className="float-right" trigger={['click']} icon={<UserOutlined />}>
       {userName}
     </Dropdown.Button>
   </div>);

@@ -38,21 +38,23 @@ class StudentsCard extends Component {
             </Col>
           </Row>
           <Row>
-            <Col>
-              {
-              students && students.length > 0 ?
-              (
-                students.map((student, index) => (
-                  <Col key={index + 1} span={3}>
-                    <Checkbox checked={index % getRandomInt(7)}>{ student.userName }</Checkbox>
-                  </Col>
-                  ),
-                )
-              ) :
-                <h6>
-                  There are no students generated yet!
-                </h6>
-              }
+            <Col span={24}>
+              <Row>
+                {
+                students && students.length > 0 ?
+                (
+                  students.map((student, index) => (
+                    <Col key={index + 1} span={3}>
+                      <Checkbox checked={index % getRandomInt(7)}>{ student.userName }</Checkbox>
+                    </Col>
+                    ),
+                  )
+                ) :
+                  <h6>
+                    There are no students generated yet!
+                  </h6>
+                }
+              </Row>
             </Col>
           </Row>
         </Card>

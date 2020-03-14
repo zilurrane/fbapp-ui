@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, InputNumber, Form, Input, Select, Button } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Row, Col, InputNumber, Input, Select, Button } from 'antd';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -107,7 +109,7 @@ class FeedbackFormTable extends Component {
     const { getFieldDecorator } = form;
     return (
       <Row className="feedback-form-table">
-        <Col>
+        <Col span={24}>
           <Form onSubmit={this.handleSubmit}>
             <Row className="feedback-form-table-head-row">
               <Col sm={20}>Question</Col>
@@ -122,8 +124,8 @@ class FeedbackFormTable extends Component {
               ))
             }
             <Row>
-              <Col>
-                <Form.Item>
+              <Col sm={24}>
+                <Form.Item sm={24}>
                   <Button disabled={!this.props.selectedFaculty} block type="primary" htmlType="submit">
                     Submit
                   </Button>

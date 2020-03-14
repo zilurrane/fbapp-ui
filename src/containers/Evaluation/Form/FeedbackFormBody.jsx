@@ -90,7 +90,7 @@ class FeedbackFormBody extends Component {
         {
           this.state.selectedFaculty && this.state.selectedFaculty.isFeedbackSubmitted ?
             <Row className="feedback-form-message">
-              <Col>
+              <Col span={24}>
                 <Alert message={`You have already submitted your feedback for ${this.state.selectedFaculty.faculty.name}`} type="success" showIcon />
               </Col>
             </Row>

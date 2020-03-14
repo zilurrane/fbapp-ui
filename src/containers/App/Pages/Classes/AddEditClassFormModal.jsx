@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Modal, Input } from 'antd';
 
 class AddEditClassFormModal extends Component {
   render() {
