@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Divider, Layout, Dropdown, Menu, Icon } from 'antd';
+import { Row, Col, Divider, Layout } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import FeedbackFormHeader from './FeedbackFormHeader';
@@ -8,33 +8,13 @@ import { logOutUser } from '../../../redux/actions/authActions';
 
 const { Content, Footer } = Layout;
 
-const getUserMenu = logOutUserAction => (
-  <Menu>
-    <Menu.Item key="1" onClick={logOutUserAction}>
-      <Icon type="user" />
-      Log Out
-    </Menu.Item>
-    <Menu.Item key="2">
-      <Icon type="user" />
-      2nd menu item
-    </Menu.Item>
-    <Menu.Item key="3">
-      <Icon type="user" />
-      3rd item
-    </Menu.Item>
-  </Menu>
-);
-
 const FeedbackFormPage = ({ loggedInUserInfo, logOutUserAction }) => (
   <Layout className="layout">
     <Content>
       <Row className="account">
         <Col xs={{ span: 22, offset: 1 }} sm={{ span: 16, offset: 4 }} className="account__wrapper">
           <div className="account__card evaluation__form__card">
-            <FeedbackFormHeader userName={loggedInUserInfo.userName} />
-            <Dropdown.Button type="link" overlay={getUserMenu(logOutUserAction)} className="float-right" trigger={['click']} icon={<Icon type="user" />}>
-              { loggedInUserInfo.userName }
-            </Dropdown.Button>
+            <FeedbackFormHeader userName={loggedInUserInfo.userName} logOutUserAction={logOutUserAction} />
             <Divider />
             <FeedbackFormBody loggedInUserInfo={loggedInUserInfo} />
           </div>
