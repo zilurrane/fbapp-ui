@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Layout from '../Layout/index';
 import MainWrapper from './MainWrapper';
 
@@ -17,6 +18,12 @@ import BackupPage from './Pages/Backup';
 import FeedbackPage from './Pages/Feedback';
 import EvaluationFormPage from '../Evaluation/Form';
 
+const ProtectedRouteComponent = ({ isUserLoggedIn, ...props }) => (isUserLoggedIn ? <Route {...props} /> : <Redirect to="/auth/login" />);
+
+const mapStateToProps = state => ({ isUserLoggedIn: state.auth.isUserLoggedIn });
+const mapDispatchToProps = null;
+const ProtectedRoute = connect(mapStateToProps, mapDispatchToProps)(ProtectedRouteComponent);
+
 const authRoutes = () => (
   <Switch>
     <Route exact path="/auth/login" component={LogIn} />
@@ -25,7 +32,7 @@ const authRoutes = () => (
 
 const evaluationRoutes = () => (
   <Switch>
-    <Route exact path="/evaluation/form" component={EvaluationFormPage} />
+    <ProtectedRoute exact path="/evaluation/form" component={EvaluationFormPage} />
   </Switch>
 );
 
