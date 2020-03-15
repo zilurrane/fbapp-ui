@@ -37,7 +37,7 @@ class AnalyticsCard extends Component {
           {
             this.state.selectedFaculty
               ?
-                <FacultyGraph departmentCode={departmentCode} classCode={classCode} />
+                <FacultyGraph departmentCode={departmentCode} classCode={classCode} setSelectedFaculty={this.setSelectedFaculty} selectedFaculty={this.state.selectedFaculty} />
               :
                 <FacultyComparisonGraph departmentCode={departmentCode} classCode={classCode} setSelectedFaculty={this.setSelectedFaculty} />
           }

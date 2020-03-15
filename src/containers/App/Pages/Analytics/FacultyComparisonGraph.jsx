@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col, List, Avatar, Button } from 'antd';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const data = [
   {
@@ -39,21 +39,30 @@ class FacultyComparisonGraph extends Component {
       <Fragment>
         <Row className="faculty-comparison-container">
           <Col sm={18} xs={24}>
-            <BarChart
-              data={data}
-              width={900}
-              height={500}
-              maxBarSize={40}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="amt" fill="#1890ff" />
-            </BarChart>
+            <div className="responsive-barchart-container">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={data}
+                  maxBarSize={40}
+                  margin={{
+                    top: 0,
+                    right: 0,
+                    left: 0,
+                    bottom: 0,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="amt" fill="#1890ff" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </Col>
-          <Col sm={6} xs={24}>
+          <Col sm={{ span: 5, offset: 1 }} xs={24}>
             <List
+              header={<b>All Faculties</b>}
               itemLayout="horizontal"
               dataSource={data}
               renderItem={item => (
