@@ -5,6 +5,7 @@ import { Tabs } from 'antd';
 import { connect } from 'react-redux';
 import { getAllDepartments, getAllClassesByDepartmentCode } from '../../../../redux/actions/departmentActions';
 import ClassesTabs from './ClassesTabs';
+import ProgressBar from './ProgressBar';
 
 const { TabPane } = Tabs;
 
@@ -46,6 +47,7 @@ class DepartmentsTabs extends Component {
                   <div className="card__title">
                     <h5 className="bold-text">Analytics</h5>
                   </div>
+                  <ProgressBar />
                   <Tabs activeKey={departmentCode} onChange={this.handleDepartmentChange} className="department-tabs" tabPosition="top">
                     {
                       departments.map(department => (
