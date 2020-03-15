@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
-import { Card } from 'antd';
+import { Card, PageHeader } from 'antd';
 import { connect } from 'react-redux';
 import FacultyComparisonGraph from './FacultyComparisonGraph';
 import FacultyGraph from './FacultyGraph';
@@ -24,8 +24,13 @@ class AnalyticsCard extends Component {
 
   render() {
     const { departmentCode, classCode } = this.props;
-    console.log(this.state.selectedFaculty);
-    const cardTitle = this.state.selectedFaculty ? this.state.selectedFaculty.name : 'Faculty Comparison';
+
+    const cardTitle = this.state.selectedFaculty
+      ?
+        <PageHeader onBack={() => this.setSelectedFaculty(undefined)} title={this.state.selectedFaculty.name} />
+      :
+        <PageHeader title="Faculty Comparison" />;
+
     return (
       <Fragment>
         <Card title={cardTitle} extra={<b>Action</b>}>
