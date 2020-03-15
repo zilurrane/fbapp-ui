@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'reactstrap';
 import { Tabs } from 'antd';
 import { connect } from 'react-redux';
-// import StudentsCard from './StudentsCard';
+import AnalyticsCard from './AnalyticsCard';
 
 const { TabPane } = Tabs;
 
@@ -37,8 +37,7 @@ class ClassesTabs extends Component {
               {
                 classesByDepartmentCode.map(departmentClass => (
                   <TabPane tab={`${departmentClass.name}`} key={departmentClass.code}>
-                    {departmentCode} - Test
-                    {/* <StudentsCard departmentCode={departmentCode} classCode={departmentClass.code} /> */}
+                    <AnalyticsCard departmentCode={departmentCode} classCode={departmentClass.code} />
                   </TabPane>
                 ))
               }
