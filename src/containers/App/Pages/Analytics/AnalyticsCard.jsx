@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Row, Col } from 'antd';
+import { Card } from 'antd';
 import { connect } from 'react-redux';
 import FacultyComparisonGraph from './FacultyComparisonGraph';
 
@@ -16,11 +16,7 @@ class AnalyticsCard extends Component {
     return (
       <Fragment>
         <Card title="Faculty Comparison" extra={<b>Action</b>}>
-          <Row>
-            <Col span={24} className="faculty-comparison-graph">
-              <FacultyComparisonGraph departmentCode={departmentCode} classCode={classCode} />
-            </Col>
-          </Row>
+          <FacultyComparisonGraph departmentCode={departmentCode} classCode={classCode} />
         </Card>
       </Fragment>
     );

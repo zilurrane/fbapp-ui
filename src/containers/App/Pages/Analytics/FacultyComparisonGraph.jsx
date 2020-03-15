@@ -1,6 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Row, Col, List, Avatar } from 'antd';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
 const data = [
@@ -35,18 +36,37 @@ class FacultyComparisonGraph extends Component {
     console.log(departmentCode, classCode);
     return (
       <Fragment>
-        <BarChart
-          data={data}
-          width={900}
-          height={500}
-          maxBarSize={40}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="amt" fill="#1890ff" />
-        </BarChart>
+        <Row className="faculty-comparison-container">
+          <Col sm={18} xs={24}>
+            <BarChart
+              data={data}
+              width={900}
+              height={500}
+              maxBarSize={40}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="amt" fill="#1890ff" />
+            </BarChart>
+          </Col>
+          <Col sm={6} xs={24}>
+            <List
+              itemLayout="horizontal"
+              dataSource={data}
+              renderItem={item => (
+                <List.Item>
+                  <List.Item.Meta
+                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                    title={<a href="https://ant.design">{item.name}</a>}
+                    description={`Feedback: ${item.amt}%`}
+                  />
+                </List.Item>
+              )}
+            />
+          </Col>
+        </Row>
       </Fragment>
     );
   }
