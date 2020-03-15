@@ -1,35 +1,46 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Row, Col, List, Avatar, Button } from 'antd';
+import { Row, Col } from 'antd';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
 const data = [
   {
-    name: 'Mr.S.K.Nagare', amt: 96,
+    name: 'Punctual', amt: 96,
   },
   {
-    name: 'Mrs.M.A.Khade', amt: 80,
+    name: 'Behavior', amt: 80,
   },
   {
-    name: 'Mr.A M Kanavaje', amt: 89,
+    name: 'Knowledge', amt: 89,
   },
   {
-    name: 'Mr. D.M.Satpute', amt: 68,
+    name: 'Interaction', amt: 68,
   },
   {
-    name: 'Mr V S Gawade', amt: 94,
+    name: 'Presentation', amt: 94,
   },
   {
-    name: 'Mr.Vipul Ajit Sansare', amt: 90,
+    name: 'Command', amt: 90,
+  },
+  {
+    name: 'Creative', amt: 89,
+  },
+  {
+    name: 'Motivative', amt: 68,
+  },
+  {
+    name: 'English', amt: 94,
+  },
+  {
+    name: 'Teacher', amt: 90,
   },
 ];
 
-class FacultyComparisonGraph extends Component {
+class FacultyGraph extends Component {
   static propTypes = {
     departmentCode: PropTypes.string.isRequired,
     classCode: PropTypes.string.isRequired,
-    setSelectedFaculty: PropTypes.func.isRequired,
   };
 
   render() {
@@ -52,21 +63,6 @@ class FacultyComparisonGraph extends Component {
               <Bar dataKey="amt" fill="#1890ff" />
             </BarChart>
           </Col>
-          <Col sm={6} xs={24}>
-            <List
-              itemLayout="horizontal"
-              dataSource={data}
-              renderItem={item => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                    title={<Button onClick={() => this.props.setSelectedFaculty(item)} className="list-title-button" type="link">{item.name}</Button>}
-                    description={`Feedback: ${item.amt}%`}
-                  />
-                </List.Item>
-              )}
-            />
-          </Col>
         </Row>
       </Fragment>
     );
@@ -75,4 +71,4 @@ class FacultyComparisonGraph extends Component {
 
 const mapStateToProps = () => ({});
 const mapDispatchToProps = null;
-export default connect(mapStateToProps, mapDispatchToProps)(FacultyComparisonGraph);
+export default connect(mapStateToProps, mapDispatchToProps)(FacultyGraph);
