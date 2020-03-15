@@ -15,7 +15,7 @@ import FacultiesPage from './Pages/Faculties';
 import SubjectsPage from './Pages/Subjects';
 import StudentsPage from './Pages/Students';
 import BackupPage from './Pages/Backup';
-import FeedbackPage from './Pages/Feedback';
+import analyticsPage from './Pages/Analytics';
 import EvaluationFormPage from '../Evaluation/Form';
 
 const ProtectedRouteComponent = ({ isUserLoggedIn, ...props }) => (isUserLoggedIn ? <Route {...props} /> : <Redirect to="/auth/login" />);
@@ -47,8 +47,8 @@ const appRoutes = () => (
         <Route path="/app/faculties" component={FacultiesPage} />
         <Route path="/app/subjects" component={SubjectsPage} />
         <Route path="/app/students" component={StudentsPage} />
+        <Route path="/app/analytics" component={analyticsPage} />
         <Route path="/app/backup" component={BackupPage} />
-        <Route path="/app/feedback" component={FeedbackPage} />
         {/* TEST */}
         <Route path="/app/one" component={ExamplePageOne} />
         <Route path="/app/two" component={ExamplePageTwo} />

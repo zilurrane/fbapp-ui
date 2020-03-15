@@ -1,18 +1,18 @@
 import React from 'react';
 import { Col, Container, Row } from 'reactstrap';
-import FeedbackCard from './FeedbackCard';
+import AnalyticsCard from './AnalyticsCard';
 
-const FeedbackPage = () => (
+const AnalyticsPage = () => (
   <Container className="dashboard">
     <Row>
       <Col md={12}>
-        <h3 className="page-title">Feedback</h3>
+        <h3 className="page-title">Analytics</h3>
       </Col>
     </Row>
     <Row>
-      <FeedbackCard />
+      <AnalyticsCard />
     </Row>
   </Container>
 );
 
-export default FeedbackPage;
+export default AnalyticsPage;
