@@ -3,37 +3,23 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col, List, Avatar, Button } from 'antd';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
-const data = [
-  {
-    name: 'Mr.S.K.Nagare', amt: 96,
-  },
-  {
-    name: 'Mrs.M.A.Khade', amt: 80,
-  },
-  {
-    name: 'Mr.A M Kanavaje', amt: 89,
-  },
-  {
-    name: 'Mr. D.M.Satpute', amt: 68,
-  },
-  {
-    name: 'Mr V S Gawade', amt: 94,
-  },
-  {
-    name: 'Mr.Vipul Ajit Sansare', amt: 90,
-  },
-];
+import { getFacultiesFeedbackSummary } from '../../../../redux/actions/feedbackActions';
 
 class FacultyComparisonGraph extends Component {
   static propTypes = {
     departmentCode: PropTypes.string.isRequired,
     classCode: PropTypes.string.isRequired,
     setSelectedFaculty: PropTypes.func.isRequired,
+    getFacultiesFeedbackSummary: PropTypes.func.isRequired,
+    facultiesFeedbackSummary: PropTypes.arrayOf(PropTypes.object).isRequired,
   };
 
+  componentDidMount() {
+    this.props.getFacultiesFeedbackSummary(this.props.departmentCode, this.props.classCode);
+  }
+
   render() {
-    const { departmentCode, classCode } = this.props;
+    const { departmentCode, classCode, facultiesFeedbackSummary } = this.props;
     console.log(departmentCode, classCode);
     return (
       <Fragment>
@@ -42,7 +28,7 @@ class FacultyComparisonGraph extends Component {
             <div className="responsive-barchart-container">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
-                  data={data}
+                  data={facultiesFeedbackSummary}
                   maxBarSize={40}
                   margin={{
                     top: 0,
@@ -52,10 +38,10 @@ class FacultyComparisonGraph extends Component {
                   }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
+                  <XAxis dataKey="faculty.name" />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="amt" fill="#1890ff" />
+                  <Bar dataKey="feedback.percentage" fill="#1890ff" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -64,13 +50,13 @@ class FacultyComparisonGraph extends Component {
             <List
               header={<b>All Faculties</b>}
               itemLayout="horizontal"
-              dataSource={data}
+              dataSource={facultiesFeedbackSummary}
               renderItem={item => (
                 <List.Item>
                   <List.Item.Meta
                     avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                    title={<Button onClick={() => this.props.setSelectedFaculty(item)} className="list-title-button" type="link">{item.name}</Button>}
-                    description={`Feedback: ${item.amt}%`}
+                    title={<Button onClick={() => this.props.setSelectedFaculty(item.faculty)} className="list-title-button" type="link">{item.faculty.name}</Button>}
+                    description={`Feedback: ${item.feedback.percentage}%`}
                   />
                 </List.Item>
               )}
@@ -82,6 +68,6 @@ class FacultyComparisonGraph extends Component {
   }
 }
 
-const mapStateToProps = () => ({});
-const mapDispatchToProps = null;
+const mapStateToProps = (state, props) => ({ facultiesFeedbackSummary: (state.feedback.facultiesFeedbackSummary[props.departmentCode] || {})[props.classCode] });
+const mapDispatchToProps = { getFacultiesFeedbackSummary };
 export default connect(mapStateToProps, mapDispatchToProps)(FacultyComparisonGraph);

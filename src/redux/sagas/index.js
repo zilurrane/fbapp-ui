@@ -135,6 +135,28 @@ function* submitFeedback({ feedbackRequest }) {
   });
 }
 
+function* getFacultiesFeedbackSummary({ departmentCode, classCode }) {
+  const query = {
+    query: `
+      query facultiesFeedbackSummary {
+        facultiesFeedbackSummary(departmentCode: "${departmentCode}", classCode: "${classCode}") {
+          faculty {
+            name
+          }
+          feedback {
+            percentage
+          }
+        }
+      }`,
+  };
+  const response = yield fetch(`${baseGraphQLUrl}`, {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: JSON.stringify(query),
+  }).then(res => res.json());
+  yield put({ type: 'FACULTIES_FEEDBACK_SUMMARY_RECEIVED', payload: { departmentCode, classCode, facultiesFeedbackSummary: response.data.facultiesFeedbackSummary } });
+}
+
 function* actionWatcher() {
   yield all([
     takeLatest('GET_DEPARTMENTS', getAllDepartments),
@@ -153,6 +175,7 @@ function* actionWatcher() {
     takeLatest('LOGIN', loginUser),
     takeLatest('GET_FEEDBACK_PARAMETERS', getAllFeedbackParameters),
     takeLatest('SUBMIT_FEEDBACK', submitFeedback),
+    takeLatest('GET_FACULTIES_FEEDBACK_SUMMARY', getFacultiesFeedbackSummary),
   ]);
 }
 
