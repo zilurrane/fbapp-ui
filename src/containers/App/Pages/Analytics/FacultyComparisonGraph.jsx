@@ -41,7 +41,7 @@ class FacultyComparisonGraph extends Component {
                   <XAxis dataKey="faculty.name" />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="feedback.percentage" fill="#1890ff" />
+                  <Bar dataKey="feedback.percentage" name="Percentage" fill="#1890ff" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -55,7 +55,7 @@ class FacultyComparisonGraph extends Component {
                 <List.Item>
                   <List.Item.Meta
                     avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                    title={<Button onClick={() => this.props.setSelectedFaculty(item.faculty)} className="list-title-button" type="link">{item.faculty.name}</Button>}
+                    title={<Button onClick={() => this.props.setSelectedFaculty({ ...item.faculty, departmentCode, classCode })} className="list-title-button" type="link">{item.faculty.name}</Button>}
                     description={`Feedback: ${item.feedback.percentage}%`}
                   />
                 </List.Item>

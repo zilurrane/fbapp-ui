@@ -12,3 +12,10 @@ export const getFacultiesFeedbackSummary = (departmentCode, classCode) => ({
   departmentCode,
   classCode,
 });
+
+export const getFacultyFeedback = (departmentCode, classCode, facultyId) => ({
+  type: 'GET_FACULTY_FEEDBACK',
+  departmentCode,
+  classCode,
+  facultyId,
+});

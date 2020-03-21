@@ -3,6 +3,7 @@ import { openNotification } from '../../shared/helpers/notification-helper';
 const reducer = (state = {
   feedbackParameters: [],
   facultiesFeedbackSummary: {},
+  facultyFeedback: {},
 }, action) => {
   switch (action.type) {
     case 'GET_FEEDBACK_PARAMETERS':
@@ -42,6 +43,11 @@ const reducer = (state = {
         ...state,
         isFacultiesFeedbackSummaryLoading: true,
       };
+    case 'GET_FACULTY_FEEDBACK':
+      return {
+        ...state,
+        isFacultyFeedbackLoading: true,
+      };
     case 'FACULTIES_FEEDBACK_SUMMARY_RECEIVED':
       return {
         ...state,
@@ -50,6 +56,21 @@ const reducer = (state = {
           [action.payload.departmentCode]: {
             ...state.facultiesFeedbackSummary[action.payload.departmentCode],
             [action.payload.classCode]: action.payload.facultiesFeedbackSummary,
+          },
+        },
+        isFacultiesFeedbackSummaryLoading: false,
+      };
+    case 'FACULTY_FEEDBACK_RECEIVED':
+      return {
+        ...state,
+        facultyFeedback: {
+          ...state.facultyFeedback,
+          [action.payload.departmentCode]: {
+            ...state.facultyFeedback[action.payload.departmentCode],
+            [action.payload.classCode]: {
+              ...(state.facultyFeedback[action.payload.departmentCode] || {})[action.payload.classCode],
+              [action.payload.facultyId]: action.payload.facultyFeedback,
+            },
           },
         },
         isFacultiesFeedbackSummaryLoading: false,

@@ -141,6 +141,7 @@ function* getFacultiesFeedbackSummary({ departmentCode, classCode }) {
       query facultiesFeedbackSummary {
         facultiesFeedbackSummary(departmentCode: "${departmentCode}", classCode: "${classCode}") {
           faculty {
+            id
             name
           }
           feedback {
@@ -155,6 +156,34 @@ function* getFacultiesFeedbackSummary({ departmentCode, classCode }) {
     body: JSON.stringify(query),
   }).then(res => res.json());
   yield put({ type: 'FACULTIES_FEEDBACK_SUMMARY_RECEIVED', payload: { departmentCode, classCode, facultiesFeedbackSummary: response.data.facultiesFeedbackSummary } });
+}
+
+
+function* getFacultyFeedback({ departmentCode, classCode, facultyId }) {
+  const query = {
+    query: `
+    query facultyFeedback {
+      facultyFeedback(departmentCode: "${departmentCode}", classCode: "${classCode}", facultyId: "${facultyId}") {
+        parameter { code },
+        feedback { percentage }
+      }
+    }
+    `,
+  };
+  const response = yield fetch(`${baseGraphQLUrl}`, {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: JSON.stringify(query),
+  }).then(res => res.json());
+  yield put({
+    type: 'FACULTY_FEEDBACK_RECEIVED',
+    payload: {
+      departmentCode,
+      classCode,
+      facultyId,
+      facultyFeedback: response.data.facultyFeedback,
+    },
+  });
 }
 
 function* actionWatcher() {
@@ -176,6 +205,7 @@ function* actionWatcher() {
     takeLatest('GET_FEEDBACK_PARAMETERS', getAllFeedbackParameters),
     takeLatest('SUBMIT_FEEDBACK', submitFeedback),
     takeLatest('GET_FACULTIES_FEEDBACK_SUMMARY', getFacultiesFeedbackSummary),
+    takeLatest('GET_FACULTY_FEEDBACK', getFacultyFeedback),
   ]);
 }
 
