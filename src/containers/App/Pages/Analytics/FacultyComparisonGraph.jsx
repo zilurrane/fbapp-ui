@@ -87,7 +87,7 @@ class FacultyComparisonGraph extends Component {
 
 const mapStateToProps = (state, props) => ({
   loading: state.feedback.isFacultiesFeedbackSummaryLoading,
-  facultiesFeedbackSummary: (state.feedback.facultiesFeedbackSummary[props.departmentCode] || {})[props.classCode],
+  facultiesFeedbackSummary: ((state.feedback.facultiesFeedbackSummary[props.departmentCode] || {})[props.classCode] || []),
 });
 const mapDispatchToProps = { getFacultiesFeedbackSummary };
 export default connect(mapStateToProps, mapDispatchToProps)(FacultyComparisonGraph);

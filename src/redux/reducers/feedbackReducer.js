@@ -4,6 +4,8 @@ const reducer = (state = {
   feedbackParameters: [],
   facultiesFeedbackSummary: {},
   facultyFeedback: {},
+  isFacultiesFeedbackSummaryLoading: false,
+  isFacultyFeedbackLoading: false,
 }, action) => {
   switch (action.type) {
     case 'GET_FEEDBACK_PARAMETERS':

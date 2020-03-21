@@ -94,8 +94,8 @@ class FacultyGraph extends Component {
 const mapStateToProps = (state, props) => ({
   isFacultiesFeedbackSummaryLoading: state.feedback.isFacultiesFeedbackSummaryLoading,
   isFacultyFeedbackLoading: state.feedback.isFacultyFeedbackLoading,
-  facultyFeedback: ((state.feedback.facultyFeedback[props.departmentCode] || {})[props.classCode] || {})[props.selectedFaculty.id],
-  facultiesFeedbackSummary: (state.feedback.facultiesFeedbackSummary[props.departmentCode] || {})[props.classCode],
+  facultyFeedback: (((state.feedback.facultyFeedback[props.departmentCode] || {})[props.classCode] || {})[props.selectedFaculty.id] || []),
+  facultiesFeedbackSummary: ((state.feedback.facultiesFeedbackSummary[props.departmentCode] || {})[props.classCode] || []),
 });
 const mapDispatchToProps = { getFacultyFeedback };
 export default connect(mapStateToProps, mapDispatchToProps)(FacultyGraph);
