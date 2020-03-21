@@ -73,7 +73,7 @@ const reducer = (state = {
             },
           },
         },
-        isFacultiesFeedbackSummaryLoading: false,
+        isFacultyFeedbackLoading: false,
       };
     default:
       return state;

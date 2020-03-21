@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -5,6 +6,7 @@ import { Row, Col, List, Avatar, Button } from 'antd';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { getFacultiesFeedbackSummary } from '../../../../redux/actions/feedbackActions';
 import { AppLoader, AppLoaderIndicator } from '../../../../shared/components/AppLoader';
+import { AppEmpty } from '../../../../shared/components/AppEmpty';
 
 class FacultyComparisonGraph extends Component {
   static propTypes = {
@@ -36,24 +38,27 @@ class FacultyComparisonGraph extends Component {
                 loading ?
                   <AppLoader size="large" />
                   :
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      data={facultiesFeedbackSummary}
-                      maxBarSize={40}
-                      margin={{
-                        top: 0,
-                        right: 0,
-                        left: 0,
-                        bottom: 0,
-                      }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="faculty.name" />
-                      <YAxis />
-                      <Tooltip />
-                      <Bar dataKey="feedback.percentage" name="Percentage" fill="#1890ff" />
-                    </BarChart>
-                  </ResponsiveContainer>
+                  facultiesFeedbackSummary && facultiesFeedbackSummary.length === 0 ?
+                    <AppEmpty />
+                    :
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart
+                        data={facultiesFeedbackSummary}
+                        maxBarSize={40}
+                        margin={{
+                          top: 0,
+                          right: 0,
+                          left: 0,
+                          bottom: 0,
+                        }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="faculty.name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar dataKey="feedback.percentage" name="Percentage" fill="#1890ff" />
+                      </BarChart>
+                    </ResponsiveContainer>
               }
             </div>
           </Col>
