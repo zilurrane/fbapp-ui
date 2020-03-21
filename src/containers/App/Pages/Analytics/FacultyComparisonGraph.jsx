@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Row, Col, List, Avatar, Button } from 'antd';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { getFacultiesFeedbackSummary } from '../../../../redux/actions/feedbackActions';
+import { AppLoader, AppLoaderIndicator } from '../../../../shared/components/AppLoader';
 
 class FacultyComparisonGraph extends Component {
   static propTypes = {
@@ -12,6 +13,7 @@ class FacultyComparisonGraph extends Component {
     setSelectedFaculty: PropTypes.func.isRequired,
     getFacultiesFeedbackSummary: PropTypes.func.isRequired,
     facultiesFeedbackSummary: PropTypes.arrayOf(PropTypes.object).isRequired,
+    loading: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -19,31 +21,40 @@ class FacultyComparisonGraph extends Component {
   }
 
   render() {
-    const { departmentCode, classCode, facultiesFeedbackSummary } = this.props;
-    console.log(departmentCode, classCode);
+    const {
+      departmentCode,
+      classCode,
+      facultiesFeedbackSummary,
+      loading,
+    } = this.props;
     return (
       <Fragment>
         <Row className="faculty-comparison-container">
           <Col sm={18} xs={24}>
             <div className="responsive-barchart-container">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={facultiesFeedbackSummary}
-                  maxBarSize={40}
-                  margin={{
-                    top: 0,
-                    right: 0,
-                    left: 0,
-                    bottom: 0,
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="faculty.name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="feedback.percentage" name="Percentage" fill="#1890ff" />
-                </BarChart>
-              </ResponsiveContainer>
+              {
+                loading ?
+                  <AppLoader size="large" />
+                  :
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      data={facultiesFeedbackSummary}
+                      maxBarSize={40}
+                      margin={{
+                        top: 0,
+                        right: 0,
+                        left: 0,
+                        bottom: 0,
+                      }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="faculty.name" />
+                      <YAxis />
+                      <Tooltip />
+                      <Bar dataKey="feedback.percentage" name="Percentage" fill="#1890ff" />
+                    </BarChart>
+                  </ResponsiveContainer>
+              }
             </div>
           </Col>
           <Col sm={{ span: 5, offset: 1 }} xs={24}>
@@ -51,6 +62,7 @@ class FacultyComparisonGraph extends Component {
               header={<b>All Faculties</b>}
               itemLayout="horizontal"
               dataSource={facultiesFeedbackSummary}
+              loading={{ spinning: loading, indicator: AppLoaderIndicator }}
               renderItem={item => (
                 <List.Item>
                   <List.Item.Meta
@@ -68,6 +80,9 @@ class FacultyComparisonGraph extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({ facultiesFeedbackSummary: (state.feedback.facultiesFeedbackSummary[props.departmentCode] || {})[props.classCode] });
+const mapStateToProps = (state, props) => ({
+  loading: state.feedback.isFacultiesFeedbackSummaryLoading,
+  facultiesFeedbackSummary: (state.feedback.facultiesFeedbackSummary[props.departmentCode] || {})[props.classCode],
+});
 const mapDispatchToProps = { getFacultiesFeedbackSummary };
 export default connect(mapStateToProps, mapDispatchToProps)(FacultyComparisonGraph);
