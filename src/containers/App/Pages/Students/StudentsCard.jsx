@@ -4,6 +4,7 @@ import { Card, Checkbox, Row, Col, Divider } from 'antd';
 import { connect } from 'react-redux';
 import StudentsGenerator from './StudentsGenerator';
 import { getStudentsByDepartmentCodeClassCode } from '../../../../redux/actions/departmentActions';
+import { AppEmpty } from '../../../../shared/components/AppEmpty';
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -50,9 +51,7 @@ class StudentsCard extends Component {
                     ),
                   )
                 ) :
-                  <h6>
-                    There are no students generated yet!
-                  </h6>
+                  <AppEmpty />
                 }
               </Row>
             </Col>
