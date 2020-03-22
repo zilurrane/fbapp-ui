@@ -8,10 +8,11 @@ class Topbar extends PureComponent {
   static propTypes = {
     changeMobileSidebarVisibility: PropTypes.func.isRequired,
     changeSidebarVisibility: PropTypes.func.isRequired,
+    logOutUser: PropTypes.func.isRequired,
   };
 
   render() {
-    const { changeMobileSidebarVisibility, changeSidebarVisibility } = this.props;
+    const { changeMobileSidebarVisibility, changeSidebarVisibility, logOutUser } = this.props;
 
     return (
       <div className="topbar">
@@ -21,12 +22,12 @@ class Topbar extends PureComponent {
               changeMobileSidebarVisibility={changeMobileSidebarVisibility}
               changeSidebarVisibility={changeSidebarVisibility}
             />
-            <Link className="topbar__logo" to="/dashboard_default" >
+            <Link className="topbar__logo" to="/app/dashboard" >
               <h3 className="topbar__logo__text">FbApp</h3>
             </Link>
           </div>
           <div className="topbar__right">
-            <TopbarProfile />
+            <TopbarProfile logOutUser={logOutUser} />
           </div>
         </div>
       </div>

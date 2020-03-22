@@ -8,6 +8,7 @@ import Sidebar from './sidebar/Sidebar';
 
 import { changeThemeToDark, changeThemeToLight } from '../../redux/actions/themeActions';
 import { changeMobileSidebarVisibility, changeSidebarVisibility } from '../../redux/actions/sidebarActions';
+import { logOutUser as logOutUserAction } from '../../redux/actions/authActions';
 import { SidebarProps } from '../../shared/prop-types/ReducerProps';
 
 class Layout extends Component {
@@ -32,6 +33,10 @@ class Layout extends Component {
     this.props.dispatch(changeThemeToLight());
   };
 
+  logOutUser = () => {
+    this.props.dispatch(logOutUserAction());
+  };
+
   render() {
     const layoutClass = classNames({
       layout: true,
@@ -43,6 +48,7 @@ class Layout extends Component {
         <Topbar
           changeMobileSidebarVisibility={this.changeMobileSidebarVisibility}
           changeSidebarVisibility={this.changeSidebarVisibility}
+          logOutUser={this.logOutUser}
         />
         <Sidebar
           sidebar={this.props.sidebar}

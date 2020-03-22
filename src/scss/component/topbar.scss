@@ -179,7 +179,12 @@
   right: 0;
 }
 
-.topbar__link {
+button.topbar__link {
+  border: none;
+  background-color: transparent;
+}
+
+.topbar__link, button.topbar__link {
   display: flex;
   padding: 9px 20px;
   transition: all 0.3s;
@@ -215,13 +220,13 @@
   }
 }
 
-.topbar__link-title {
+.topbar__link-title, button.topbar__link-title {
   margin: 0;
   font-size: 14px;
   line-height: 16px;
 }
 
-.topbar__link-icon {
+.topbar__link-icon, button.topbar__link-icon {
   margin-right: 10px;
   font-size: 13px;
   line-height: 13px;
@@ -574,7 +579,7 @@
   }
 }
 
-.topbar__link-badge {
+.topbar__link-badge, button.topbar__link-badge {
   width: 26px;
   height: 14px;
   background-color: $color-red;
@@ -656,7 +661,7 @@
     background-color: themed('colorHover');
   }
 
-  .topbar__link {
+  .topbar__link, button.topbar__link {
 
     &:hover {
 

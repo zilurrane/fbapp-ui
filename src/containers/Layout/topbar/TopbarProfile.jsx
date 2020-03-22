@@ -1,11 +1,17 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import DownIcon from 'mdi-react/ChevronDownIcon';
 import { Collapse } from 'reactstrap';
 import TopbarMenuLink from './TopbarMenuLink';
+import TopbarMenuButton from './TopbarMenuButton';
 
 const Ava = `${process.env.PUBLIC_URL}/img/Zilu.jpg`;
 
 export default class TopbarProfile extends PureComponent {
+  static propTypes = {
+    logOutUser: PropTypes.func.isRequired,
+  };
+
   constructor() {
     super();
     this.state = {
@@ -31,7 +37,7 @@ export default class TopbarProfile extends PureComponent {
             <TopbarMenuLink title="Page one" icon="list" path="/app/one" />
             <TopbarMenuLink title="Page two" icon="inbox" path="/app/two" />
             <div className="topbar__menu-divider" />
-            <TopbarMenuLink title="Log Out" icon="exit" path="/" />
+            <TopbarMenuButton title="Log Out" icon="exit" action={this.props.logOutUser} />
           </div>
         </Collapse>
       </div>

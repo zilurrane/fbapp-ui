@@ -41,18 +41,18 @@ const appRoutes = () => (
     <Layout />
     <div className="container__wrap">
       <Switch>
-        <Route path="/app/dashboard" component={DashboardPage} />
-        <Route path="/app/users" component={UsersPage} />
-        <Route path="/app/classes" component={ClassesPage} />
-        <Route path="/app/faculties" component={FacultiesPage} />
-        <Route path="/app/subjects" component={SubjectsPage} />
-        <Route path="/app/students" component={StudentsPage} />
-        <Route path="/app/analytics" component={analyticsPage} />
-        <Route path="/app/backup" component={BackupPage} />
+        <ProtectedRoute path="/app/dashboard" component={DashboardPage} />
+        <ProtectedRoute path="/app/users" component={UsersPage} />
+        <ProtectedRoute path="/app/classes" component={ClassesPage} />
+        <ProtectedRoute path="/app/faculties" component={FacultiesPage} />
+        <ProtectedRoute path="/app/subjects" component={SubjectsPage} />
+        <ProtectedRoute path="/app/students" component={StudentsPage} />
+        <ProtectedRoute path="/app/analytics" component={analyticsPage} />
+        <ProtectedRoute path="/app/backup" component={BackupPage} />
         {/* TEST */}
-        <Route path="/app/one" component={ExamplePageOne} />
-        <Route path="/app/two" component={ExamplePageTwo} />
-        <Route path="/app" component={Error404Page} />
+        <ProtectedRoute path="/app/one" component={ExamplePageOne} />
+        <ProtectedRoute path="/app/two" component={ExamplePageTwo} />
+        <ProtectedRoute path="/app" component={Error404Page} />
       </Switch>
     </div>
   </div>
