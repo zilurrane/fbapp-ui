@@ -12,9 +12,19 @@ const onLoginFormSubmit = (formValues, loginUserAction) => {
   }
 };
 
-const LogIn = ({ loginUserAction, isUserLoggedIn }) => {
+const LogIn = ({ loginUserAction, isUserLoggedIn, loggedInUserInfo }) => {
   if (isUserLoggedIn) {
-    return <Redirect to="/evaluation/form" />;
+    switch (loggedInUserInfo.role) {
+      case 5:
+        return <Redirect to="/evaluation/form" />;
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+        return <Redirect to="/app/dashboard" />;
+      default:
+        break;
+    }
   }
 
   return (
@@ -38,6 +48,11 @@ const LogIn = ({ loginUserAction, isUserLoggedIn }) => {
 LogIn.propTypes = {
   loginUserAction: PropTypes.func.isRequired,
   isUserLoggedIn: PropTypes.bool.isRequired,
+  loggedInUserInfo: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    userName: PropTypes.string.isRequired,
+    role: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 const mapStateToProps = state => ({ isUserLoggedIn: state.auth.isUserLoggedIn, loggedInUserInfo: state.auth.loggedInUserInfo });
