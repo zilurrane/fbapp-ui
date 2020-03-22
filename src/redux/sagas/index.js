@@ -75,8 +75,8 @@ function* getStudentsByDepartmentCodeClassCode({ departmentCode, classCode }) {
 function* loginUser({ payload }) {
   const loginUserRequestBody = JSON.stringify(payload);
   const userLoginResponse = yield fetch(`${baseApiUrl}users/login`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: loginUserRequestBody }).then(res => res.json());
-  if (userLoginResponse && userLoginResponse.userName) {
-    yield put({ type: 'LOGIN_SUCCESS', payload: { loggedInUserInfo: userLoginResponse } });
+  if (userLoginResponse && userLoginResponse.token && userLoginResponse.data) {
+    yield put({ type: 'LOGIN_SUCCESS', payload: { loggedInUserInfo: userLoginResponse.data } });
   } else {
     yield put({ type: 'LOGIN_FAILURE' });
   }
