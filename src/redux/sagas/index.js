@@ -66,7 +66,7 @@ function* generateStudents({ payload }) {
 
 function* getStudentsByDepartmentCodeClassCode({ departmentCode, classCode }) {
   const getStudentsQuery = {
-    query: `{ studentsByDepartmentCodeClassCode(departmentCode: "${departmentCode}", classCode: "${classCode}") { id userName createdDate isActive }}`,
+    query: `{ studentsByDepartmentCodeClassCode(departmentCode: "${departmentCode}", classCode: "${classCode}") { id createdDate user { userName isActive } } }`,
   };
   const studentsResponse = yield fetch(`${baseGraphQLUrl}`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: JSON.stringify(getStudentsQuery) }).then(res => res.json());
   yield put({ type: 'STUDENTS_BY_DEPARTMENTCODE_CLASSCODE_RECEIVED', payload: { departmentCode, classCode, students: studentsResponse.data.studentsByDepartmentCodeClassCode } });

@@ -6,10 +6,6 @@ import StudentsGenerator from './StudentsGenerator';
 import { getStudentsByDepartmentCodeClassCode } from '../../../../redux/actions/departmentActions';
 import { AppEmpty } from '../../../../shared/components/AppEmpty';
 
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
-
 class StudentsCard extends Component {
   static propTypes = {
     departmentCode: PropTypes.string.isRequired,
@@ -42,16 +38,16 @@ class StudentsCard extends Component {
             <Col span={24}>
               <Row>
                 {
-                students && students.length > 0 ?
-                (
-                  students.map((student, index) => (
-                    <Col key={index + 1} span={3}>
-                      <Checkbox checked={index % getRandomInt(7)}>{ student.userName }</Checkbox>
-                    </Col>
-                    ),
-                  )
-                ) :
-                  <AppEmpty />
+                  students && students.length > 0 ?
+                    (
+                      students.map((student, index) => (
+                        <Col key={index + 1} span={3}>
+                          <Checkbox checked={student.user.isActive}>{student.user.userName}</Checkbox>
+                        </Col>
+                      ),
+                      )
+                    ) :
+                      <AppEmpty />
                 }
               </Row>
             </Col>
