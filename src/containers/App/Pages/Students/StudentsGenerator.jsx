@@ -25,7 +25,6 @@ class StudentsGenerator extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         const { departmentCode, classCode } = this.props;
         const generateStudentsRequest = { departmentCode, classCode, ...values };
         this.props.generateStudents(generateStudentsRequest);
