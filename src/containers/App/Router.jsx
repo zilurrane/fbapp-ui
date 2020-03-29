@@ -9,6 +9,7 @@ import ExamplePageOne from '../Example/index';
 import ExamplePageTwo from '../ExampleTwo/index';
 import DashboardPage from './Pages/Dashboard';
 import Error404Page from './Pages/Error404';
+import TenantsPage from './Pages/Tenants';
 import UsersPage from './Pages/Users';
 import ClassesPage from './Pages/Classes';
 import FacultiesPage from './Pages/Faculties';
@@ -42,6 +43,7 @@ const appRoutes = () => (
     <div className="container__wrap">
       <Switch>
         <ProtectedRoute path="/app/dashboard" component={DashboardPage} />
+        <ProtectedRoute path="/app/tenants" component={TenantsPage} />
         <ProtectedRoute path="/app/users" component={UsersPage} />
         <ProtectedRoute path="/app/classes" component={ClassesPage} />
         <ProtectedRoute path="/app/faculties" component={FacultiesPage} />
