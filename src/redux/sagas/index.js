@@ -187,6 +187,11 @@ function* getFacultyFeedback({ departmentCode, classCode, facultyId }) {
   });
 }
 
+function* getTenants() {
+  const tenants = yield callApi(`${baseApiUrl}tenants`).then(res => res.json());
+  yield put({ type: 'TENANTS_RECEIVED', payload: { tenants } });
+}
+
 function* actionWatcher() {
   yield all([
     takeLatest('GET_DEPARTMENTS', getAllDepartments),
@@ -207,6 +212,7 @@ function* actionWatcher() {
     takeLatest('SUBMIT_FEEDBACK', submitFeedback),
     takeLatest('GET_FACULTIES_FEEDBACK_SUMMARY', getFacultiesFeedbackSummary),
     takeLatest('GET_FACULTY_FEEDBACK', getFacultyFeedback),
+    takeLatest('GET_TENANTS', getTenants),
   ]);
 }
 

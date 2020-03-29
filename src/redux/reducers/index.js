@@ -3,6 +3,7 @@ import sidebarReducer from './sidebarReducer';
 import departmentReducer from './departmentReducer';
 import authReducer from './authReducer';
 import feedbackReducer from './feedbackReducer';
+import tenantReducer from './tenantReducer';
 
 export {
   themeReducer,
@@ -10,4 +11,5 @@ export {
   departmentReducer,
   authReducer,
   feedbackReducer,
+  tenantReducer,
 };
