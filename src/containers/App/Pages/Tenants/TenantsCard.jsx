@@ -1,9 +1,22 @@
 import React, { Fragment, Component } from 'react';
+import { connect } from 'react-redux';
 import { Card, CardBody, Row, Col } from 'reactstrap';
 import { Button } from 'antd';
 import TenantsTable from './TenantsTable';
+import AddEditTenantForm from './AddEditTenantForm';
 
 class TenantsCard extends Component {
+  state = { visible: false };
+
+  onCreate(values) {
+    console.log('Received values of form: ', values);
+    this.setVisible(false);
+  }
+
+  setVisible(value) {
+    this.setState({ visible: value });
+  }
+
   render() {
     return (
       <Fragment>
@@ -15,17 +28,10 @@ class TenantsCard extends Component {
                   <CardBody>
                     <Row>
                       <Col>
-                        <div className="card__title">
-                          <h5 className="bold-text">Manage Tenants</h5>
-                        </div>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
                         <div>
                           <div className="card__title">
                             <h5 className="bold-text">&nbsp;</h5>
-                            <Button className="card__actions" type="primary">
+                            <Button className="card__actions" type="primary" onClick={() => this.setVisible(true)}>
                               Add
                             </Button>
                           </div>
@@ -39,9 +45,19 @@ class TenantsCard extends Component {
             </Col>
           </Row>
         </Col>
+        <AddEditTenantForm
+          visible={this.state.visible}
+          isEditView={false}
+          onCreate={values => this.onCreate(values)}
+          onCancel={() => {
+            this.setVisible(false);
+          }}
+        />
       </Fragment>
     );
   }
 }
 
-export default TenantsCard;
+const mapStateToProps = () => ({});
+const mapDispatchToProps = null;
+export default connect(mapStateToProps, mapDispatchToProps)(TenantsCard);
