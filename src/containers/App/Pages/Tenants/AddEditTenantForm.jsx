@@ -10,7 +10,7 @@ const AddEditTenantForm = ({
     <Modal
       visible={visible}
       title={isEditView ? 'Update Tenant' : 'Add Tenant'}
-      okText="Create"
+      okText={isEditView ? 'Update' : 'Add'}
       cancelText="Cancel"
       onCancel={onCancel}
       onOk={() => {
@@ -30,28 +30,50 @@ const AddEditTenantForm = ({
         layout="vertical"
         name="form_in_modal"
         initialValues={{
-          modifier: 'public',
+          isActive: 'true',
         }}
       >
         <Form.Item
-          name="title"
-          label="Title"
+          name="code"
+          label="Code"
           rules={[
             {
               required: true,
-              message: 'Please input the title of collection!',
+              message: 'Please enter tenant code!',
             },
           ]}
         >
           <Input />
         </Form.Item>
-        <Form.Item name="description" label="Description">
-          <Input type="textarea" />
+        <Form.Item
+          name="name"
+          label="Name"
+          rules={[
+            {
+              required: true,
+              message: 'Please enter tenant name!',
+            },
+          ]}
+        >
+          <Input />
         </Form.Item>
-        <Form.Item name="modifier" className="collection-create-form_last-form-item">
+        <Form.Item
+          name="email"
+          label="E-Mail"
+          rules={[
+            {
+              type: 'email',
+              required: true,
+              message: 'Please enter tenant e-mail!',
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item name="isActive">
           <Radio.Group>
-            <Radio value="public">Public</Radio>
-            <Radio value="private">Private</Radio>
+            <Radio value="true">Active</Radio>
+            <Radio value="false">In-Active</Radio>
           </Radio.Group>
         </Form.Item>
       </Form>
