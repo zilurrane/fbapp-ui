@@ -25,10 +25,10 @@ class TenantsTable extends Component {
     const { tenants } = this.props;
     return (
       <Fragment>
-        <Table size="sm" hover striped>
+        <Table size="sm" hover striped responsive>
           <thead>
             <tr>
-              <th className="text-center">#</th>
+              <th>#</th>
               <th>Code</th>
               <th>Name</th>
               <th>E-Mail</th>
