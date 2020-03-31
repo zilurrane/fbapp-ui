@@ -192,6 +192,13 @@ function* getTenants() {
   yield put({ type: 'TENANTS_RECEIVED', payload: { tenants } });
 }
 
+function* createTenant({ tenantRequest }) {
+  const postBody = JSON.stringify(tenantRequest);
+  yield callApi(`${baseApiUrl}tenants/create`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  yield put({ type: 'GET_TENANTS' });
+}
+
+
 function* actionWatcher() {
   yield all([
     takeLatest('GET_DEPARTMENTS', getAllDepartments),
@@ -213,6 +220,7 @@ function* actionWatcher() {
     takeLatest('GET_FACULTIES_FEEDBACK_SUMMARY', getFacultiesFeedbackSummary),
     takeLatest('GET_FACULTY_FEEDBACK', getFacultyFeedback),
     takeLatest('GET_TENANTS', getTenants),
+    takeLatest('CREATE_TENANT', createTenant),
   ]);
 }
 

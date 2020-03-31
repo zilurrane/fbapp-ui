@@ -3,6 +3,7 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
+import { getAllTenants } from '../../../../redux/actions/tenantActions';
 
 class TenantsTable extends Component {
   static propTypes = {
@@ -13,7 +14,13 @@ class TenantsTable extends Component {
       email: PropTypes.string.isRequired,
       isActive: PropTypes.bool.isRequired,
     })).isRequired,
+    getAllTenants: PropTypes.func.isRequired,
   }
+
+  componentDidMount() {
+    this.props.getAllTenants();
+  }
+
   render() {
     const { tenants } = this.props;
     return (
@@ -25,7 +32,7 @@ class TenantsTable extends Component {
               <th>Code</th>
               <th>Name</th>
               <th>E-Mail</th>
-              <th className="text-center">Status</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -37,7 +44,7 @@ class TenantsTable extends Component {
                     <td>{tenant.code}</td>
                     <td>{tenant.name}</td>
                     <td>{tenant.email}</td>
-                    <td>{tenant.isActive}</td>
+                    <td>{tenant.isActive ? 'Active' : 'In-Active'}</td>
                   </tr>
                 ))
                 :
@@ -53,5 +60,5 @@ class TenantsTable extends Component {
 }
 
 const mapStateToProps = state => ({ tenants: state.tenant.tenants || [] });
-const mapDispatchToProps = null;
+const mapDispatchToProps = { getAllTenants };
 export default connect(mapStateToProps, mapDispatchToProps)(TenantsTable);

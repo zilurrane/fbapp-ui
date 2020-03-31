@@ -1,15 +1,22 @@
 import React, { Fragment, Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Card, CardBody, Row, Col } from 'reactstrap';
 import { Button } from 'antd';
 import TenantsTable from './TenantsTable';
 import AddEditTenantForm from './AddEditTenantForm';
+import { createTenant } from '../../../../redux/actions/tenantActions';
 
 class TenantsCard extends Component {
+  static propTypes = {
+    createTenant: PropTypes.func.isRequired,
+  }
+
   state = { visible: false };
 
   onCreate(values) {
     console.log('Received values of form: ', values);
+    this.props.createTenant(values);
     this.setVisible(false);
   }
 
@@ -59,5 +66,5 @@ class TenantsCard extends Component {
 }
 
 const mapStateToProps = () => ({});
-const mapDispatchToProps = null;
+const mapDispatchToProps = { createTenant };
 export default connect(mapStateToProps, mapDispatchToProps)(TenantsCard);
