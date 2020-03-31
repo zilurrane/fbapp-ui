@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TopbarSidebarButton from './TopbarSidebarButton';
 import TopbarProfile from './TopbarProfile';
+import TopbarTenant from './TopbarTenant';
 
 class Topbar extends PureComponent {
   static propTypes = {
@@ -27,6 +28,7 @@ class Topbar extends PureComponent {
             </Link>
           </div>
           <div className="topbar__right">
+            <TopbarTenant />
             <TopbarProfile logOutUser={logOutUser} />
           </div>
         </div>
