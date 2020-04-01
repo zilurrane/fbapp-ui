@@ -96,7 +96,7 @@
   border: none;
   transition: all 0.3s;
   box-shadow: none;
-  padding: 0 15px;
+  padding: 0 10px;
   background-color: transparent;
 
   &:hover, &:focus, &:active, &:focus:active {
@@ -246,7 +246,7 @@ button.topbar__link {
 
 .topbar__profile {
   margin-bottom: 0;
-  margin-left: 20px;
+  margin-left: 0;
   position: relative;
 }
 

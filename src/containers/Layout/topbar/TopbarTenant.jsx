@@ -20,6 +20,7 @@ class TopbarTenant extends PureComponent {
     setSelectedTenant: PropTypes.func.isRequired,
     tenants: PropTypes.arrayOf(tenantShape).isRequired,
     selectedTenant: tenantShape.isRequired,
+    isTenantsLoadingInProgress: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -44,8 +45,9 @@ class TopbarTenant extends PureComponent {
                 showSearch
                 labelInValue
                 defaultValue={{ key: this.props.selectedTenant.code }}
-                style={{ width: 200 }}
+                style={{ width: 100 }}
                 placeholder="Select a Tenant"
+                loading={this.props.isTenantsLoadingInProgress}
                 optionFilterProp="children"
                 onChange={this.onChange}
                 filterOption={(input, option) =>
@@ -63,6 +65,6 @@ class TopbarTenant extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({ selectedTenant: state.tenant.selectedTenant, tenants: state.tenant.tenants || [] });
+const mapStateToProps = state => ({ isTenantsLoadingInProgress: state.tenant.isTenantsLoadingInProgress, selectedTenant: state.tenant.selectedTenant, tenants: state.tenant.tenants || [] });
 const mapDispatchToProps = { getAllTenants, setSelectedTenant };
 export default connect(mapStateToProps, mapDispatchToProps)(TopbarTenant);
