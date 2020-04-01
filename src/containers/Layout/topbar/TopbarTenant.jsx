@@ -34,26 +34,29 @@ class TopbarTenant extends PureComponent {
   }
 
   render() {
-    console.log(this.props.selectedTenant);
     return (
       <div className="topbar__profile">
         <button className="topbar__avatar">
-          <Select
-            showSearch
-            labelInValue
-            defaultValue={{ key: this.props.selectedTenant.value }}
-            style={{ width: 200 }}
-            placeholder="Select a Tenant"
-            optionFilterProp="children"
-            onChange={this.onChange}
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          {
+            this.props.tenants &&
+            this.props.tenants.length > 0 &&
+              <Select
+                showSearch
+                labelInValue
+                defaultValue={{ key: this.props.selectedTenant.code }}
+                style={{ width: 200 }}
+                placeholder="Select a Tenant"
+                optionFilterProp="children"
+                onChange={this.onChange}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+              >
+                {
+                  this.props.tenants.map(tenant => <Option key={tenant.code} value={tenant.code}>{tenant.code}</Option>)
+                }
+              </Select>
             }
-          >
-            {
-              this.props.tenants.map(tenant => <Option key={tenant.code} value={tenant.code}>{tenant.code}</Option>)
-            }
-          </Select>
         </button>
       </div>
     );
