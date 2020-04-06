@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -19,9 +21,13 @@ import BackupPage from './Pages/Backup';
 import analyticsPage from './Pages/Analytics';
 import EvaluationFormPage from '../Evaluation/Form';
 
-const ProtectedRouteComponent = ({ isUserLoggedIn, ...props }) => (isUserLoggedIn ? <Route {...props} /> : <Redirect to="/auth/login" />);
+const ProtectedRouteComponent = ({ isUserLoggedIn, selectedTenant, ...props }) => (
+  isUserLoggedIn
+    ? (selectedTenant && selectedTenant._id ? <Route {...props} /> : <div>Please select any tenant</div>)
+    :
+    <Redirect to="/auth/login" />);
 
-const mapStateToProps = state => ({ isUserLoggedIn: state.auth.isUserLoggedIn });
+const mapStateToProps = state => ({ isUserLoggedIn: state.auth.isUserLoggedIn, selectedTenant: state.tenant.selectedTenant });
 const mapDispatchToProps = null;
 const ProtectedRoute = connect(mapStateToProps, mapDispatchToProps)(ProtectedRouteComponent);
 

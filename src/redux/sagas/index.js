@@ -1,81 +1,104 @@
-import { put, takeLatest, all } from 'redux-saga/effects';
+/* eslint-disable no-underscore-dangle */
+import { put, takeLatest, all, select } from 'redux-saga/effects';
 import { callApi } from '../../shared/helpers/fetch-helper';
 
 const baseApiUrl = 'https://fbapp-api.cfapps.io/api/';
 const baseGraphQLUrl = 'https://fbapp-api.cfapps.io/graphql';
 
+const getSelectedTenantId = state => (state.tenant.selectedTenant || {})._id;
+
 function* getAllDepartments() {
-  const response = yield callApi(`${baseApiUrl}departments`).then(res => res.json());
+  const tenantId = yield select(getSelectedTenantId);
+  const response = yield callApi(`${baseApiUrl}departments`, tenantId).then(res => res.json());
   yield put({ type: 'DEPARTMENTS_RECEIVED', payload: response });
 }
 
 function* createDepartment({ payload }) {
+  const tenantId = yield select(getSelectedTenantId);
   const postBody = JSON.stringify(payload);
-  yield callApi(`${baseApiUrl}departments/add`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  yield callApi(`${baseApiUrl}departments/add`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
   yield put({ type: 'GET_DEPARTMENTS' });
 }
 
 function* getClassesByDepartmentCode({ departmentCode }) {
-  const classes = yield callApi(`${baseApiUrl}classes/department/${departmentCode}`).then(res => res.json());
+  const tenantId = yield select(getSelectedTenantId);
+  const classes = yield callApi(`${baseApiUrl}classes/department/${departmentCode}`, tenantId).then(res => res.json());
   yield put({ type: 'CLASSES_BY_DEPARTMENTCODE_RECEIVED', payload: { departmentCode, classes } });
 }
 
 function* createClass({ payload }) {
+  const tenantId = yield select(getSelectedTenantId);
   const postBody = JSON.stringify(payload);
-  yield callApi(`${baseApiUrl}classes/add`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  yield callApi(`${baseApiUrl}classes/add`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
   yield put({ type: 'GET_CLASSES_BY_DEPARTMENTCODE', departmentCode: payload.departmentCode });
 }
 
 function* getSubjectsByDepartmentCodeClassCode({ departmentCode, classCode }) {
-  const subjects = yield callApi(`${baseApiUrl}subjects/department/${departmentCode}/class/${classCode}`).then(res => res.json());
+  const tenantId = yield select(getSelectedTenantId);
+  const subjects = yield callApi(`${baseApiUrl}subjects/department/${departmentCode}/class/${classCode}`, tenantId).then(res => res.json());
   yield put({ type: 'SUBJECTS_BY_DEPARTMENTCODE_CLASSCODE_RECEIVED', payload: { departmentCode, classCode, subjects } });
 }
 
 function* createSubject({ payload }) {
+  const tenantId = yield select(getSelectedTenantId);
   const postBody = JSON.stringify(payload);
-  yield callApi(`${baseApiUrl}subjects/add`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  yield callApi(`${baseApiUrl}subjects/add`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
   yield put({ type: 'GET_SUBJECTS_BY_DEPARTMENTCODE_CLASSCODE', departmentCode: payload.departmentCode, classCode: payload.classCode });
 }
 
 function* getFacultiesByDepartmentCode({ departmentCode }) {
-  const faculties = yield callApi(`${baseApiUrl}faculties/department/${departmentCode}`).then(res => res.json());
+  const tenantId = yield select(getSelectedTenantId);
+  const faculties = yield callApi(`${baseApiUrl}faculties/department/${departmentCode}`, tenantId).then(res => res.json());
   yield put({ type: 'FACULTIES_BY_DEPARTMENTCODE_RECEIVED', payload: { departmentCode, faculties } });
 }
 
 function* createFaculty({ payload }) {
+  const tenantId = yield select(getSelectedTenantId);
   const postBody = JSON.stringify(payload);
-  yield callApi(`${baseApiUrl}faculties/add`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  yield callApi(`${baseApiUrl}faculties/add`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
   yield put({ type: 'GET_FACULTIES_BY_DEPARTMENTCODE', departmentCode: payload.departmentCode });
 }
 
 function* linkFacultyToSubject({ payload }) {
+  const tenantId = yield select(getSelectedTenantId);
   const postBody = JSON.stringify(payload);
-  yield callApi(`${baseApiUrl}subjects/link/faculty`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  yield callApi(`${baseApiUrl}subjects/link/faculty`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
 }
 
 function* getLinkedFacultiesToSubject({ payload }) {
+  const tenantId = yield select(getSelectedTenantId);
   const subjectId = payload;
-  const linkedFaculties = yield callApi(`${baseApiUrl}subjects/link/faculty/${subjectId}`).then(res => res.json());
+  const linkedFaculties = yield callApi(`${baseApiUrl}subjects/link/faculty/${subjectId}`, tenantId).then(res => res.json());
   yield put({ type: 'LINKED_FACULTIES_TO_SUBJECT_RECEIVED', payload: { subjectId, linkedFaculties } });
 }
 
 function* generateStudents({ payload }) {
+  const tenantId = yield select(getSelectedTenantId);
   const generateStudentsRequestBody = JSON.stringify(payload);
-  yield callApi(`${baseApiUrl}students/generate`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: generateStudentsRequestBody }).then(res => res.json());
+  yield callApi(`${baseApiUrl}students/generate`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: generateStudentsRequestBody }).then(res => res.json());
   yield put({ type: 'GET_STUDENTS_BY_DEPARTMENTCODE_CLASSCODE', departmentCode: payload.departmentCode, classCode: payload.classCode });
 }
 
 function* getStudentsByDepartmentCodeClassCode({ departmentCode, classCode }) {
+  const tenantId = yield select(getSelectedTenantId);
   const getStudentsQuery = {
     query: `{ studentsByDepartmentCodeClassCode(departmentCode: "${departmentCode}", classCode: "${classCode}") { id createdDate user { userName isActive } } }`,
   };
-  const studentsResponse = yield callApi(`${baseGraphQLUrl}`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: JSON.stringify(getStudentsQuery) }).then(res => res.json());
+  const studentsResponse = yield callApi(
+    `${baseGraphQLUrl}`,
+    tenantId,
+    {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
+      body: JSON.stringify(getStudentsQuery),
+    }).then(res => res.json());
   yield put({ type: 'STUDENTS_BY_DEPARTMENTCODE_CLASSCODE_RECEIVED', payload: { departmentCode, classCode, students: studentsResponse.data.studentsByDepartmentCodeClassCode } });
 }
 
 function* loginUser({ payload }) {
+  const tenantId = yield select(getSelectedTenantId);
   const loginUserRequestBody = JSON.stringify(payload);
-  const userLoginResponse = yield callApi(`${baseApiUrl}auth/login`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: loginUserRequestBody }).then(res => res.json());
+  const userLoginResponse = yield callApi(`${baseApiUrl}auth/login`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: loginUserRequestBody }).then(res => res.json());
   if (userLoginResponse && userLoginResponse.token && userLoginResponse.data) {
     yield put({ type: 'LOGIN_SUCCESS', payload: { loggedInUserInfo: userLoginResponse.data, token: userLoginResponse.token } });
   } else {
@@ -84,10 +107,11 @@ function* loginUser({ payload }) {
 }
 
 function* getAllFeedbackParameters() {
+  const tenantId = yield select(getSelectedTenantId);
   const getFeedbackParametersQuery = {
     query: 'query Feedbackparameters { feedbackParameters { id, code, question, type, marks, options { value, label } } }',
   };
-  const feedbackParametersResponse = yield callApi(`${baseGraphQLUrl}`, {
+  const feedbackParametersResponse = yield callApi(`${baseGraphQLUrl}`, tenantId, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify(getFeedbackParametersQuery),
@@ -96,6 +120,7 @@ function* getAllFeedbackParameters() {
 }
 
 function* getFacultiesByDepartmentCodeClassCode({ departmentCode, classCode, studentId }) {
+  const tenantId = yield select(getSelectedTenantId);
   const query = {
     query: `
             query facultiesByDepartmentCodeClassCode {
@@ -115,7 +140,7 @@ function* getFacultiesByDepartmentCodeClassCode({ departmentCode, classCode, stu
               }
             }`,
   };
-  const facultiesResponse = yield callApi(`${baseGraphQLUrl}`, {
+  const facultiesResponse = yield callApi(`${baseGraphQLUrl}`, tenantId, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify(query),
@@ -124,8 +149,9 @@ function* getFacultiesByDepartmentCodeClassCode({ departmentCode, classCode, stu
 }
 
 function* submitFeedback({ feedbackRequest }) {
+  const tenantId = yield select(getSelectedTenantId);
   const postBody = JSON.stringify(feedbackRequest);
-  const feedbackResponse = yield callApi(`${baseApiUrl}feedbacks/add`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  const feedbackResponse = yield callApi(`${baseApiUrl}feedbacks/add`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
   yield put({ type: 'SUBMIT_FEEDBACK_DONE', payload: { feedbackResponse } });
   const { departmentCode, classCode, student } = feedbackRequest;
   yield put({
@@ -137,6 +163,7 @@ function* submitFeedback({ feedbackRequest }) {
 }
 
 function* getFacultiesFeedbackSummary({ departmentCode, classCode }) {
+  const tenantId = yield select(getSelectedTenantId);
   const query = {
     query: `
       query facultiesFeedbackSummary {
@@ -151,7 +178,7 @@ function* getFacultiesFeedbackSummary({ departmentCode, classCode }) {
         }
       }`,
   };
-  const response = yield callApi(`${baseGraphQLUrl}`, {
+  const response = yield callApi(`${baseGraphQLUrl}`, tenantId, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify(query),
@@ -161,6 +188,7 @@ function* getFacultiesFeedbackSummary({ departmentCode, classCode }) {
 
 
 function* getFacultyFeedback({ departmentCode, classCode, facultyId }) {
+  const tenantId = yield select(getSelectedTenantId);
   const query = {
     query: `
     query facultyFeedback {
@@ -171,7 +199,7 @@ function* getFacultyFeedback({ departmentCode, classCode, facultyId }) {
     }
     `,
   };
-  const response = yield callApi(`${baseGraphQLUrl}`, {
+  const response = yield callApi(`${baseGraphQLUrl}`, tenantId, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify(query),
@@ -188,13 +216,15 @@ function* getFacultyFeedback({ departmentCode, classCode, facultyId }) {
 }
 
 function* getTenants() {
-  const tenants = yield callApi(`${baseApiUrl}tenants`).then(res => res.json());
+  const tenantId = yield select(getSelectedTenantId);
+  const tenants = yield callApi(`${baseApiUrl}tenants`, tenantId).then(res => res.json());
   yield put({ type: 'TENANTS_RECEIVED', payload: { tenants } });
 }
 
 function* createTenant({ tenantRequest }) {
+  const tenantId = yield select(getSelectedTenantId);
   const postBody = JSON.stringify(tenantRequest);
-  yield callApi(`${baseApiUrl}tenants/create`, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  yield callApi(`${baseApiUrl}tenants/create`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
   yield put({ type: 'GET_TENANTS' });
 }
 
