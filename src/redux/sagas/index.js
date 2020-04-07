@@ -228,6 +228,18 @@ function* createTenant({ tenantRequest }) {
   yield put({ type: 'GET_TENANTS' });
 }
 
+function* getUsers() {
+  const tenantId = yield select(getSelectedTenantId);
+  const users = yield callApi(`${baseApiUrl}users`, tenantId).then(res => res.json());
+  yield put({ type: 'USERS_RECEIVED', payload: { users } });
+}
+
+function* createUser({ userRequest }) {
+  const tenantId = yield select(getSelectedTenantId);
+  const postBody = JSON.stringify(userRequest);
+  yield callApi(`${baseApiUrl}users/register`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  yield put({ type: 'GET_USERS' });
+}
 
 function* actionWatcher() {
   yield all([
@@ -251,6 +263,8 @@ function* actionWatcher() {
     takeLatest('GET_FACULTY_FEEDBACK', getFacultyFeedback),
     takeLatest('GET_TENANTS', getTenants),
     takeLatest('CREATE_TENANT', createTenant),
+    takeLatest('GET_USERS', getUsers),
+    takeLatest('CREATE_USER', createUser),
   ]);
 }
 

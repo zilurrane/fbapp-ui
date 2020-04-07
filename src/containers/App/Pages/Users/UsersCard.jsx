@@ -1,18 +1,70 @@
-import React from 'react';
-import { Card, CardBody, Col } from 'reactstrap';
+import React, { Fragment, Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Card, CardBody, Row, Col } from 'reactstrap';
+import { Button } from 'antd';
+import UsersTable from './UsersTable';
+import AddEditUserForm from './AddEditUserForm';
+import { createUser } from '../../../../redux/actions/tenantActions';
 
-const UsersCard = () => (
-  <Col md={12}>
-    <Card>
-      <CardBody>
-        <div className="card__title">
-          <h5 className="bold-text">Users title</h5>
-          <h5 className="subhead">Users subhead</h5>
-        </div>
-        <p>Your content here</p>
-      </CardBody>
-    </Card>
-  </Col>
-);
+class UsersCard extends Component {
+  static propTypes = {
+    createUser: PropTypes.func.isRequired,
+  }
 
-export default UsersCard;
+  state = { visible: false };
+
+  onCreate(values) {
+    console.log('Received values of form: ', values);
+    this.props.createUser(values);
+    this.setVisible(false);
+  }
+
+  setVisible(value) {
+    this.setState({ visible: value });
+  }
+
+  render() {
+    return (
+      <Fragment>
+        <Col md={12}>
+          <Row>
+            <Col md={12}>
+              <Col md={12}>
+                <Card>
+                  <CardBody>
+                    <Row>
+                      <Col>
+                        <div>
+                          <div className="card__title">
+                            <h5 className="bold-text">&nbsp;</h5>
+                            <Button className="card__actions" type="primary" onClick={() => this.setVisible(true)}>
+                              Add
+                            </Button>
+                          </div>
+                          <UsersTable />
+                        </div>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Col>
+          </Row>
+        </Col>
+        <AddEditUserForm
+          visible={this.state.visible}
+          isEditView={false}
+          onCreate={values => this.onCreate(values)}
+          onCancel={() => {
+            this.setVisible(false);
+          }}
+        />
+      </Fragment>
+    );
+  }
+}
+
+const mapStateToProps = () => ({});
+const mapDispatchToProps = { createUser };
+export default connect(mapStateToProps, mapDispatchToProps)(UsersCard);

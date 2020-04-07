@@ -1,12 +1,17 @@
 /* eslint-disable prefer-destructuring */
 const reducer = (state = {
-  tenants: [], isTenantsLoadingInProgress: false, selectedTenant: {},
+  tenants: [], isTenantsLoadingInProgress: false, selectedTenant: {}, users: [],
 }, action) => {
   switch (action.type) {
     case 'GET_TENANTS':
       return {
         ...state,
         isTenantsLoadingInProgress: true,
+      };
+    case 'GET_USERS':
+      return {
+        ...state,
+        isUserssLoadingInProgress: true,
       };
     case 'TENANTS_RECEIVED': {
       let selectedTenant = {};
@@ -20,6 +25,13 @@ const reducer = (state = {
         tenants: action.payload.tenants,
         isTenantsLoadingInProgress: false,
         selectedTenant,
+      };
+    }
+    case 'USERS_RECEIVED': {
+      return {
+        ...state,
+        users: action.payload.users,
+        isUserssLoadingInProgress: false,
       };
     }
     case 'SET_SELECTED_TENANT':

@@ -11,3 +11,12 @@ export const setSelectedTenant = selectedTenant => ({
   type: 'SET_SELECTED_TENANT',
   selectedTenant,
 });
+
+export const getAllUsers = () => ({
+  type: 'GET_USERS',
+});
+
+export const createUser = userRequest => ({
+  type: 'CREATE_USER',
+  userRequest,
+});
