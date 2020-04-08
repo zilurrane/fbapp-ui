@@ -7,36 +7,54 @@ const baseGraphQLUrl = 'https://fbapp-api.cfapps.io/graphql';
 
 const getSelectedTenantId = state => (state.tenant.selectedTenant || {})._id;
 
+function* processError(data) {
+  if (data && data.error && data.error.code === 401) {
+    yield put({ type: 'LOGOUT_USER' });
+    return false;
+  }
+  return true;
+}
+
 function* getAllDepartments() {
   const tenantId = yield select(getSelectedTenantId);
   const response = yield callApi(`${baseApiUrl}departments`, tenantId).then(res => res.json());
-  yield put({ type: 'DEPARTMENTS_RECEIVED', payload: response });
+  if (yield processError(response)) {
+    yield put({ type: 'DEPARTMENTS_RECEIVED', payload: response });
+  }
 }
 
 function* createDepartment({ payload }) {
   const tenantId = yield select(getSelectedTenantId);
   const postBody = JSON.stringify(payload);
-  yield callApi(`${baseApiUrl}departments/add`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
-  yield put({ type: 'GET_DEPARTMENTS' });
+  const response = yield callApi(`${baseApiUrl}departments/add`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  if (yield processError(response)) {
+    yield put({ type: 'GET_DEPARTMENTS' });
+  }
 }
 
 function* getClassesByDepartmentCode({ departmentCode }) {
   const tenantId = yield select(getSelectedTenantId);
   const classes = yield callApi(`${baseApiUrl}classes/department/${departmentCode}`, tenantId).then(res => res.json());
-  yield put({ type: 'CLASSES_BY_DEPARTMENTCODE_RECEIVED', payload: { departmentCode, classes } });
+  if (yield processError(classes)) {
+    yield put({ type: 'CLASSES_BY_DEPARTMENTCODE_RECEIVED', payload: { departmentCode, classes } });
+  }
 }
 
 function* createClass({ payload }) {
   const tenantId = yield select(getSelectedTenantId);
   const postBody = JSON.stringify(payload);
-  yield callApi(`${baseApiUrl}classes/add`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
-  yield put({ type: 'GET_CLASSES_BY_DEPARTMENTCODE', departmentCode: payload.departmentCode });
+  const response = yield callApi(`${baseApiUrl}classes/add`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  if (yield processError(response)) {
+    yield put({ type: 'GET_CLASSES_BY_DEPARTMENTCODE', departmentCode: payload.departmentCode });
+  }
 }
 
 function* getSubjectsByDepartmentCodeClassCode({ departmentCode, classCode }) {
   const tenantId = yield select(getSelectedTenantId);
   const subjects = yield callApi(`${baseApiUrl}subjects/department/${departmentCode}/class/${classCode}`, tenantId).then(res => res.json());
-  yield put({ type: 'SUBJECTS_BY_DEPARTMENTCODE_CLASSCODE_RECEIVED', payload: { departmentCode, classCode, subjects } });
+  if (yield processError(subjects)) {
+    yield put({ type: 'SUBJECTS_BY_DEPARTMENTCODE_CLASSCODE_RECEIVED', payload: { departmentCode, classCode, subjects } });
+  }
 }
 
 function* createSubject({ payload }) {
@@ -218,7 +236,9 @@ function* getFacultyFeedback({ departmentCode, classCode, facultyId }) {
 function* getTenants() {
   const tenantId = yield select(getSelectedTenantId);
   const tenants = yield callApi(`${baseApiUrl}tenants`, tenantId).then(res => res.json());
-  yield put({ type: 'TENANTS_RECEIVED', payload: { tenants } });
+  if (yield processError(tenants)) {
+    yield put({ type: 'TENANTS_RECEIVED', payload: { tenants } });
+  }
 }
 
 function* createTenant({ tenantRequest }) {
