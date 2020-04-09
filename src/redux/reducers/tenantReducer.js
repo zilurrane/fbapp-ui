@@ -38,6 +38,7 @@ const reducer = (state = {
       return {
         ...state,
         selectedTenant: action.selectedTenant,
+        users: [],
       };
     default:
       return state;
