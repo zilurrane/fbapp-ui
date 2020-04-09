@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Form, Input, Radio } from 'antd';
+import { Modal, Form, Input, Radio, Select } from 'antd';
+import { userRoles } from '../../../../shared/constants/common-constants';
+
+const { Option } = Select;
 
 const AddEditUserForm = ({
   visible, onCreate, onCancel, isEditView,
@@ -55,7 +58,15 @@ const AddEditUserForm = ({
             },
           ]}
         >
-          <Input />
+          <Select
+            placeholder="Select a Role"
+            optionFilterProp="children"
+            onChange={role => form.setFieldsValue({ role })}
+          >
+            {
+              userRoles.map(role => <Option key={role.value} value={role.value}>{role.label}</Option>)
+            }
+          </Select>
         </Form.Item>
         <Form.Item
           name="email"
