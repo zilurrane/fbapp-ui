@@ -263,6 +263,11 @@ function* createUser({ userRequest }) {
   yield put({ type: 'GET_USERS' });
 }
 
+function* onTenantChange() {
+  yield put({ type: 'GET_DEPARTMENTS' });
+  yield put({ type: 'GET_USERS' });
+}
+
 function* actionWatcher() {
   yield all([
     takeLatest('GET_DEPARTMENTS', getAllDepartments),
@@ -287,6 +292,7 @@ function* actionWatcher() {
     takeLatest('CREATE_TENANT', createTenant),
     takeLatest('GET_USERS', getUsers),
     takeLatest('CREATE_USER', createUser),
+    takeLatest('SET_SELECTED_TENANT', onTenantChange),
   ]);
 }
 

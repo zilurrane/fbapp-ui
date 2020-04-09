@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
 import { getAllUsers } from '../../../../redux/actions/tenantActions';
-import { tenantShape } from '../../../../shared/shapes';
 
 class UsersTable extends Component {
   static propTypes = {
@@ -16,17 +15,10 @@ class UsersTable extends Component {
       isActive: PropTypes.bool.isRequired,
     })).isRequired,
     getAllUsers: PropTypes.func.isRequired,
-    selectedTenant: PropTypes.shape(tenantShape).isRequired,
   }
 
   componentDidMount() {
     this.props.getAllUsers();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.selectedTenant.code !== this.props.selectedTenant.code) {
-      this.props.getAllUsers();
-    }
   }
 
   render() {
@@ -67,6 +59,6 @@ class UsersTable extends Component {
   }
 }
 
-const mapStateToProps = state => ({ users: state.tenant.users || [], selectedTenant: state.tenant.selectedTenant });
+const mapStateToProps = state => ({ users: state.tenant.users || [] });
 const mapDispatchToProps = { getAllUsers };
 export default connect(mapStateToProps, mapDispatchToProps)(UsersTable);
