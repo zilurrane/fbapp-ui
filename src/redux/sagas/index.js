@@ -57,6 +57,8 @@ function* getSubjectsByDepartmentCodeClassCode({ departmentCode, classCode }) {
   }
 }
 
+// TODO: Redirect to login on 401
+
 function* createSubject({ payload }) {
   const tenantId = yield select(getSelectedTenantId);
   const postBody = JSON.stringify(payload);
