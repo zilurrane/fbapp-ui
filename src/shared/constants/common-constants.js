@@ -13,4 +13,14 @@ export const userRoles = [
   { value: 5, label: 'Student' },
 ];
 
+export const userRolesMap = {
+  1: 'SuperAdmin',
+  2: 'Admin',
+  3: 'Principal',
+  4: 'Teacher',
+  5: 'Student',
+};
+
 export const studentRoleValue = 5;
+
+export const teacherRoleValue = 4;

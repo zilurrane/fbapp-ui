@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Form, Input, Radio, Select } from 'antd';
-import { userRoles } from '../../../../shared/constants/common-constants';
+import { userShape } from '../../../../shared/shapes';
+import { getAccessibleUserRoles } from '../../../../shared/helpers/common-helpers';
 
 const { Option } = Select;
 
 const AddEditUserForm = ({
-  visible, onCreate, onCancel, isEditView,
+  visible, onCreate, onCancel, isEditView, loggedInUserInfo,
 }) => {
   const [form] = Form.useForm();
+  const userRoles = getAccessibleUserRoles(loggedInUserInfo.role);
+  console.log(userRoles, loggedInUserInfo.role);
   return (
     <Modal
       visible={visible}
@@ -97,6 +100,7 @@ AddEditUserForm.propTypes = {
   onCreate: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   isEditView: PropTypes.bool.isRequired,
+  loggedInUserInfo: userShape.isRequired,
 };
 
 export default AddEditUserForm;

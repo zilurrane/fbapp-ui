@@ -6,10 +6,12 @@ import { Button } from 'antd';
 import UsersTable from './UsersTable';
 import AddEditUserForm from './AddEditUserForm';
 import { createUser } from '../../../../redux/actions/tenantActions';
+import { userShape } from '../../../../shared/shapes';
 
 class UsersCard extends Component {
   static propTypes = {
     createUser: PropTypes.func.isRequired,
+    loggedInUserInfo: userShape.isRequired,
   }
 
   state = { visible: false };
@@ -53,6 +55,7 @@ class UsersCard extends Component {
           </Row>
         </Col>
         <AddEditUserForm
+          loggedInUserInfo={this.props.loggedInUserInfo}
           visible={this.state.visible}
           isEditView={false}
           onCreate={values => this.onCreate(values)}
@@ -65,6 +68,6 @@ class UsersCard extends Component {
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({ loggedInUserInfo: state.auth.loggedInUserInfo || {} });
 const mapDispatchToProps = { createUser };
 export default connect(mapStateToProps, mapDispatchToProps)(UsersCard);

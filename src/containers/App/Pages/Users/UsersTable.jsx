@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
 import { getAllUsers } from '../../../../redux/actions/tenantActions';
+import { userRolesMap } from '../../../../shared/constants/common-constants';
 
 class UsersTable extends Component {
   static propTypes = {
@@ -42,7 +43,7 @@ class UsersTable extends Component {
                   <tr key={user._id}>
                     <td>{index + 1}</td>
                     <td>{user.userName}</td>
-                    <td>{user.role}</td>
+                    <td>{userRolesMap[user.role]}</td>
                     <td>{user.email}</td>
                     <td>{user.isActive ? 'Active' : 'In-Active'}</td>
                   </tr>
