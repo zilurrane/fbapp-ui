@@ -92,3 +92,7 @@ svg {
 .table th, .table td {
     vertical-align: middle;
 }
+
+table tr.app-loader-tr {
+    height: 120px;
+}

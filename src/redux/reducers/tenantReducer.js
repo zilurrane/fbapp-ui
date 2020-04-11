@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 const reducer = (state = {
-  tenants: [], isTenantsLoadingInProgress: false, selectedTenant: {}, users: [],
+  tenants: [], isTenantsLoadingInProgress: false, isUsersLoadingInProgress: false, selectedTenant: {}, users: [],
 }, action) => {
   switch (action.type) {
     case 'GET_TENANTS':
@@ -11,7 +11,7 @@ const reducer = (state = {
     case 'GET_USERS':
       return {
         ...state,
-        isUserssLoadingInProgress: true,
+        isUsersLoadingInProgress: true,
       };
     case 'TENANTS_RECEIVED': {
       let selectedTenant = {};
@@ -31,7 +31,7 @@ const reducer = (state = {
       return {
         ...state,
         users: action.payload.users,
-        isUserssLoadingInProgress: false,
+        isUsersLoadingInProgress: false,
       };
     }
     case 'SET_SELECTED_TENANT':
