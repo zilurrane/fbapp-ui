@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, Form, Input, Radio, Select } from 'antd';
 import { userShape } from '../../../../shared/shapes';
 import { getAccessibleUserRoles } from '../../../../shared/helpers/common-helpers';
+import { formItemLayout } from '../../../../shared/constants/layouts';
 
 const { Option } = Select;
 
@@ -32,9 +33,9 @@ const AddEditUserForm = ({
       }}
     >
       <Form
+        {...formItemLayout}
         form={form}
-        layout="vertical"
-        name="form_in_modal"
+        name="add_edit_user_form_modal"
         initialValues={selectedUser}
       >
         <Form.Item
@@ -76,13 +77,22 @@ const AddEditUserForm = ({
             {
               type: 'email',
               required: true,
-              message: 'Please enter tenant e-mail!',
+              message: 'Please enter user e-mail!',
             },
           ]}
         >
           <Input />
         </Form.Item>
-        <Form.Item name="isActive">
+        <Form.Item
+          name="isActive"
+          label="Status"
+          rules={[
+            {
+              required: true,
+              message: 'Please select user status!',
+            },
+          ]}
+        >
           <Radio.Group>
             <Radio value>Active</Radio>
             <Radio value={false} >In-Active</Radio>
