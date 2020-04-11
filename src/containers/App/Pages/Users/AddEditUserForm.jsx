@@ -84,8 +84,8 @@ const AddEditUserForm = ({
         </Form.Item>
         <Form.Item name="isActive">
           <Radio.Group>
-            <Radio value="true">Active</Radio>
-            <Radio value="false">In-Active</Radio>
+            <Radio value>Active</Radio>
+            <Radio value={false} >In-Active</Radio>
           </Radio.Group>
         </Form.Item>
       </Form>

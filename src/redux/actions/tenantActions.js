@@ -20,3 +20,8 @@ export const createUser = userRequest => ({
   type: 'CREATE_USER',
   userRequest,
 });
+
+export const updateUser = userRequest => ({
+  type: 'UPDATE_USER',
+  userRequest,
+});

@@ -57,7 +57,7 @@ class UsersTable extends Component {
                 ))
                 :
                 <tr>
-                  <td colSpan="5">No users found!</td>
+                  <td colSpan="6">No users found!</td>
                 </tr>
             }
           </tbody>

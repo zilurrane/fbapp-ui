@@ -7,19 +7,24 @@ import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import UsersTable from './UsersTable';
 import AddEditUserForm from './AddEditUserForm';
-import { createUser } from '../../../../redux/actions/tenantActions';
+import { createUser, updateUser } from '../../../../redux/actions/tenantActions';
 import { userShape } from '../../../../shared/shapes';
 
 class UsersCard extends Component {
   static propTypes = {
     createUser: PropTypes.func.isRequired,
+    updateUser: PropTypes.func.isRequired,
     loggedInUserInfo: userShape.isRequired,
   }
 
   state = { visible: false, selectedUser: undefined };
 
-  onCreate(values) {
-    this.props.createUser(values);
+  onCreate(data) {
+    if (this.state.selectedUser) {
+      this.props.updateUser({ query: { _id: this.state.selectedUser._id }, data });
+    } else {
+      this.props.createUser(data);
+    }
     this.setVisible(false);
   }
 
@@ -66,9 +71,9 @@ class UsersCard extends Component {
         <AddEditUserForm
           loggedInUserInfo={this.props.loggedInUserInfo}
           selectedUser={this.state.selectedUser}
-          key={(this.state.selectedUser || {})._id || Math.random()}
+          key={Math.random()}
           visible={this.state.visible}
-          isEditView={false}
+          isEditView={!!this.state.selectedUser}
           onCreate={values => this.onCreate(values)}
           onCancel={() => {
             this.setVisible(false);
@@ -80,5 +85,5 @@ class UsersCard extends Component {
 }
 
 const mapStateToProps = state => ({ loggedInUserInfo: state.auth.loggedInUserInfo || {} });
-const mapDispatchToProps = { createUser };
+const mapDispatchToProps = { createUser, updateUser };
 export default connect(mapStateToProps, mapDispatchToProps)(UsersCard);

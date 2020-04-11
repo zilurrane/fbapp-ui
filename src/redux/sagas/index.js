@@ -263,6 +263,13 @@ function* createUser({ userRequest }) {
   yield put({ type: 'GET_USERS' });
 }
 
+function* updateUser({ userRequest }) {
+  const tenantId = yield select(getSelectedTenantId);
+  const postBody = JSON.stringify(userRequest);
+  yield callApi(`${baseApiUrl}users/update`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'PUT', body: postBody }).then(res => res.json());
+  yield put({ type: 'GET_USERS' });
+}
+
 function* onTenantChange() {
   yield put({ type: 'GET_DEPARTMENTS' });
   yield put({ type: 'GET_USERS' });
@@ -292,6 +299,7 @@ function* actionWatcher() {
     takeLatest('CREATE_TENANT', createTenant),
     takeLatest('GET_USERS', getUsers),
     takeLatest('CREATE_USER', createUser),
+    takeLatest('UPDATE_USER', updateUser),
     takeLatest('SET_SELECTED_TENANT', onTenantChange),
   ]);
 }
