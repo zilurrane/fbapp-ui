@@ -1,8 +1,10 @@
+/* eslint-disable no-underscore-dangle */
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Card, CardBody, Row, Col } from 'reactstrap';
 import { Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import UsersTable from './UsersTable';
 import AddEditUserForm from './AddEditUserForm';
 import { createUser } from '../../../../redux/actions/tenantActions';
@@ -14,16 +16,23 @@ class UsersCard extends Component {
     loggedInUserInfo: userShape.isRequired,
   }
 
-  state = { visible: false };
+  state = { visible: false, selectedUser: undefined };
 
   onCreate(values) {
-    console.log('Received values of form: ', values);
     this.props.createUser(values);
     this.setVisible(false);
   }
 
   setVisible(value) {
     this.setState({ visible: value });
+  }
+
+  openEditUserPopup(selectedUser) {
+    this.setState({ visible: true, selectedUser });
+  }
+
+  openAddUserPopup() {
+    this.setState({ visible: true, selectedUser: undefined });
   }
 
   render() {
@@ -40,11 +49,11 @@ class UsersCard extends Component {
                         <div>
                           <div className="card__title">
                             <h5 className="bold-text">&nbsp;</h5>
-                            <Button className="card__actions" type="primary" onClick={() => this.setVisible(true)}>
-                              Add
+                            <Button className="card__actions" type="primary" icon={<PlusOutlined />} onClick={() => this.openAddUserPopup()}>
+                              Add User
                             </Button>
                           </div>
-                          <UsersTable />
+                          <UsersTable openEditUserPopup={selectedUser => this.openEditUserPopup(selectedUser)} />
                         </div>
                       </Col>
                     </Row>
@@ -56,6 +65,8 @@ class UsersCard extends Component {
         </Col>
         <AddEditUserForm
           loggedInUserInfo={this.props.loggedInUserInfo}
+          selectedUser={this.state.selectedUser}
+          key={(this.state.selectedUser || {})._id || Math.random()}
           visible={this.state.visible}
           isEditView={false}
           onCreate={values => this.onCreate(values)}

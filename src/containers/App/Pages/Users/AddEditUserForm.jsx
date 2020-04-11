@@ -7,11 +7,11 @@ import { getAccessibleUserRoles } from '../../../../shared/helpers/common-helper
 const { Option } = Select;
 
 const AddEditUserForm = ({
-  visible, onCreate, onCancel, isEditView, loggedInUserInfo,
+  visible, onCreate, onCancel, isEditView, loggedInUserInfo, selectedUser,
 }) => {
   const [form] = Form.useForm();
   const userRoles = getAccessibleUserRoles(loggedInUserInfo.role);
-  console.log(userRoles, loggedInUserInfo.role);
+
   return (
     <Modal
       visible={visible}
@@ -35,9 +35,7 @@ const AddEditUserForm = ({
         form={form}
         layout="vertical"
         name="form_in_modal"
-        initialValues={{
-          isActive: 'true',
-        }}
+        initialValues={selectedUser}
       >
         <Form.Item
           name="userName"
@@ -101,6 +99,11 @@ AddEditUserForm.propTypes = {
   onCancel: PropTypes.func.isRequired,
   isEditView: PropTypes.bool.isRequired,
   loggedInUserInfo: userShape.isRequired,
+  selectedUser: userShape,
+};
+
+AddEditUserForm.defaultProps = {
+  selectedUser: undefined,
 };
 
 export default AddEditUserForm;
