@@ -7,6 +7,7 @@ import { Button } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import { getAllUsers } from '../../../../redux/actions/tenantActions';
 import { userRolesMap } from '../../../../shared/constants/common-constants';
+import { ActiveStatus } from '../../../../shared/components/ActiveStatus';
 
 class UsersTable extends Component {
   static propTypes = {
@@ -36,7 +37,7 @@ class UsersTable extends Component {
               <th>User Name</th>
               <th>Role</th>
               <th>E-Mail</th>
-              <th>Status</th>
+              <th className="text-center">Status</th>
               <th className="text-center">Actions</th>
             </tr>
           </thead>
@@ -49,7 +50,9 @@ class UsersTable extends Component {
                     <td>{user.userName}</td>
                     <td>{userRolesMap[user.role]}</td>
                     <td>{user.email}</td>
-                    <td>{user.isActive ? 'Active' : 'In-Active'}</td>
+                    <td className="text-center">
+                      <ActiveStatus isActive={user.isActive} />
+                    </td>
                     <td className="text-center">
                       <Button type="primary" onClick={() => this.props.openEditUserPopup(user)} icon={<EditOutlined />} />
                     </td>
