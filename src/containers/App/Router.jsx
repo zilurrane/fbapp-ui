@@ -20,14 +20,20 @@ import StudentsPage from './Pages/Students';
 import BackupPage from './Pages/Backup';
 import analyticsPage from './Pages/Analytics';
 import EvaluationFormPage from '../Evaluation/Form';
+import { studentRoleValue } from '../../shared/constants/common-constants';
 
-const ProtectedRouteComponent = ({ isUserLoggedIn, selectedTenant, ...props }) => (
+const ProtectedRouteComponent = ({
+  isUserLoggedIn,
+  loggedInUserInfo,
+  selectedTenant,
+  ...props
+}) => (
   isUserLoggedIn
-    ? (selectedTenant && selectedTenant._id ? <Route {...props} /> : <div>Please select any tenant</div>)
+    ? (((selectedTenant && selectedTenant._id) || loggedInUserInfo.role === studentRoleValue) ? <Route {...props} /> : <div>Please select any tenant</div>)
     :
     <Redirect to="/auth/login" />);
 
-const mapStateToProps = state => ({ isUserLoggedIn: state.auth.isUserLoggedIn, selectedTenant: state.tenant.selectedTenant });
+const mapStateToProps = state => ({ isUserLoggedIn: state.auth.isUserLoggedIn, selectedTenant: state.tenant.selectedTenant, loggedInUserInfo: state.auth.loggedInUserInfo });
 const mapDispatchToProps = null;
 const ProtectedRoute = connect(mapStateToProps, mapDispatchToProps)(ProtectedRouteComponent);
 
