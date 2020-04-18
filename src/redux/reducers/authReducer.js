@@ -40,9 +40,13 @@ const reducer = (state = {
         isUserLoggedIn: false,
       };
     case 'VERIFY_ACCOUNT':
+      logOutUser();
       return {
         ...state,
         isUserAccountVerificationInProgress: true,
+        loggedInUserInfo: {},
+        isLoginInProgress: false,
+        isUserLoggedIn: false,
       };
     case 'VERIFY_ACCOUNT_SUCCESS':
       return {

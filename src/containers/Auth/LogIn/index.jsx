@@ -28,7 +28,7 @@ const LogIn = ({
     confirmUserAccountAction(match.params.token);
   }
 
-  if (isUserLoggedIn) {
+  if (isUserLoggedIn && !isAccountConfirmationRoute) {
     switch (loggedInUserInfo.role) {
       case 5:
         return <Redirect to="/evaluation/form" />;
@@ -47,7 +47,7 @@ const LogIn = ({
       <div className="account__wrapper">
         <div className="alert-container">
           {
-            isAccountConfirmationRoute && userAccountVerificationMessage &&
+            match.params.token && userAccountVerificationMessage &&
             <Alert
               message={isUserAccountVerified ? 'Verification Successful!' : 'Verification Failed'}
               description={userAccountVerificationMessage}
@@ -98,12 +98,13 @@ LogIn.defaultProps = {
   },
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, props) => ({
   isUserLoggedIn: state.auth.isUserLoggedIn,
   loggedInUserInfo: state.auth.loggedInUserInfo,
   isUserAccountVerified: state.auth.isUserAccountVerified,
   isUserAccountVerificationInProgress: state.auth.isUserAccountVerificationInProgress,
   userAccountVerificationMessage: state.auth.userAccountVerificationMessage,
+  isAccountConfirmationRoute: state.auth.userAccountVerificationMessage ? false : props.isAccountConfirmationRoute,
 });
 
 const mapDispatchToProps = {
