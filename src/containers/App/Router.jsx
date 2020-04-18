@@ -39,7 +39,16 @@ const ProtectedRoute = connect(mapStateToProps, mapDispatchToProps)(ProtectedRou
 
 const authRoutes = () => (
   <Switch>
-    <Route exact path="/auth/login" component={LogIn} />
+    <Route
+      exact
+      path="/auth/login"
+      component={LogIn}
+    />
+    <Route
+      exact
+      path="/auth/account/confirm/:token"
+      render={props => <LogIn {...props} isAccountConfirmationRoute />}
+    />
   </Switch>
 );
 

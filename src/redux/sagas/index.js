@@ -275,6 +275,18 @@ function* onTenantChange() {
   yield put({ type: 'GET_USERS' });
 }
 
+function* verifyAccount({ token }) {
+  const tenantId = yield select(getSelectedTenantId);
+  const requestBody = JSON.stringify({ token });
+  const response = yield callApi(`${baseApiUrl}auth/account/confirm`,
+    tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: requestBody }).then(res => res.json());
+  if (response && response.data && response.data.message) {
+    yield put({ type: 'VERIFY_ACCOUNT_SUCCESS', payload: response.data.message });
+  } else if (response && response.error && response.error.message) {
+    yield put({ type: 'VERIFY_ACCOUNT_FAILURE', payload: response.error.message });
+  }
+}
+
 function* actionWatcher() {
   yield all([
     takeLatest('GET_DEPARTMENTS', getAllDepartments),
@@ -301,6 +313,7 @@ function* actionWatcher() {
     takeLatest('CREATE_USER', createUser),
     takeLatest('UPDATE_USER', updateUser),
     takeLatest('SET_SELECTED_TENANT', onTenantChange),
+    takeLatest('VERIFY_ACCOUNT', verifyAccount),
   ]);
 }
 
