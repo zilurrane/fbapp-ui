@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SidebarLink from './SidebarLink';
-import SidebarCategory from './SidebarCategory';
 
 class SidebarContent extends Component {
   static propTypes = {
-    changeToDark: PropTypes.func.isRequired,
-    changeToLight: PropTypes.func.isRequired,
     onClick: PropTypes.func.isRequired,
   };
 
@@ -18,16 +15,6 @@ class SidebarContent extends Component {
     return (
       <div className="sidebar__content">
         <ul className="sidebar__block">
-          <SidebarCategory title="Theme" icon="layers">
-            <button className="sidebar__link" onClick={this.props.changeToLight}>
-              <p className="sidebar__link-title">Light Theme</p>
-            </button>
-            <button className="sidebar__link" onClick={this.props.changeToDark}>
-              <p className="sidebar__link-title">Dark Theme</p>
-            </button>
-          </SidebarCategory>
-        </ul>
-        <ul className="sidebar__block">
           <SidebarLink icon="home" title="Dashboard" route="/app/dashboard" onClick={this.hideSidebar} />
           <SidebarLink icon="list" title="Tenants" route="/app/tenants" onClick={this.hideSidebar} />
           <SidebarLink icon="user" title="Users" route="/app/users" onClick={this.hideSidebar} />
@@ -37,12 +24,6 @@ class SidebarContent extends Component {
           <SidebarLink icon="user" title="Students" route="/app/students" onClick={this.hideSidebar} />
           <SidebarLink icon="chart-bars" title="Analytics" route="/app/analytics" onClick={this.hideSidebar} />
           <SidebarLink icon="layers" title="Backup" route="/app/backup" onClick={this.hideSidebar} />
-        </ul>
-        <ul className="sidebar__block">
-          <SidebarCategory title="Example Pages" icon="diamond">
-            <SidebarLink title="Page one" route="/app/one" onClick={this.hideSidebar} />
-            <SidebarLink title="Page two" route="/app/two" onClick={this.hideSidebar} />
-          </SidebarCategory>
         </ul>
       </div>
     );
