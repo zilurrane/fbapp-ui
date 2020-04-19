@@ -28,7 +28,6 @@ class FacultiesTable extends Component {
         <thead>
           <tr>
             <th className="text-center">#</th>
-            <th>Id</th>
             <th>Name</th>
             <th>E-Mail</th>
             <th>Qualification</th>
@@ -40,7 +39,6 @@ class FacultiesTable extends Component {
             faculties.map((d, index) => (
               <tr key={index + 1}>
                 <th scope="row" className="text-center">{index + 1}</th>
-                <td>{d.id}</td>
                 <td>{d.name}</td>
                 <td>{d.email}</td>
                 <td>{d.qualification}</td>
@@ -51,7 +49,7 @@ class FacultiesTable extends Component {
           {
             faculties.length === 0 &&
             <tr>
-              <td colSpan="6">No faculties found!</td>
+              <td colSpan="5">No faculties found!</td>
             </tr>
           }
         </tbody>

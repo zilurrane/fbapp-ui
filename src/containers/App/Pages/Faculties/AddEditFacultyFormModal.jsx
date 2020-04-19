@@ -31,11 +31,6 @@ class AddEditFacultyFormModal extends Component {
         onOk={onCreate}
       >
         <Form {...formItemLayout}>
-          <Form.Item label="Id">
-            {getFieldDecorator('id', {
-              rules: [{ required: true, message: 'Please input the faculty id!' }],
-            })(<Input />)}
-          </Form.Item>
           <Form.Item label="Name">
             {getFieldDecorator('name', {
               rules: [{ required: true, message: 'Please input the faculty name!' }],
