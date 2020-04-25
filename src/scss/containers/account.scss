@@ -4,6 +4,7 @@
   min-height: 100vh;
   display: flex;
   overflow-y: auto;
+  flex-direction: column;
 
   @include themify($themes) {
     background: themed('colorBackgroundBody');

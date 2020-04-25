@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Alert } from 'antd';
 import LogInForm from './components/LogInForm';
 import { loginUser, confirmUserAccount } from '../../../redux/actions/authActions';
+import AppFooter from '../../Layout/footer/Footer';
 
 const onLoginFormSubmit = (formValues, loginUserAction) => {
   const { userName, password } = formValues;
@@ -43,31 +44,34 @@ const LogIn = ({
   }
 
   return (
-    <div className="account">
-      <div className="account__wrapper">
-        <div className="alert-container">
-          {
-            match.params.token && userAccountVerificationMessage &&
-            <Alert
-              message={isUserAccountVerified ? 'Verification Successful!' : 'Verification Failed'}
-              description={userAccountVerificationMessage}
-              type={isUserAccountVerified ? 'success' : 'error'}
-            />
-          }
-        </div>
-        <div className="account__card">
-          <div className="account__head">
-            <h3 className="account__title">Welcome to
-              <span className="account__logo"> Fb
-                <span className="account__logo-accent">App</span>
-              </span>
-            </h3>
-            <h4 className="account__subhead subhead">Feedback Analytics that matters!!!</h4>
+    <Fragment>
+      <div className="account">
+        <div className="account__wrapper">
+          <div className="alert-container">
+            {
+              match.params.token && userAccountVerificationMessage &&
+              <Alert
+                message={isUserAccountVerified ? 'Verification Successful!' : 'Verification Failed'}
+                description={userAccountVerificationMessage}
+                type={isUserAccountVerified ? 'success' : 'error'}
+              />
+            }
           </div>
-          <LogInForm onSubmit={formValues => onLoginFormSubmit(formValues, loginUserAction)} />
+          <div className="account__card">
+            <div className="account__head">
+              <h3 className="account__title">Welcome to
+                <span className="account__logo"> Fb
+                  <span className="account__logo-accent">App</span>
+                </span>
+              </h3>
+              <h4 className="account__subhead subhead">Feedback Analytics that matters!!!</h4>
+            </div>
+            <LogInForm onSubmit={formValues => onLoginFormSubmit(formValues, loginUserAction)} />
+          </div>
         </div>
+        <AppFooter />
       </div>
-    </div>);
+    </Fragment>);
 };
 
 LogIn.propTypes = {
