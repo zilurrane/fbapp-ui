@@ -41,7 +41,7 @@ class StudentsCard extends Component {
                   students && students.length > 0 ?
                     (
                       students.map((student, index) => (
-                        <Col key={index + 1} span={3}>
+                        <Col key={index + 1}>
                           <Checkbox checked={student.user.isActive}>{student.user.userName}</Checkbox>
                         </Col>
                       ),
