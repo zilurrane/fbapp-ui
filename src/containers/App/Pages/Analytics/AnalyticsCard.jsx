@@ -12,6 +12,9 @@ class AnalyticsCard extends Component {
   static propTypes = {
     departmentCode: PropTypes.string.isRequired,
     classCode: PropTypes.string.isRequired,
+    departmentName: PropTypes.string.isRequired,
+    className: PropTypes.string.isRequired,
+    facultiesFeedbackSummary: PropTypes.arrayOf(PropTypes.object).isRequired,
   };
 
   constructor() {
@@ -27,7 +30,14 @@ class AnalyticsCard extends Component {
 
   downloadFeedback = () => {
     let filename;
-    const postBody = JSON.stringify({});
+    const data = this.props.facultiesFeedbackSummary.map(feedback => ({ name: feedback.faculty.name, feedback: feedback.feedback.percentage }));
+    const postBody = JSON.stringify({
+      meta: {
+        department: { code: this.props.departmentCode, name: this.props.departmentName },
+        class: { code: this.props.classCode, name: this.props.className },
+      },
+      data,
+    });
     callUnAuthApi('https://fbapp-report-api.cfapps.io/report/faculty/feedback/comparison', { method: 'POST', body: postBody })
       .then((response) => {
         if (response.status === 200) {
@@ -78,6 +88,8 @@ class AnalyticsCard extends Component {
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state, props) => ({
+  facultiesFeedbackSummary: ((state.feedback.facultiesFeedbackSummary[props.departmentCode] || {})[props.classCode] || []),
+});
 const mapDispatchToProps = null;
 export default connect(mapStateToProps, mapDispatchToProps)(AnalyticsCard);

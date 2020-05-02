@@ -52,7 +52,7 @@ class DepartmentsTabs extends Component {
                     {
                       departments.map(department => (
                         <TabPane tab={`${department.name}`} key={department.code}>
-                          <ClassesTabs departmentCode={departmentCode} />
+                          <ClassesTabs departmentCode={departmentCode} departmentName={department.name} />
                         </TabPane>
                       ))
                     }
