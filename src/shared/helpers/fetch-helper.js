@@ -11,3 +11,10 @@ export const callApi = (requestInfoParams, tenantId, requestInitParams = {}) => 
     },
   });
 };
+
+export const callUnAuthApi = (requestInfoParams, requestInitParams = {}) => fetch(requestInfoParams, {
+  ...requestInitParams,
+  headers: {
+    ...requestInitParams.headers,
+  },
+});

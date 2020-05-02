@@ -1,9 +1,12 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
-import { Card, PageHeader } from 'antd';
+import { Card, PageHeader, Button } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
+import { saveAs } from 'file-saver';
 import FacultyComparisonGraph from './FacultyComparisonGraph';
 import FacultyGraph from './FacultyGraph';
+import { callUnAuthApi } from '../../../../shared/helpers/fetch-helper';
 
 class AnalyticsCard extends Component {
   static propTypes = {
@@ -22,6 +25,24 @@ class AnalyticsCard extends Component {
     this.setState({ selectedFaculty });
   }
 
+  downloadFeedback = () => {
+    let filename;
+    const postBody = JSON.stringify({});
+    callUnAuthApi('https://fbapp-report-api.cfapps.io/report/faculty/feedback/comparison', { method: 'POST', body: postBody })
+      .then((response) => {
+        if (response.status === 200) {
+          filename = response.headers.get('content-disposition');
+          // eslint-disable-next-line prefer-destructuring
+          filename = filename.split('filename=')[1];
+          return response.blob();
+        }
+        return new Promise();
+      })
+      .then((body) => {
+        saveAs(body, filename, { type: 'application/octet-stream' });
+      });
+  }
+
   render() {
     const { departmentCode, classCode } = this.props;
 
@@ -33,7 +54,7 @@ class AnalyticsCard extends Component {
 
     return (
       <Fragment>
-        <Card title={cardTitle} extra={<b>Action</b>}>
+        <Card title={cardTitle} extra={<Button onClick={() => this.downloadFeedback()} icon={<DownloadOutlined />} />}>
           {
             this.state.selectedFaculty
               ?
