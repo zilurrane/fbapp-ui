@@ -11,6 +11,7 @@
     "case-sensitive-paths-webpack-plugin": "2.1.2",
     "chalk": "2.4.1",
     "classnames": "^2.2.6",
+    "copyfiles": "^2.2.0",
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
     "file-loader": "2.0.0",
@@ -52,8 +53,10 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "node scripts/build.js && npm run copy:files",
     "test": "node scripts/test.js",
+    "copy:files": "copyfiles manifest.yml Staticfile build",
+    "deploy": "npm run build && cd build && cf push",
     "lint:fix": "npx eslint src --fix"
   },
   "devDependencies": {
