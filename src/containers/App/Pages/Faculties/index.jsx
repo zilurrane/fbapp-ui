@@ -1,6 +1,7 @@
 import React from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import FacultiesCard from './FacultiesCard';
+import DepartmentsTabs from '../../../../shared/components/tabs/DepartmentsTabs';
 
 const FacultiesPage = () => (
   <Container className="dashboard">
@@ -10,7 +11,7 @@ const FacultiesPage = () => (
       </Col>
     </Row>
     <Row>
-      <FacultiesCard />
+      <DepartmentsTabs component={FacultiesCard} isLoadClasses={false} />
     </Row>
   </Container>
 );
