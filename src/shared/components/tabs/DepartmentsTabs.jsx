@@ -14,7 +14,12 @@ class DepartmentsTabs extends Component {
     getAllClassesByDepartmentCode: PropTypes.func.isRequired,
     departments: PropTypes.arrayOf(PropTypes.object).isRequired,
     component: PropTypes.func.isRequired,
+    isLoadClasses: PropTypes.bool,
   };
+
+  static defaultProps = {
+    isLoadClasses: true,
+  }
 
   state = { departmentCode: undefined };
 
@@ -30,11 +35,13 @@ class DepartmentsTabs extends Component {
 
   handleDepartmentChange = (value) => {
     this.setState({ departmentCode: value });
-    this.props.getAllClassesByDepartmentCode(value);
+    if (this.props.isLoadClasses) {
+      this.props.getAllClassesByDepartmentCode(value);
+    }
   }
 
   render() {
-    const { departments, component } = this.props;
+    const { departments, isLoadClasses, component: ChildComponent } = this.props;
     const { departmentCode } = this.state;
 
     return (
@@ -48,7 +55,12 @@ class DepartmentsTabs extends Component {
                     {
                       departments.map(department => (
                         <TabPane tab={`${department.name}`} key={department.code}>
-                          <ClassesTabs departmentCode={departmentCode} component={component} />
+                          {
+                            isLoadClasses ?
+                              <ClassesTabs departmentCode={departmentCode} component={ChildComponent} />
+                            :
+                              <ChildComponent departmentCode={departmentCode} />
+                          }
                         </TabPane>
                       ))
                     }
