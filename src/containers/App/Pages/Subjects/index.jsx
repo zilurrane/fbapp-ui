@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Container, Row } from 'reactstrap';
-import DepartmentsTabs from './DepartmentsTabs';
+import DepartmentsTabs from '../../../../shared/components/tabs/DepartmentsTabs';
 
 const SubjectsPage = () => (
   <Container className="dashboard">

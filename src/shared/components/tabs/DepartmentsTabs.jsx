@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Row } from 'reactstrap';
 import { Tabs } from 'antd';
 import { connect } from 'react-redux';
-import { getAllDepartments, getAllClassesByDepartmentCode } from '../../../../redux/actions/departmentActions';
+import { getAllDepartments, getAllClassesByDepartmentCode } from '../../../redux/actions/departmentActions';
 import ClassesTabs from './ClassesTabs';
 
 const { TabPane } = Tabs;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'reactstrap';
 import { Tabs } from 'antd';
 import { connect } from 'react-redux';
-import SubjectsCard from './SubjectsCard';
+import SubjectsCard from '../../../containers/App/Pages/Subjects/SubjectsCard';
 
 const { TabPane } = Tabs;
 
