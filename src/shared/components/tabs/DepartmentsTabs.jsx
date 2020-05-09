@@ -13,6 +13,7 @@ class DepartmentsTabs extends Component {
     getAllDepartments: PropTypes.func.isRequired,
     getAllClassesByDepartmentCode: PropTypes.func.isRequired,
     departments: PropTypes.arrayOf(PropTypes.object).isRequired,
+    component: PropTypes.func.isRequired,
   };
 
   state = { departmentCode: undefined };
@@ -33,7 +34,7 @@ class DepartmentsTabs extends Component {
   }
 
   render() {
-    const { departments } = this.props;
+    const { departments, component } = this.props;
     const { departmentCode } = this.state;
 
     return (
@@ -47,7 +48,7 @@ class DepartmentsTabs extends Component {
                     {
                       departments.map(department => (
                         <TabPane tab={`${department.name}`} key={department.code}>
-                          <ClassesTabs departmentCode={departmentCode} />
+                          <ClassesTabs departmentCode={departmentCode} component={component} />
                         </TabPane>
                       ))
                     }

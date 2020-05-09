@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'reactstrap';
 import { Tabs } from 'antd';
 import { connect } from 'react-redux';
-import SubjectsCard from '../../../containers/App/Pages/Subjects/SubjectsCard';
 
 const { TabPane } = Tabs;
 
@@ -11,6 +10,7 @@ class ClassesTabs extends Component {
   static propTypes = {
     departmentCode: PropTypes.string.isRequired,
     classesByDepartmentCode: PropTypes.arrayOf(PropTypes.object).isRequired,
+    component: PropTypes.func.isRequired,
   };
 
   state = { classCode: undefined };
@@ -26,7 +26,7 @@ class ClassesTabs extends Component {
   }
 
   render() {
-    const { departmentCode, classesByDepartmentCode } = this.props;
+    const { departmentCode, classesByDepartmentCode, component: ChildComponent } = this.props;
     const { classCode } = this.state;
 
     return (
@@ -37,7 +37,7 @@ class ClassesTabs extends Component {
               {
                 classesByDepartmentCode.map(departmentClass => (
                   <TabPane tab={`${departmentClass.name}`} key={departmentClass.code}>
-                    <SubjectsCard departmentCode={departmentCode} classCode={departmentClass.code} />
+                    <ChildComponent departmentCode={departmentCode} classCode={departmentClass.code} />
                   </TabPane>
                 ))
               }
