@@ -1,15 +1,14 @@
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
-import { Modal, Tabs, Checkbox, Select } from 'antd';
+import { Modal, Tabs, Checkbox } from 'antd';
 import PropTypes, { string } from 'prop-types';
 import { connect } from 'react-redux';
-import { Col, Row } from 'reactstrap';
 import { transformKeyToLabel } from '../../../../shared/helpers/array-helpers';
 import { subjectParameters } from '../../../../shared/constants/common-constants';
 import { getAllFacultiesByDepartmentCode, linkFacultyToSubject } from '../../../../redux/actions/departmentActions';
+import FacultySelection from './FacultySelection';
 
 const { TabPane } = Tabs;
-const { Option } = Select;
 
 class LinkFacultyToSubjectModal extends Component {
   static propTypes = {
@@ -23,9 +22,7 @@ class LinkFacultyToSubjectModal extends Component {
       name: PropTypes.string.isRequired,
       parameters: PropTypes.arrayOf(string).isRequired,
     }).isRequired,
-    departments: PropTypes.arrayOf(PropTypes.object).isRequired,
     getAllFacultiesByDepartmentCode: PropTypes.func.isRequired,
-    faculties: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
     linkedFaculties: PropTypes.arrayOf(PropTypes.object).isRequired,
   };
 
@@ -34,8 +31,9 @@ class LinkFacultyToSubjectModal extends Component {
     this.onParameterWiseFacultyCheckboxChangeEvent = this.onParameterWiseFacultyCheckboxChange.bind(this);
   }
 
-  state = { isParameterWiseDifferentFaculty: false, departmentCode: undefined, faculty: undefined };
+  state = { isParameterWiseDifferentFaculty: false };
 
+  /*
   static getDerivedStateFromProps(nextProps) {
     let isParameterWiseDifferentFaculty = false;
     if (nextProps.linkedFaculties && nextProps.linkedFaculties.length > 0) {
@@ -49,6 +47,7 @@ class LinkFacultyToSubjectModal extends Component {
       isParameterWiseDifferentFaculty,
     };
   }
+  */
 
   onParameterWiseFacultyCheckboxChange(event) {
     const isParameterWiseDifferentFaculty = event.target.checked;
@@ -56,7 +55,6 @@ class LinkFacultyToSubjectModal extends Component {
   }
 
   handleDepartmentChange = (value) => {
-    this.setState({ departmentCode: value });
     this.props.getAllFacultiesByDepartmentCode(value);
   }
 
@@ -78,10 +76,9 @@ class LinkFacultyToSubjectModal extends Component {
 
   render() {
     const {
-      visible, onCancel, selectedSubject = { parameters: [] }, departments = [], faculties = {}, linkedFaculties,
+      visible, onCancel, selectedSubject = { parameters: [] }, linkedFaculties,
     } = this.props;
-    const { departmentCode, faculty } = this.state;
-    const facultiesPerDepartment = faculties[departmentCode] || [];
+
     // eslint-disable-next-line no-console
     console.log(linkedFaculties, this.state.isParameterWiseDifferentFaculty);
     return (
@@ -101,28 +98,12 @@ class LinkFacultyToSubjectModal extends Component {
             this.state.isParameterWiseDifferentFaculty ?
               selectedSubject.parameters.map(parameter => (
                 <TabPane tab={transformKeyToLabel(parameter, { array: subjectParameters })} key={parameter}>
-                  {parameter}
+                  <FacultySelection />
                 </TabPane>
               ))
               :
               <TabPane tab={selectedSubject.parameters.map(parameter => transformKeyToLabel(parameter, { array: subjectParameters })).join('/')} key="All">
-                <Row>
-                  <Col>
-                    <Select value={departmentCode} style={{ width: '100%' }} onChange={this.handleDepartmentChange} placeholder="Select Department">
-                      {
-                        departments.map(department => <Option value={department.code} key={department.code}> {department.name}</Option>)
-                      }
-                    </Select>
-                  </Col>
-                  <Col>
-                    <Select value={faculty} style={{ width: '100%' }} onChange={this.handleFacultyChange} placeholder="Select Department">
-                      {
-                        // eslint-disable-next-line no-underscore-dangle
-                        facultiesPerDepartment.map(currentFaculty => <Option value={currentFaculty._id} key={currentFaculty._id}> {currentFaculty.name}</Option>)
-                      }
-                    </Select>
-                  </Col>
-                </Row>
+                <FacultySelection />
               </TabPane>
           }
         </Tabs>
