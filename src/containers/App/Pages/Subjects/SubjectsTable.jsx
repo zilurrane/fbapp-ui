@@ -3,10 +3,12 @@ import { Table } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button } from 'antd';
+import { TeamOutlined } from '@ant-design/icons';
 import { getAllSubjectsByDepartmentCodeClassCode, getFacultiesLinkedToSubject } from '../../../../redux/actions/departmentActions';
 import { transformKeyToLabel } from '../../../../shared/helpers/array-helpers';
 import { subjectParameters } from '../../../../shared/constants/common-constants';
 import LinkFacultyToSubjectModal from './LinkFacultyToSubjectModal';
+import { ActiveStatus } from '../../../../shared/components/ActiveStatus';
 
 class SubjectsTable extends Component {
   static propTypes = {
@@ -66,11 +68,11 @@ class SubjectsTable extends Component {
                   <td>{subject.code}</td>
                   <td>{subject.name}</td>
                   <td>{transformKeyToLabel(subject.parameters, { array: subjectParameters, isCsv: true })}</td>
-                  <td className="text-center">{subject.isActive ? 'Active' : 'In-Active'}</td>
                   <td className="text-center">
-                    <Button type="link" onClick={() => this.showLinkFacultyToSubjectModal(subject)}>
-                      Link
-                    </Button>
+                    <ActiveStatus isActive={subject.isActive} />
+                  </td>
+                  <td className="text-center">
+                    <Button size="small" type="primary" icon={<TeamOutlined />} onClick={() => this.showLinkFacultyToSubjectModal(subject)} />
                   </td>
                 </tr>
               ))
