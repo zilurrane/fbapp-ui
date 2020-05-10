@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
 import { Modal, Tabs, Checkbox, Select } from 'antd';
 import PropTypes, { string } from 'prop-types';
@@ -35,6 +36,20 @@ class LinkFacultyToSubjectModal extends Component {
 
   state = { isParameterWiseDifferentFaculty: false, departmentCode: undefined, faculty: undefined };
 
+  static getDerivedStateFromProps(nextProps) {
+    let isParameterWiseDifferentFaculty = false;
+    if (nextProps.linkedFaculties && nextProps.linkedFaculties.length > 0) {
+      const facultyId = nextProps.linkedFaculties[0].faculty._id;
+      const differentFaculty = nextProps.linkedFaculties.find(linkedFaculty => linkedFaculty.faculty._id !== facultyId);
+      if (differentFaculty && differentFaculty._id) {
+        isParameterWiseDifferentFaculty = true;
+      }
+    }
+    return {
+      isParameterWiseDifferentFaculty,
+    };
+  }
+
   onParameterWiseFacultyCheckboxChange(event) {
     const isParameterWiseDifferentFaculty = event.target.checked;
     this.setState({ isParameterWiseDifferentFaculty });
@@ -68,7 +83,7 @@ class LinkFacultyToSubjectModal extends Component {
     const { departmentCode, faculty } = this.state;
     const facultiesPerDepartment = faculties[departmentCode] || [];
     // eslint-disable-next-line no-console
-    console.log(linkedFaculties);
+    console.log(linkedFaculties, this.state.isParameterWiseDifferentFaculty);
     return (
       <Modal
         title="Link Faculty to Subject"
@@ -79,7 +94,7 @@ class LinkFacultyToSubjectModal extends Component {
       >
         {
           selectedSubject.parameters.length > 1 &&
-          <Checkbox onChange={this.onParameterWiseFacultyCheckboxChangeEvent}>Parameter-wise different faculty</Checkbox>
+          <Checkbox checked={this.state.isParameterWiseDifferentFaculty} onChange={this.onParameterWiseFacultyCheckboxChangeEvent}>Parameter-wise different faculty</Checkbox>
         }
         <Tabs size="small">
           {
