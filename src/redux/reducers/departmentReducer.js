@@ -1,5 +1,5 @@
 const reducer = (state = {
-  loading: false, isLoadingDepartments: false, departments: [], classes: {}, subjects: {}, faculties: {}, classFaculties: {}, subjectFacultyLinks: {}, students: {},
+  loading: false, isLoadingDepartments: false, isLoadingClasses: false, departments: [], classes: {}, subjects: {}, faculties: {}, classFaculties: {}, subjectFacultyLinks: {}, students: {},
 }, action) => {
   switch (action.type) {
     case 'GET_DEPARTMENTS':
@@ -9,9 +9,9 @@ const reducer = (state = {
     case 'CREATE_DEPARTMENT':
       return { ...state, loading: true };
     case 'GET_CLASSES_BY_DEPARTMENTCODE':
-      return { ...state, loading: true };
+      return { ...state, isLoadingClasses: true };
     case 'CLASSES_BY_DEPARTMENTCODE_RECEIVED':
-      return { ...state, classes: { ...state.classes, [action.payload.departmentCode]: action.payload.classes }, loading: false };
+      return { ...state, classes: { ...state.classes, [action.payload.departmentCode]: action.payload.classes }, isLoadingClasses: false };
     case 'CREATE_CLASS':
       return { ...state, loading: true };
     case 'GET_SUBJECTS_BY_DEPARTMENTCODE_CLASSCODE':
