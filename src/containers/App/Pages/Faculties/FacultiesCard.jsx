@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Button, Card, Col, Row } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { PlusOutlined } from '@ant-design/icons';
 import { createFaculty } from '../../../../redux/actions/departmentActions';
 import FacultiesTable from './FacultiesTable';
 import AddEditFacultyFormModal from './AddEditFacultyFormModal';
@@ -51,8 +52,8 @@ class FacultiesCard extends Component {
                   <div>
                     <div className="card__title">
                       <h5 className="bold-text">&nbsp;</h5>
-                      <Button className="card__actions" type="primary" onClick={() => this.showAddEditFacultyModal()}>
-                        Add
+                      <Button className="card__actions" type="primary" icon={<PlusOutlined />} onClick={() => this.showAddEditFacultyModal()}>
+                        Add Faculty
                       </Button>
                     </div>
                     <FacultiesTable departmentCode={departmentCode} />

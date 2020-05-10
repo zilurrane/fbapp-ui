@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Table } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { Button } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
+import { ActiveStatus } from '../../../../shared/components/ActiveStatus';
 import { getAllFacultiesByDepartmentCode } from '../../../../redux/actions/departmentActions';
 
 class FacultiesTable extends Component {
@@ -32,6 +35,7 @@ class FacultiesTable extends Component {
             <th>E-Mail</th>
             <th>Qualification</th>
             <th className="text-center">Status</th>
+            <th className="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -42,14 +46,19 @@ class FacultiesTable extends Component {
                 <td>{d.name}</td>
                 <td>{d.email}</td>
                 <td>{d.qualification}</td>
-                <td className="text-center">{d.isActive ? 'Active' : 'In-Active' }</td>
+                <td className="text-center">
+                  <ActiveStatus isActive={d.isActive} />
+                </td>
+                <td className="text-center">
+                  <Button size="small" type="primary" icon={<EditOutlined />} />
+                </td>
               </tr>
             ))
           }
           {
             faculties.length === 0 &&
             <tr>
-              <td colSpan="5">No faculties found!</td>
+              <td colSpan="6">No faculties found!</td>
             </tr>
           }
         </tbody>
