@@ -51,20 +51,25 @@ class DepartmentsTabs extends Component {
             <Col md={12}>
               <Card>
                 <CardBody>
-                  <Tabs activeKey={departmentCode} onChange={this.handleDepartmentChange} className="department-tabs" tabPosition="top">
-                    {
-                      departments.map(department => (
-                        <TabPane tab={`${department.name}`} key={department.code}>
-                          {
-                            isLoadClasses ?
-                              <ClassesTabs departmentCode={departmentCode} component={ChildComponent} />
-                            :
-                              <ChildComponent departmentCode={departmentCode} />
-                          }
-                        </TabPane>
-                      ))
-                    }
-                  </Tabs>
+                  {
+                    departments && departments.length > 0 ?
+                      <Tabs activeKey={departmentCode} onChange={this.handleDepartmentChange} className="department-tabs" tabPosition="top">
+                        {
+                          departments.map(department => (
+                            <TabPane tab={`${department.name}`} key={department.code}>
+                              {
+                                isLoadClasses ?
+                                  <ClassesTabs departmentCode={departmentCode} component={ChildComponent} />
+                                  :
+                                  <ChildComponent departmentCode={departmentCode} />
+                              }
+                            </TabPane>
+                          ))
+                        }
+                      </Tabs>
+                      :
+                      <p>No departments found!</p>
+                  }
                 </CardBody>
               </Card>
             </Col>
