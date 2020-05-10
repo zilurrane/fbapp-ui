@@ -1,11 +1,11 @@
 const reducer = (state = {
-  loading: false, departments: [], classes: {}, subjects: {}, faculties: {}, classFaculties: {}, subjectFacultyLinks: {}, students: {},
+  loading: false, isLoadingDepartments: false, departments: [], classes: {}, subjects: {}, faculties: {}, classFaculties: {}, subjectFacultyLinks: {}, students: {},
 }, action) => {
   switch (action.type) {
     case 'GET_DEPARTMENTS':
-      return { ...state, loading: true };
+      return { ...state, isLoadingDepartments: true };
     case 'DEPARTMENTS_RECEIVED':
-      return { ...state, departments: action.payload, loading: false };
+      return { ...state, departments: action.payload, isLoadingDepartments: false };
     case 'CREATE_DEPARTMENT':
       return { ...state, loading: true };
     case 'GET_CLASSES_BY_DEPARTMENTCODE':

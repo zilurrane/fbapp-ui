@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Row } from 'reactstrap';
@@ -5,11 +6,13 @@ import { Tabs } from 'antd';
 import { connect } from 'react-redux';
 import { getAllDepartments, getAllClassesByDepartmentCode } from '../../../redux/actions/departmentActions';
 import ClassesTabs from './ClassesTabs';
+import { AppLoader } from '../AppLoader';
 
 const { TabPane } = Tabs;
 
 class DepartmentsTabs extends Component {
   static propTypes = {
+    isLoadingDepartments: PropTypes.bool.isRequired,
     getAllDepartments: PropTypes.func.isRequired,
     getAllClassesByDepartmentCode: PropTypes.func.isRequired,
     departments: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -41,7 +44,9 @@ class DepartmentsTabs extends Component {
   }
 
   render() {
-    const { departments, isLoadClasses, component: ChildComponent } = this.props;
+    const {
+      departments, isLoadClasses, component: ChildComponent, isLoadingDepartments,
+    } = this.props;
     const { departmentCode } = this.state;
 
     return (
@@ -50,25 +55,28 @@ class DepartmentsTabs extends Component {
           <Row>
             <Col md={12}>
               <Card>
-                <CardBody>
+                <CardBody className="card-department-tabs-body">
                   {
-                    departments && departments.length > 0 ?
-                      <Tabs activeKey={departmentCode} onChange={this.handleDepartmentChange} className="department-tabs" tabPosition="top">
-                        {
-                          departments.map(department => (
-                            <TabPane tab={`${department.name}`} key={department.code}>
-                              {
-                                isLoadClasses ?
-                                  <ClassesTabs departmentCode={departmentCode} component={ChildComponent} />
-                                  :
-                                  <ChildComponent departmentCode={departmentCode} />
-                              }
-                            </TabPane>
-                          ))
-                        }
-                      </Tabs>
+                    isLoadingDepartments ?
+                      <AppLoader size="large" />
                       :
-                      <p>No departments found!</p>
+                      departments && departments.length > 0 ?
+                        <Tabs activeKey={departmentCode} onChange={this.handleDepartmentChange} className="department-tabs" tabPosition="top">
+                          {
+                            departments.map(department => (
+                              <TabPane tab={`${department.name}`} key={department.code}>
+                                {
+                                  isLoadClasses ?
+                                    <ClassesTabs departmentCode={departmentCode} component={ChildComponent} />
+                                    :
+                                    <ChildComponent departmentCode={departmentCode} />
+                                }
+                              </TabPane>
+                            ))
+                          }
+                        </Tabs>
+                        :
+                        <p>No departments found!</p>
                   }
                 </CardBody>
               </Card>
@@ -80,6 +88,6 @@ class DepartmentsTabs extends Component {
   }
 }
 
-const mapStateToProps = state => ({ departments: state.departments.departments, classes: state.departments.classes || {} });
+const mapStateToProps = state => ({ isLoadingDepartments: state.departments.isLoadingDepartments, departments: state.departments.departments, classes: state.departments.classes || {} });
 const mapDispatchToProps = { getAllDepartments, getAllClassesByDepartmentCode };
 export default connect(mapStateToProps, mapDispatchToProps)(DepartmentsTabs);

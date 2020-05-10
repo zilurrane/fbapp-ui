@@ -21,6 +21,10 @@
 //objects...
 @import 'objects/layout.scss';
 
+.card-department-tabs-body {
+    min-height: 480px;
+}
+
 .department-tabs .ant-tabs-bar {
     margin: 0 !important;
 }
