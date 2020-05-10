@@ -69,7 +69,7 @@ class UsersTable extends Component {
                         <ActiveStatus isActive={user.isActive} />
                       </td>
                       <td className="text-center">
-                        <Button type="primary" onClick={() => this.props.openEditUserPopup(user)} icon={<EditOutlined />} />
+                        <Button size="small" type="primary" onClick={() => this.props.openEditUserPopup(user)} icon={<EditOutlined />} />
                       </td>
                     </tr>
                   ))
