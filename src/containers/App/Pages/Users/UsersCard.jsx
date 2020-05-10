@@ -2,8 +2,7 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card, CardBody, Row, Col } from 'reactstrap';
-import { Button } from 'antd';
+import { Button, Card, Row, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import UsersTable from './UsersTable';
 import AddEditUserForm from './AddEditUserForm';
@@ -43,30 +42,22 @@ class UsersCard extends Component {
   render() {
     return (
       <Fragment>
-        <Col md={12}>
-          <Row>
-            <Col md={12}>
-              <Col md={12}>
-                <Card>
-                  <CardBody>
-                    <Row>
-                      <Col>
-                        <div>
-                          <div className="card__title">
-                            <h5 className="bold-text">&nbsp;</h5>
-                            <Button className="card__actions" type="primary" icon={<PlusOutlined />} onClick={() => this.openAddUserPopup()}>
-                              Add User
-                            </Button>
-                          </div>
-                          <UsersTable openEditUserPopup={selectedUser => this.openEditUserPopup(selectedUser)} />
-                        </div>
-                      </Col>
-                    </Row>
-                  </CardBody>
-                </Card>
+        <Col span={24}>
+          <Card>
+            <Row>
+              <Col span={24}>
+                <div>
+                  <div className="card__title">
+                    <h5 className="bold-text">&nbsp;</h5>
+                    <Button className="card__actions" type="primary" icon={<PlusOutlined />} onClick={() => this.openAddUserPopup()}>
+                      Add User
+                    </Button>
+                  </div>
+                  <UsersTable openEditUserPopup={selectedUser => this.openEditUserPopup(selectedUser)} />
+                </div>
               </Col>
-            </Col>
-          </Row>
+            </Row>
+          </Card>
         </Col>
         <AddEditUserForm
           loggedInUserInfo={this.props.loggedInUserInfo}
