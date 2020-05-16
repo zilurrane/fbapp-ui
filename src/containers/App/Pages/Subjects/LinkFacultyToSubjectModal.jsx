@@ -32,23 +32,30 @@ class LinkFacultyToSubjectModal extends Component {
     this.handleDepartmentChangeEvent = this.handleDepartmentChange.bind(this);
   }
 
-  state = { isParameterWiseDifferentFaculty: false, faculty: [{}] };
+  state = { isParameterWiseDifferentFaculty: false, faculty: [{}], linkedFaculties: [] };
 
-  /*
-  static getDerivedStateFromProps(nextProps) {
-    let isParameterWiseDifferentFaculty = false;
-    if (nextProps.linkedFaculties && nextProps.linkedFaculties.length > 0) {
-      const facultyId = nextProps.linkedFaculties[0].faculty._id;
-      const differentFaculty = nextProps.linkedFaculties.find(linkedFaculty => linkedFaculty.faculty._id !== facultyId);
-      if (differentFaculty && differentFaculty._id) {
-        isParameterWiseDifferentFaculty = true;
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!nextProps.linkedFaculties[0] || !prevState.linkedFaculties[0] || nextProps.linkedFaculties[0].subject !== prevState.linkedFaculties[0].subject) {
+      let isParameterWiseDifferentFaculty = false;
+      let faculty = [{}];
+      if (nextProps.linkedFaculties && nextProps.linkedFaculties.length > 0) {
+        const facultyId = nextProps.linkedFaculties[0].faculty._id;
+        const differentFaculty = nextProps.linkedFaculties.find(linkedFaculty => linkedFaculty.faculty._id !== facultyId);
+        if (differentFaculty && differentFaculty._id) {
+          isParameterWiseDifferentFaculty = true;
+        } else {
+          const linkedFaculty = nextProps.linkedFaculties[0];
+          faculty = [{ departmentCode: linkedFaculty.faculty.departmentCode, facultyId: linkedFaculty.faculty._id }];
+        }
       }
+      return {
+        isParameterWiseDifferentFaculty,
+        faculty,
+        linkedFaculties: nextProps.linkedFaculties,
+      };
     }
-    return {
-      isParameterWiseDifferentFaculty,
-    };
+    return null;
   }
-  */
 
   onParameterWiseFacultyCheckboxChange(event) {
     const isParameterWiseDifferentFaculty = event.target.checked;
@@ -56,13 +63,12 @@ class LinkFacultyToSubjectModal extends Component {
   }
 
   handleFacultyChange = (index, value) => {
-    const faculty = [{ [index]: { ...this.state.faculty[index], facultyId: value } }];
+    const faculty = [{ ...this.state.faculty[index], facultyId: value }];
     this.setState({ faculty });
   }
 
   handleDepartmentChange = (index, value) => {
-    const faculty = [{ [index]: { departmentCode: value } }];
-    console.log('faculty', faculty);
+    const faculty = [{ departmentCode: value }];
     this.setState({ faculty });
   }
 
@@ -72,7 +78,8 @@ class LinkFacultyToSubjectModal extends Component {
     } else {
       const subjectFacultyCombination = { subject: this.props.selectedSubject._id, faculty: this.state.faculty[0].facultyId };
       const request = this.props.selectedSubject.parameters.map(parameter => ({ ...subjectFacultyCombination, parameter }));
-      this.props.linkFacultyToSubject(request);
+      console.log('request', request, this.props.linkFacultyToSubject);
+      // this.props.linkFacultyToSubject(request);
     }
     this.props.onCreate();
   }
@@ -82,8 +89,7 @@ class LinkFacultyToSubjectModal extends Component {
       visible, onCancel, selectedSubject = { parameters: [] }, linkedFaculties,
     } = this.props;
 
-    // eslint-disable-next-line no-console
-    console.log(linkedFaculties, this.state.isParameterWiseDifferentFaculty);
+    console.log('linkedFaculties', linkedFaculties, this.state);
     return (
       <Modal
         title="Link Faculty to Subject"
@@ -124,7 +130,7 @@ class LinkFacultyToSubjectModal extends Component {
 const mapStateToProps = (state, props) => ({
   departments: state.departments.departments,
   faculties: state.departments.faculties,
-  linkedFaculties: state.departments.subjectFacultyLinks[(props.selectedSubject || {})._id],
+  linkedFaculties: state.departments.subjectFacultyLinks[(props.selectedSubject || {})._id] || [],
 });
 const mapDispatchToProps = { linkFacultyToSubject };
 export default connect(mapStateToProps, mapDispatchToProps)(LinkFacultyToSubjectModal);

@@ -20,16 +20,21 @@ class FacultySelection extends Component {
     facultyId: PropTypes.string.isRequired,
   };
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.departmentCode !== this.props.departmentCode) {
+      this.props.getAllFacultiesByDepartmentCode(this.props.departmentCode);
+    }
+  }
+
   handleDepartmentChange = (index, value) => {
     this.props.handleDepartmentChange(index, value);
-    this.props.getAllFacultiesByDepartmentCode(value);
   }
 
   render() {
     const {
       departments = [], faculties = {}, handleFacultyChange, index, departmentCode, facultyId,
     } = this.props;
-    console.log(this.props);
+
     const facultiesPerDepartment = faculties[departmentCode] || [];
     return (
       <Row>
