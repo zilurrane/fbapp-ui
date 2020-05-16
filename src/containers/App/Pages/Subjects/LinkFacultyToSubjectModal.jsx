@@ -5,7 +5,7 @@ import PropTypes, { string } from 'prop-types';
 import { connect } from 'react-redux';
 import { transformKeyToLabel } from '../../../../shared/helpers/array-helpers';
 import { subjectParameters } from '../../../../shared/constants/common-constants';
-import { getAllFacultiesByDepartmentCode, linkFacultyToSubject } from '../../../../redux/actions/departmentActions';
+import { linkFacultyToSubject } from '../../../../redux/actions/departmentActions';
 import FacultySelection from './FacultySelection';
 
 const { TabPane } = Tabs;
@@ -22,16 +22,17 @@ class LinkFacultyToSubjectModal extends Component {
       name: PropTypes.string.isRequired,
       parameters: PropTypes.arrayOf(string).isRequired,
     }).isRequired,
-    getAllFacultiesByDepartmentCode: PropTypes.func.isRequired,
     linkedFaculties: PropTypes.arrayOf(PropTypes.object).isRequired,
   };
 
   constructor(props) {
     super(props);
     this.onParameterWiseFacultyCheckboxChangeEvent = this.onParameterWiseFacultyCheckboxChange.bind(this);
+    this.handleFacultyChangeEvent = this.handleFacultyChange.bind(this);
+    this.handleDepartmentChangeEvent = this.handleDepartmentChange.bind(this);
   }
 
-  state = { isParameterWiseDifferentFaculty: false };
+  state = { isParameterWiseDifferentFaculty: false, faculty: [{}] };
 
   /*
   static getDerivedStateFromProps(nextProps) {
@@ -54,20 +55,22 @@ class LinkFacultyToSubjectModal extends Component {
     this.setState({ isParameterWiseDifferentFaculty });
   }
 
-  handleDepartmentChange = (value) => {
-    this.props.getAllFacultiesByDepartmentCode(value);
+  handleFacultyChange = (index, value) => {
+    const faculty = [{ [index]: { ...this.state.faculty[index], facultyId: value } }];
+    this.setState({ faculty });
   }
 
-  handleFacultyChange = (value) => {
-    this.setState({ faculty: value });
+  handleDepartmentChange = (index, value) => {
+    const faculty = [{ [index]: { departmentCode: value } }];
+    console.log('faculty', faculty);
+    this.setState({ faculty });
   }
 
   linkFacultyToSubject = () => {
     if (this.state.isParameterWiseDifferentFaculty) {
       // TEST
     } else {
-      // eslint-disable-next-line no-underscore-dangle
-      const subjectFacultyCombination = { subject: this.props.selectedSubject._id, faculty: this.state.faculty };
+      const subjectFacultyCombination = { subject: this.props.selectedSubject._id, faculty: this.state.faculty[0].facultyId };
       const request = this.props.selectedSubject.parameters.map(parameter => ({ ...subjectFacultyCombination, parameter }));
       this.props.linkFacultyToSubject(request);
     }
@@ -103,7 +106,13 @@ class LinkFacultyToSubjectModal extends Component {
               ))
               :
               <TabPane tab={selectedSubject.parameters.map(parameter => transformKeyToLabel(parameter, { array: subjectParameters })).join('/')} key="All">
-                <FacultySelection />
+                <FacultySelection
+                  index={0}
+                  handleFacultyChange={this.handleFacultyChangeEvent}
+                  handleDepartmentChange={this.handleDepartmentChangeEvent}
+                  facultyId={this.state.faculty[0].facultyId}
+                  departmentCode={this.state.faculty[0].departmentCode}
+                />
               </TabPane>
           }
         </Tabs>
@@ -115,8 +124,7 @@ class LinkFacultyToSubjectModal extends Component {
 const mapStateToProps = (state, props) => ({
   departments: state.departments.departments,
   faculties: state.departments.faculties,
-  // eslint-disable-next-line no-underscore-dangle
   linkedFaculties: state.departments.subjectFacultyLinks[(props.selectedSubject || {})._id],
 });
-const mapDispatchToProps = { getAllFacultiesByDepartmentCode, linkFacultyToSubject };
+const mapDispatchToProps = { linkFacultyToSubject };
 export default connect(mapStateToProps, mapDispatchToProps)(LinkFacultyToSubjectModal);

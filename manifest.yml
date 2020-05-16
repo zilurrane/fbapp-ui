@@ -1,6 +1,6 @@
 ---
 applications:
-- name: fbapp
+- name: runfbapp
   memory: 128M
   buildpacks:
   - staticfile_buildpack

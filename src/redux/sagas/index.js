@@ -2,8 +2,8 @@
 import { put, takeLatest, all, select } from 'redux-saga/effects';
 import { callApi } from '../../shared/helpers/fetch-helper';
 
-const baseApiUrl = 'https://fbapp-api.cfapps.io/api/';
-const baseGraphQLUrl = 'https://fbapp-api.cfapps.io/graphql';
+const baseApiUrl = 'https://run-fbapp-api.cfapps.io/api/';
+const baseGraphQLUrl = 'https://run-fbapp-api.cfapps.io/graphql';
 
 const getSelectedTenantId = state => (state.tenant.selectedTenant || {})._id;
 

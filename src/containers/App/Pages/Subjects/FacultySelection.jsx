@@ -13,36 +13,35 @@ class FacultySelection extends Component {
     departments: PropTypes.arrayOf(PropTypes.object).isRequired,
     getAllFacultiesByDepartmentCode: PropTypes.func.isRequired,
     faculties: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
+    index: PropTypes.number.isRequired,
+    handleFacultyChange: PropTypes.func.isRequired,
+    handleDepartmentChange: PropTypes.func.isRequired,
+    departmentCode: PropTypes.string.isRequired,
+    facultyId: PropTypes.string.isRequired,
   };
 
-  state = { departmentCode: undefined, facultyId: undefined };
-
-  handleDepartmentChange = (value) => {
-    this.setState({ departmentCode: value });
+  handleDepartmentChange = (index, value) => {
+    this.props.handleDepartmentChange(index, value);
     this.props.getAllFacultiesByDepartmentCode(value);
-  }
-
-  handleFacultyChange = (value) => {
-    this.setState({ facultyId: value });
   }
 
   render() {
     const {
-      departments = [], faculties = {},
+      departments = [], faculties = {}, handleFacultyChange, index, departmentCode, facultyId,
     } = this.props;
-    const { departmentCode, facultyId } = this.state;
+    console.log(this.props);
     const facultiesPerDepartment = faculties[departmentCode] || [];
     return (
       <Row>
         <Col>
-          <Select value={departmentCode} style={{ width: '100%' }} onChange={this.handleDepartmentChange} placeholder="Select Department">
+          <Select value={departmentCode} style={{ width: '100%' }} onChange={value => this.handleDepartmentChange(index, value)} placeholder="Select Department">
             {
               departments.map(department => <Option value={department.code} key={department.code}> {department.name}</Option>)
             }
           </Select>
         </Col>
         <Col>
-          <Select value={facultyId} style={{ width: '100%' }} onChange={this.handleFacultyChange} placeholder="Select Faculty">
+          <Select value={facultyId} style={{ width: '100%' }} onChange={value => handleFacultyChange(index, value)} placeholder="Select Faculty">
             {
               facultiesPerDepartment.map(currentFaculty => <Option value={currentFaculty._id} key={currentFaculty._id}> {currentFaculty.name}</Option>)
             }
