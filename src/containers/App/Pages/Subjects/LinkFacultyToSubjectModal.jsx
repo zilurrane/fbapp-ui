@@ -62,13 +62,15 @@ class LinkFacultyToSubjectModal extends Component {
     this.setState({ isParameterWiseDifferentFaculty });
   }
 
+  getFacultySubjectLinkId = parameter => (this.props.linkedFaculties.find(faculty => faculty.parameter === parameter) || {})._id;
+
   handleFacultyChange = (index, value) => {
     const faculty = [{ ...this.state.faculty[index], facultyId: value }];
     this.setState({ faculty });
   }
 
   handleDepartmentChange = (index, value) => {
-    const faculty = [{ departmentCode: value }];
+    const faculty = [{ ...this.state.faculty[index], departmentCode: value }];
     this.setState({ faculty });
   }
 
@@ -76,10 +78,15 @@ class LinkFacultyToSubjectModal extends Component {
     if (this.state.isParameterWiseDifferentFaculty) {
       // TEST
     } else {
+      console.log(this.state.faculty);
       const subjectFacultyCombination = { subject: this.props.selectedSubject._id, faculty: this.state.faculty[0].facultyId };
-      const request = this.props.selectedSubject.parameters.map(parameter => ({ ...subjectFacultyCombination, parameter }));
+      const request = this.props.selectedSubject.parameters.map(parameter => ({
+        ...subjectFacultyCombination,
+        parameter,
+        id: this.getFacultySubjectLinkId(parameter),
+      }));
       console.log('request', request, this.props.linkFacultyToSubject);
-      // this.props.linkFacultyToSubject(request);
+      this.props.linkFacultyToSubject(request);
     }
     this.props.onCreate();
   }
