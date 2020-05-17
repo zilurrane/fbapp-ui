@@ -43,6 +43,7 @@ class LinkFacultyToSubjectModal extends Component {
         const differentFaculty = nextProps.linkedFaculties.find(linkedFaculty => linkedFaculty.faculty._id !== facultyId);
         if (differentFaculty && differentFaculty._id) {
           isParameterWiseDifferentFaculty = true;
+          faculty = nextProps.linkedFaculties.map(linkedFaculty => ({ departmentCode: linkedFaculty.faculty.departmentCode, facultyId: linkedFaculty.faculty._id }));
         } else {
           const linkedFaculty = nextProps.linkedFaculties[0];
           faculty = [{ departmentCode: linkedFaculty.faculty.departmentCode, facultyId: linkedFaculty.faculty._id }];
@@ -59,18 +60,37 @@ class LinkFacultyToSubjectModal extends Component {
 
   onParameterWiseFacultyCheckboxChange(event) {
     const isParameterWiseDifferentFaculty = event.target.checked;
-    this.setState({ isParameterWiseDifferentFaculty });
+    let faculty = [{}];
+    if (isParameterWiseDifferentFaculty) {
+      faculty = this.props.linkedFaculties.map(linkedFaculty => ({ departmentCode: linkedFaculty.faculty.departmentCode, facultyId: linkedFaculty.faculty._id }));
+    } else {
+      const linkedFaculty = this.props.linkedFaculties[0];
+      faculty = [{ departmentCode: linkedFaculty.faculty.departmentCode, facultyId: linkedFaculty.faculty._id }];
+    }
+    this.setState({ isParameterWiseDifferentFaculty, faculty });
   }
 
   getFacultySubjectLinkId = parameter => (this.props.linkedFaculties.find(faculty => faculty.parameter === parameter) || {})._id;
 
   handleFacultyChange = (index, value) => {
-    const faculty = [{ ...this.state.faculty[index], facultyId: value }];
+    let faculty = [];
+    if (index === 0) {
+      faculty = [{ ...this.state.faculty[index], facultyId: value }];
+    } else {
+      faculty = [...this.state.faculty];
+      faculty[index] = { ...this.state.faculty[index], facultyId: value };
+    }
     this.setState({ faculty });
   }
 
   handleDepartmentChange = (index, value) => {
-    const faculty = [{ ...this.state.faculty[index], departmentCode: value }];
+    let faculty = [];
+    if (index === 0) {
+      faculty = [{ ...this.state.faculty[index], departmentCode: value }];
+    } else {
+      faculty = [...this.state.faculty];
+      faculty[index] = { ...this.state.faculty[index], departmentCode: value };
+    }
     this.setState({ faculty });
   }
 
@@ -78,14 +98,12 @@ class LinkFacultyToSubjectModal extends Component {
     if (this.state.isParameterWiseDifferentFaculty) {
       // TEST
     } else {
-      console.log(this.state.faculty);
       const subjectFacultyCombination = { subject: this.props.selectedSubject._id, faculty: this.state.faculty[0].facultyId };
       const request = this.props.selectedSubject.parameters.map(parameter => ({
         ...subjectFacultyCombination,
         parameter,
         id: this.getFacultySubjectLinkId(parameter),
       }));
-      console.log('request', request, this.props.linkFacultyToSubject);
       this.props.linkFacultyToSubject(request);
     }
     this.props.onCreate();
@@ -96,7 +114,8 @@ class LinkFacultyToSubjectModal extends Component {
       visible, onCancel, selectedSubject = { parameters: [] }, linkedFaculties,
     } = this.props;
 
-    console.log('linkedFaculties', linkedFaculties, this.state);
+    console.log(linkedFaculties);
+
     return (
       <Modal
         title="Link Faculty to Subject"
@@ -112,9 +131,18 @@ class LinkFacultyToSubjectModal extends Component {
         <Tabs size="small">
           {
             this.state.isParameterWiseDifferentFaculty ?
-              selectedSubject.parameters.map(parameter => (
+              selectedSubject.parameters.map((parameter, index) => (
                 <TabPane tab={transformKeyToLabel(parameter, { array: subjectParameters })} key={parameter}>
-                  <FacultySelection />
+                  {
+                    this.state.faculty[index] &&
+                    <FacultySelection
+                      index={index}
+                      handleFacultyChange={this.handleFacultyChangeEvent}
+                      handleDepartmentChange={this.handleDepartmentChangeEvent}
+                      facultyId={this.state.faculty[index].facultyId}
+                      departmentCode={this.state.faculty[index].departmentCode}
+                    />
+                  }
                 </TabPane>
               ))
               :
