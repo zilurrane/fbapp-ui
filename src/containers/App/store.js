@@ -1,7 +1,7 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { reducer as reduxFormReducer } from 'redux-form';
 import createSagaMiddleware from 'redux-saga';
-import { logger } from 'redux-logger';
+// import { logger } from 'redux-logger';
 import { sidebarReducer, themeReducer, departmentReducer, authReducer, feedbackReducer, tenantReducer } from '../../redux/reducers/index';
 import rootSaga from '../../redux/sagas';
 
@@ -19,7 +19,7 @@ const reducer = combineReducers({
 
 const store = createStore(
   reducer,
-  applyMiddleware(sagaMiddleware, logger),
+  applyMiddleware(sagaMiddleware),
 );
 sagaMiddleware.run(rootSaga);
 
