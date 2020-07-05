@@ -93,7 +93,7 @@ class ClassesCard extends Component {
                   <div className="card__title">
                     <h5 className="bold-text">Manage Departments</h5>
                     <Button className="card__actions" type="primary" onClick={this.showAddEditDepartmentModal}>
-                      Add
+                      Add Department
                     </Button>
                   </div>
                   <Tabs tabPosition="top">
