@@ -1,22 +1,30 @@
+/* eslint-disable no-underscore-dangle */
 import React, { Component, Fragment } from 'react';
 import { Button, Card, Col, Row } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { PlusOutlined } from '@ant-design/icons';
-import { createFaculty } from '../../../../redux/actions/departmentActions';
+import { createFaculty, updateFaculty } from '../../../../redux/actions/departmentActions';
 import FacultiesTable from './FacultiesTable';
 import AddEditFacultyFormModal from './AddEditFacultyFormModal';
 
 class FacultiesCard extends Component {
   static propTypes = {
     createFaculty: PropTypes.func.isRequired,
+    updateFaculty: PropTypes.func.isRequired,
     departmentCode: PropTypes.string.isRequired,
   };
 
-  state = { isAddEditFacultyModalVisible: false };
+  state = { isAddEditFacultyModalVisible: false, selectedFaculty: null };
 
-  showAddEditFacultyModal = () => {
-    this.setState({ isAddEditFacultyModalVisible: true });
+  showAddEditFacultyModal = (selctedFacultyParam) => {
+    if (selctedFacultyParam) {
+      const { name, email, qualification } = selctedFacultyParam;
+      this.setState({ isAddEditFacultyModalVisible: true, selectedFaculty: selctedFacultyParam });
+      this.addEditFacultyFormRef.props.form.setFieldsValue({ name, email, qualification });
+    } else {
+      this.setState({ isAddEditFacultyModalVisible: true, selectedFaculty: null });
+    }
   };
 
   handleAddEditFacultyModalSubmit = () => {
@@ -25,17 +33,25 @@ class FacultiesCard extends Component {
       if (err) {
         return;
       }
-      this.props.createFaculty({ ...values, departmentCode: this.props.departmentCode });
+      if (this.state.selectedFaculty) {
+        this.props.updateFaculty({
+          query: { _id: this.state.selectedFaculty._id },
+          data: { ...this.state.selectedFaculty, ...values },
+        });
+      } else {
+        this.props.createFaculty({ ...values, departmentCode: this.props.departmentCode });
+      }
       form.resetFields();
-      this.setState({ isAddEditFacultyModalVisible: false });
+      this.setState({ isAddEditFacultyModalVisible: false, selectedFaculty: null });
     });
   };
 
   handleAddEditFacultyModalCancel = () => {
-    this.setState({ isAddEditFacultyModalVisible: false });
+    this.setState({ isAddEditFacultyModalVisible: false, selectedFaculty: null });
   };
 
   saveAddEditFacultyFormRef = (formRef) => {
+    console.log('formRef', formRef);
     this.addEditFacultyFormRef = formRef;
   };
 
@@ -56,7 +72,7 @@ class FacultiesCard extends Component {
                         Add Faculty
                       </Button>
                     </div>
-                    <FacultiesTable departmentCode={departmentCode} />
+                    <FacultiesTable showAddEditFacultyModal={this.showAddEditFacultyModal} departmentCode={departmentCode} />
                   </div>
                 }
               </Col>
@@ -75,5 +91,5 @@ class FacultiesCard extends Component {
 }
 
 const mapStateToProps = () => ({});
-const mapDispatchToProps = { createFaculty };
+const mapDispatchToProps = { createFaculty, updateFaculty };
 export default connect(mapStateToProps, mapDispatchToProps)(FacultiesCard);

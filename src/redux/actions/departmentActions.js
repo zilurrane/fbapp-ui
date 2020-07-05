@@ -45,6 +45,11 @@ export const createFaculty = facultyRecord => ({
   payload: facultyRecord,
 });
 
+export const updateFaculty = facultyRecord => ({
+  type: 'UPDATE_FACULTY',
+  payload: facultyRecord,
+});
+
 export const linkFacultyToSubject = facultySubjectRecord => ({
   type: 'LINK_FACULTY_TO_SUBJECT',
   payload: facultySubjectRecord,

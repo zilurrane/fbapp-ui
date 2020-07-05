@@ -79,6 +79,13 @@ function* createFaculty({ payload }) {
   yield put({ type: 'GET_FACULTIES_BY_DEPARTMENTCODE', departmentCode: payload.departmentCode });
 }
 
+function* updateFaculty({ payload }) {
+  const tenantId = yield select(getSelectedTenantId);
+  const postBody = JSON.stringify(payload);
+  yield callApi(`${baseApiUrl}faculties/update`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'PUT', body: postBody }).then(res => res.json());
+  yield put({ type: 'GET_FACULTIES_BY_DEPARTMENTCODE', departmentCode: payload.data.departmentCode });
+}
+
 function* linkFacultyToSubject({ payload }) {
   const tenantId = yield select(getSelectedTenantId);
   const postBody = JSON.stringify(payload);
@@ -298,6 +305,7 @@ function* actionWatcher() {
     takeLatest('GET_FACULTIES_BY_DEPARTMENTCODE', getFacultiesByDepartmentCode),
     takeLatest('GET_FACULTIES_BY_DEPARTMENTCODE_CLASSCODE', getFacultiesByDepartmentCodeClassCode),
     takeLatest('CREATE_FACULTY', createFaculty),
+    takeLatest('UPDATE_FACULTY', updateFaculty),
     takeLatest('LINK_FACULTY_TO_SUBJECT', linkFacultyToSubject),
     takeLatest('GET_LINKED_FACULTIES_TO_SUBJECT', getLinkedFacultiesToSubject),
     takeLatest('GENERATE_STUDENTS', generateStudents),

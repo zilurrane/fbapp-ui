@@ -10,6 +10,7 @@ import { getAllFacultiesByDepartmentCode } from '../../../../redux/actions/depar
 class FacultiesTable extends Component {
   static propTypes = {
     getAllFacultiesByDepartmentCode: PropTypes.func.isRequired,
+    showAddEditFacultyModal: PropTypes.func.isRequired,
     faculties: PropTypes.arrayOf(PropTypes.object).isRequired,
     departmentCode: PropTypes.string.isRequired,
   };
@@ -25,7 +26,7 @@ class FacultiesTable extends Component {
   }
 
   render() {
-    const { faculties } = this.props;
+    const { faculties, showAddEditFacultyModal } = this.props;
     return (
       <Table size="sm" hover striped>
         <thead>
@@ -50,7 +51,7 @@ class FacultiesTable extends Component {
                   <ActiveStatus isActive={d.isActive} />
                 </td>
                 <td className="text-center">
-                  <Button size="small" type="primary" icon={<EditOutlined />} />
+                  <Button onClick={() => showAddEditFacultyModal(d)} size="small" type="primary" icon={<EditOutlined />} />
                 </td>
               </tr>
             ))
