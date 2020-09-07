@@ -45,7 +45,7 @@ class TopbarTenant extends PureComponent {
                 showSearch
                 labelInValue
                 defaultValue={{ key: this.props.selectedTenant.code }}
-                style={{ width: 100 }}
+                style={{ width: 100, margin: 'auto 0' }}
                 placeholder="Select a Tenant"
                 loading={this.props.isTenantsLoadingInProgress}
                 optionFilterProp="children"
