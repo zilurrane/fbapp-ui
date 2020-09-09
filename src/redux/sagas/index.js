@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { put, takeLatest, all, select } from 'redux-saga/effects';
 import { callApi } from '../../shared/helpers/fetch-helper';
+import { openNotification } from '../../shared/helpers/notification-helper';
 
 const baseApiUrl = 'https://run-fbapp-api.cfapps.io/api/';
 const baseGraphQLUrl = 'https://run-fbapp-api.cfapps.io/graphql';
@@ -274,6 +275,9 @@ function* updateUser({ userRequest }) {
   const tenantId = yield select(getSelectedTenantId);
   const postBody = JSON.stringify(userRequest);
   yield callApi(`${baseApiUrl}users/update`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'PUT', body: postBody }).then(res => res.json());
+
+  openNotification('success', 'Done', 'User information updated successfully!', 0);
+
   yield put({ type: 'GET_USERS' });
 }
 

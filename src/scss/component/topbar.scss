@@ -4,7 +4,7 @@
   top: 0;
   height: 60px;
   z-index: 101;
-  box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.05);
+  // box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.05);
 
   @include themify($themes) {
     background: themed('colorBackground');
