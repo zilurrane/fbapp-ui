@@ -11,6 +11,5 @@ export const openNotification = (
     message,
     description,
     duration,
-    key
   });
 };
