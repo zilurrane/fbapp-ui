@@ -111,10 +111,8 @@ class LinkFacultyToSubjectModal extends Component {
 
   render() {
     const {
-      visible, onCancel, selectedSubject = { parameters: [] }, linkedFaculties,
+      visible, onCancel, selectedSubject = { parameters: [] },
     } = this.props;
-
-    console.log(linkedFaculties);
 
     return (
       <Modal

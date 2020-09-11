@@ -26,9 +26,6 @@ const AddEditUserForm = ({
           .then((values) => {
             form.resetFields();
             onCreate(values);
-          })
-          .catch((info) => {
-            console.log('Validate Failed:', info);
           });
       }}
     >

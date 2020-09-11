@@ -15,7 +15,6 @@ class TenantsCard extends Component {
   state = { visible: false };
 
   onCreate(values) {
-    console.log('Received values of form: ', values);
     this.props.createTenant(values);
     this.setVisible(false);
   }

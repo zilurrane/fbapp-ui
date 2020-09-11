@@ -51,7 +51,6 @@ class FacultiesCard extends Component {
   };
 
   saveAddEditFacultyFormRef = (formRef) => {
-    console.log('formRef', formRef);
     this.addEditFacultyFormRef = formRef;
   };
 
