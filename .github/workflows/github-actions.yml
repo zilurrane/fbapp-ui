@@ -17,3 +17,6 @@ jobs:
     
     - name: Build App
       run: npm run build
+    
+    - name: Pivotal Cloud Foundry (PCF) CLI
+      uses: d3sandoval/cloud-foundry-action@1.1.1
