@@ -7,6 +7,7 @@ import AddEditDepartmentFormModal from './AddEditDepartmentFormModal';
 import AddEditClassFormModal from './AddEditClassFormModal';
 import { createDepartment, getAllDepartments, createClass } from '../../../../redux/actions/departmentActions';
 import ClassesTable from './ClassesTable';
+import { openNotification } from '../../../../shared/helpers/notification-helper';
 
 const { TabPane } = Tabs;
 
@@ -18,15 +19,30 @@ class ClassesCard extends Component {
     createClass: PropTypes.func.isRequired,
   };
 
-  state = { isAddEditDepartmentModalVisible: false, isAddEditClassModalVisible: false, selectedDepartment: {} };
+  state = {
+    isAddEditDepartmentModalVisible: false,
+    isDepartmentEditView: false,
+    isAddEditClassModalVisible: false,
+    selectedDepartment: {},
+  };
 
   componentDidMount() {
     this.props.getAllDepartments();
   }
 
-  showAddEditDepartmentModal = () => {
+  showAddDepartmentModal = () => {
     this.setState({
       isAddEditDepartmentModalVisible: true,
+      selectedDepartment: {},
+      isDepartmentEditView: false,
+    });
+  };
+
+  showEditDepartmentModal = (selectedDepartment) => {
+    this.setState({
+      isAddEditDepartmentModalVisible: true,
+      selectedDepartment,
+      isDepartmentEditView: true,
     });
   };
 
@@ -37,16 +53,13 @@ class ClassesCard extends Component {
     });
   };
 
-  handleAddEditDepartmentModalSubmit = () => {
-    const { form } = this.addEditDepartmentFormRef.props;
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
+  handleAddEditDepartmentModalSubmit = (values) => {
+    if (this.state.selectedDepartment) {
+      openNotification('error', 'Alert!', 'Department update functionality is not implemented yet!');
+    } else {
       this.props.createDepartment(values);
-      form.resetFields();
-      this.setState({ isAddEditDepartmentModalVisible: false });
-    });
+    }
+    this.setState({ isAddEditDepartmentModalVisible: false });
   };
 
   handleAddEditClassModalSubmit = () => {
@@ -92,7 +105,7 @@ class ClassesCard extends Component {
                 <CardBody>
                   <div className="card__title">
                     <h5 className="bold-text">Manage Departments</h5>
-                    <Button className="card__actions" type="primary" onClick={this.showAddEditDepartmentModal}>
+                    <Button className="card__actions" type="primary" onClick={this.showAddDepartmentModal}>
                       Add Department
                     </Button>
                   </div>
@@ -107,7 +120,7 @@ class ClassesCard extends Component {
                             </Descriptions>
                           </Col>
                           <Col md={2}>
-                            <Button className="float-right" type="primary" onClick={this.showAddEditDepartmentModal}>
+                            <Button className="float-right" type="primary" onClick={() => this.showEditDepartmentModal(department)}>
                               Edit Department
                             </Button>
                           </Col>
@@ -139,10 +152,12 @@ class ClassesCard extends Component {
           </Row>
         </Col>
         <AddEditDepartmentFormModal
-          wrappedComponentRef={this.saveAddEditDepartmentFormRef}
+          key={Math.random()}
           visible={this.state.isAddEditDepartmentModalVisible}
           onCancel={this.handleAddEditDepartmentModalCancel}
-          onCreate={this.handleAddEditDepartmentModalSubmit}
+          onCreate={values => this.handleAddEditDepartmentModalSubmit(values)}
+          selectedDepartment={this.state.selectedDepartment}
+          isEditView={this.state.isDepartmentEditView}
         />
         <AddEditClassFormModal
           wrappedComponentRef={this.saveAddEditClassFormRef}

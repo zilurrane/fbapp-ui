@@ -1,50 +1,73 @@
-import React, { Component } from 'react';
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Modal, Input } from 'antd';
+import React from 'react';
+import { Form, Modal, Input } from 'antd';
 
-class AddEditDepartmentFormModal extends Component {
-  render() {
-    const {
-      visible, onCancel, onCreate, form,
-    } = this.props;
+const AddEditDepartmentFormModal = ({
+  visible, onCancel, onCreate, selectedDepartment, isEditView,
+}) => {
+  const [form] = Form.useForm();
 
-    const { getFieldDecorator } = form;
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 6 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 18 },
+    },
+  };
 
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 6 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 18 },
-      },
-    };
-
-    return (
-      <Modal
-        title="Add Department"
-        okText="Submit"
-        visible={visible}
-        onCancel={onCancel}
-        onOk={onCreate}
+  return (
+    <Modal
+      visible={visible}
+      title={isEditView ? 'Update Department' : 'Add Department'}
+      okText={isEditView ? 'Update' : 'Add'}
+      cancelText="Cancel"
+      onCancel={onCancel}
+      onOk={() => {
+        form
+          .validateFields()
+          .then((values) => {
+            form.resetFields();
+            onCreate(values);
+          });
+      }}
+    >
+      <Form
+        {...formItemLayout}
+        form={form}
+        name="add_edit_department_form_modal"
+        initialValues={selectedDepartment}
       >
-        <Form {...formItemLayout}>
-          <Form.Item label="Code">
-            {getFieldDecorator('code', {
-              rules: [{ required: true, message: 'Please input the department code!' }],
-            })(<Input />)}
-          </Form.Item>
-          <Form.Item label="Name">
-            {getFieldDecorator('name', {
-              rules: [{ required: true, message: 'Please input the department name!' }],
-            })(<Input type="textarea" />)}
-          </Form.Item>
-        </Form>
-      </Modal>
-    );
-  }
-}
+        <Form.Item
+          name="code"
+          label="Code"
+          rules={
+            [
+              {
+                required: true,
+                message: 'Please input the department code!',
+              },
+            ]
+          }
+        >
+          <Input disabled={isEditView} />
+        </Form.Item>
+        <Form.Item
+          name="name"
+          label="Name"
+          rules={[
+            {
+              required: true,
+              message: 'Please input the department name!',
+            },
+          ]}
+        >
+          <Input type="textarea" />
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
+};
 
-export default Form.create({ name: 'form_in_modal' })(AddEditDepartmentFormModal);
+export default AddEditDepartmentFormModal;
