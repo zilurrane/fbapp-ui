@@ -11,19 +11,13 @@ jobs:
     
     - name: Checkout source code
       uses: actions/checkout@v1
-
-    - name: Install Packages
-      run: npm install
     
-    - name: Build App
-      run: npm run build
-    
-    - name: Pivotal Cloud Foundry (PCF) CLI
-      uses: d3sandoval/cloud-foundry-action@1.1.1
-      with:
-        args: push -f build/manifest.yml -p build
+    - name: whatsapp-notify
+      id: whatsapp-notify
       env:
-        CF_TARGET_ORG: goku
-        CF_TARGET_SPACE: development
-        CF_USERNAME: ${{ secrets.CF_USERNAME }}
-        CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
+          account_sid: ${{ secrets.account_sid }}
+          auth_token: ${{ secrets.auth_token }}
+          to_whatsapp_no: ${{ secrets.to_whatsapp_no }}
+      uses: ishween/whatsapp-push-notify-action@master
+        
+      
