@@ -28,10 +28,11 @@ jobs:
         CF_USERNAME: ${{ secrets.CF_USERNAME }}
         CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
     
-    - name: whatsapp-notify
-      id: whatsapp-notify
+    - name: Message to Whatsapp
+      id: whatsapp-message
       env:
           account_sid: ${{ secrets.account_sid }}
           auth_token: ${{ secrets.auth_token }}
-          to_whatsapp_no: ${{ secrets.to_whatsapp_no }}
-      uses: ishween/whatsapp-push-notify-action@master
+          to_number: ${{ secrets.to_whatsapp_no }}
+          message:  "FbApp - Successfully deployed latest changes. Browse it on http://fbapp.lifecompilers.in/"
+      uses: zilurrane/whatsapp-actions@0.0.1
