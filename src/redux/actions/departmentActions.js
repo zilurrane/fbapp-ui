@@ -7,6 +7,11 @@ export const createDepartment = departmentRecord => ({
   payload: departmentRecord,
 });
 
+export const updateDepartment = payload => ({
+  type: 'UPDATE_DEPARTMENT',
+  payload,
+});
+
 export const getAllClassesByDepartmentCode = departmentCode => ({
   type: 'GET_CLASSES_BY_DEPARTMENTCODE',
   departmentCode,

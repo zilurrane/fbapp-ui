@@ -33,6 +33,17 @@ function* createDepartment({ payload }) {
   }
 }
 
+function* updateDepartment({ payload }) {
+  const tenantId = yield select(getSelectedTenantId);
+  const postBody = JSON.stringify(payload);
+  yield callApi(`${baseApiUrl}departments/update`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'PUT', body: postBody }).then(res => res.json());
+
+  openNotification('success', 'Done', 'Department information updated successfully!');
+
+  yield put({ type: 'GET_DEPARTMENTS' });
+}
+
+
 function* getClassesByDepartmentCode({ departmentCode }) {
   const tenantId = yield select(getSelectedTenantId);
   const classes = yield callApi(`${baseApiUrl}classes/department/${departmentCode}`, tenantId).then(res => res.json());
@@ -276,7 +287,7 @@ function* updateUser({ userRequest }) {
   const postBody = JSON.stringify(userRequest);
   yield callApi(`${baseApiUrl}users/update`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'PUT', body: postBody }).then(res => res.json());
 
-  openNotification('success', 'Done', 'User information updated successfully!', 0);
+  openNotification('success', 'Done', 'User information updated successfully!');
 
   yield put({ type: 'GET_USERS' });
 }
@@ -302,6 +313,7 @@ function* actionWatcher() {
   yield all([
     takeLatest('GET_DEPARTMENTS', getAllDepartments),
     takeLatest('CREATE_DEPARTMENT', createDepartment),
+    takeLatest('UPDATE_DEPARTMENT', updateDepartment),
     takeLatest('CREATE_CLASS', createClass),
     takeLatest('GET_CLASSES_BY_DEPARTMENTCODE', getClassesByDepartmentCode),
     takeLatest('GET_SUBJECTS_BY_DEPARTMENTCODE_CLASSCODE', getSubjectsByDepartmentCodeClassCode),

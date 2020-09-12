@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Row } from 'reactstrap';
@@ -5,9 +7,8 @@ import { Button, Tabs, Descriptions, Divider } from 'antd';
 import { connect } from 'react-redux';
 import AddEditDepartmentFormModal from './AddEditDepartmentFormModal';
 import AddEditClassFormModal from './AddEditClassFormModal';
-import { createDepartment, getAllDepartments, createClass } from '../../../../redux/actions/departmentActions';
+import { createDepartment, updateDepartment, getAllDepartments, createClass } from '../../../../redux/actions/departmentActions';
 import ClassesTable from './ClassesTable';
-import { openNotification } from '../../../../shared/helpers/notification-helper';
 
 const { TabPane } = Tabs;
 
@@ -15,6 +16,7 @@ class ClassesCard extends Component {
   static propTypes = {
     getAllDepartments: PropTypes.func.isRequired,
     createDepartment: PropTypes.func.isRequired,
+    updateDepartment: PropTypes.func.isRequired,
     departments: PropTypes.arrayOf(PropTypes.object).isRequired,
     createClass: PropTypes.func.isRequired,
   };
@@ -55,7 +57,7 @@ class ClassesCard extends Component {
 
   handleAddEditDepartmentModalSubmit = (values) => {
     if (this.state.selectedDepartment) {
-      openNotification('error', 'Alert!', 'Department update functionality is not implemented yet!');
+      this.props.updateDepartment({ query: { _id: this.state.selectedDepartment._id }, data: values });
     } else {
       this.props.createDepartment(values);
     }
@@ -171,5 +173,10 @@ class ClassesCard extends Component {
   }
 }
 const mapStateToProps = state => ({ departments: state.departments.departments });
-const mapDispatchToProps = { getAllDepartments, createDepartment, createClass };
+const mapDispatchToProps = {
+  getAllDepartments,
+  createDepartment,
+  updateDepartment,
+  createClass,
+};
 export default connect(mapStateToProps, mapDispatchToProps)(ClassesCard);
