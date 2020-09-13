@@ -22,6 +22,11 @@ export const createClass = classRecord => ({
   payload: classRecord,
 });
 
+export const updateClass = payload => ({
+  type: 'UPDATE_CLASS',
+  payload,
+});
+
 export const getAllSubjectsByDepartmentCodeClassCode = (departmentCode, classCode) => ({
   type: 'GET_SUBJECTS_BY_DEPARTMENTCODE_CLASSCODE',
   departmentCode,

@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { PlusOutlined, EditOutlined } from '@ant-design/icons';
 import AddEditDepartmentFormModal from './AddEditDepartmentFormModal';
 import AddEditClassFormModal from './AddEditClassFormModal';
-import { createDepartment, updateDepartment, getAllDepartments, createClass } from '../../../../redux/actions/departmentActions';
+import { createDepartment, updateDepartment, getAllDepartments, createClass, updateClass } from '../../../../redux/actions/departmentActions';
 import ClassesTable from './ClassesTable';
 
 const { TabPane } = Tabs;
@@ -20,13 +20,16 @@ class ClassesCard extends Component {
     updateDepartment: PropTypes.func.isRequired,
     departments: PropTypes.arrayOf(PropTypes.object).isRequired,
     createClass: PropTypes.func.isRequired,
+    updateClass: PropTypes.func.isRequired,
   };
 
   state = {
     isAddEditDepartmentModalVisible: false,
     isDepartmentEditView: false,
+    isClassEditView: false,
     isAddEditClassModalVisible: false,
     selectedDepartment: {},
+    selectedClass: {},
   };
 
   componentDidMount() {
@@ -49,10 +52,21 @@ class ClassesCard extends Component {
     });
   };
 
-  showAddEditClassModal = (department) => {
+  openAddClassPopup = (department) => {
     this.setState({
       isAddEditClassModalVisible: true,
+      isClassEditView: false,
       selectedDepartment: department,
+      selectedClass: {},
+    });
+  };
+
+  openEditClassPopup = (selectedDepartment, selectedClass) => {
+    this.setState({
+      isAddEditClassModalVisible: true,
+      isClassEditView: true,
+      selectedDepartment,
+      selectedClass,
     });
   };
 
@@ -65,16 +79,19 @@ class ClassesCard extends Component {
     this.setState({ isAddEditDepartmentModalVisible: false });
   };
 
-  handleAddEditClassModalSubmit = () => {
-    const { form } = this.addEditClassFormRef.props;
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
+  handleAddEditClassModalSubmit = (values) => {
+    if (this.state.isClassEditView) {
+      this.props.updateClass({
+        query: {
+          _id: this.state.selectedClass._id,
+          departmentCode: this.state.selectedDepartment.code,
+        },
+        data: values,
+      });
+    } else {
       this.props.createClass({ ...values, departmentCode: this.state.selectedDepartment.code });
-      form.resetFields();
-      this.setState({ isAddEditClassModalVisible: false });
-    });
+    }
+    this.setState({ isAddEditClassModalVisible: false });
   };
 
   handleAddEditDepartmentModalCancel = () => {
@@ -138,11 +155,11 @@ class ClassesCard extends Component {
                             <div>
                               <div className="card__title">
                                 <h5 className="bold-text">Manage Classes</h5>
-                                <Button type="primary" className="card__actions" icon={<PlusOutlined />} onClick={() => this.showAddEditClassModal(department)}>
+                                <Button type="primary" className="card__actions" icon={<PlusOutlined />} onClick={() => this.openAddClassPopup(department)}>
                                   Add Class
                                 </Button>
                               </div>
-                              <ClassesTable departmentCode={department.code} />
+                              <ClassesTable departmentCode={department.code} openEditClassPopup={selectedClass => this.openEditClassPopup(department, selectedClass)} />
                             </div>
                           </Col>
                         </Row>
@@ -163,11 +180,13 @@ class ClassesCard extends Component {
           isEditView={this.state.isDepartmentEditView}
         />
         <AddEditClassFormModal
-          wrappedComponentRef={this.saveAddEditClassFormRef}
+          key={Math.random()}
           visible={this.state.isAddEditClassModalVisible}
           onCancel={this.handleAddEditClassModalCancel}
-          onCreate={this.handleAddEditClassModalSubmit}
+          onCreate={values => this.handleAddEditClassModalSubmit(values)}
           selectedDepartment={this.state.selectedDepartment}
+          selectedClass={this.state.selectedClass}
+          isEditView={this.state.isClassEditView}
         />
       </Fragment>
     );
@@ -179,5 +198,6 @@ const mapDispatchToProps = {
   createDepartment,
   updateDepartment,
   createClass,
+  updateClass,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ClassesCard);

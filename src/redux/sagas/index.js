@@ -61,6 +61,16 @@ function* createClass({ payload }) {
   }
 }
 
+function* updateClass({ payload }) {
+  const tenantId = yield select(getSelectedTenantId);
+  const postBody = JSON.stringify(payload);
+  yield callApi(`${baseApiUrl}classes/update`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'PUT', body: postBody }).then(res => res.json());
+
+  openNotification('success', 'Done', 'Class information updated successfully!');
+
+  yield put({ type: 'GET_CLASSES_BY_DEPARTMENTCODE', departmentCode: payload.query.departmentCode });
+}
+
 function* getSubjectsByDepartmentCodeClassCode({ departmentCode, classCode }) {
   const tenantId = yield select(getSelectedTenantId);
   const subjects = yield callApi(`${baseApiUrl}subjects/department/${departmentCode}/class/${classCode}`, tenantId).then(res => res.json());
@@ -315,6 +325,7 @@ function* actionWatcher() {
     takeLatest('CREATE_DEPARTMENT', createDepartment),
     takeLatest('UPDATE_DEPARTMENT', updateDepartment),
     takeLatest('CREATE_CLASS', createClass),
+    takeLatest('UPDATE_CLASS', updateClass),
     takeLatest('GET_CLASSES_BY_DEPARTMENTCODE', getClassesByDepartmentCode),
     takeLatest('GET_SUBJECTS_BY_DEPARTMENTCODE_CLASSCODE', getSubjectsByDepartmentCodeClassCode),
     takeLatest('CREATE_SUBJECT', createSubject),

@@ -11,6 +11,7 @@ class ClassesTable extends Component {
     getAllClassesByDepartmentCode: PropTypes.func.isRequired,
     classes: PropTypes.arrayOf(PropTypes.object).isRequired,
     departmentCode: PropTypes.string.isRequired,
+    openEditClassPopup: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -43,7 +44,7 @@ class ClassesTable extends Component {
                 <td>{d.code}</td>
                 <td>{d.name}</td>
                 <td className="text-center">
-                  <Button size="small" type="primary" icon={<EditOutlined />} />
+                  <Button size="small" type="primary" onClick={() => this.props.openEditClassPopup(d)} icon={<EditOutlined />} />
                 </td>
               </tr>
             ))
