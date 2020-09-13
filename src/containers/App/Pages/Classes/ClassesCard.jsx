@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Row } from 'reactstrap';
 import { Button, Tabs, Descriptions, Divider } from 'antd';
 import { connect } from 'react-redux';
+import { PlusOutlined, EditOutlined } from '@ant-design/icons';
 import AddEditDepartmentFormModal from './AddEditDepartmentFormModal';
 import AddEditClassFormModal from './AddEditClassFormModal';
 import { createDepartment, updateDepartment, getAllDepartments, createClass } from '../../../../redux/actions/departmentActions';
@@ -107,7 +108,7 @@ class ClassesCard extends Component {
                 <CardBody>
                   <div className="card__title">
                     <h5 className="bold-text">Manage Departments</h5>
-                    <Button className="card__actions" type="primary" onClick={this.showAddDepartmentModal}>
+                    <Button type="primary" className="card__actions" icon={<PlusOutlined />} onClick={this.showAddDepartmentModal}>
                       Add Department
                     </Button>
                   </div>
@@ -122,7 +123,7 @@ class ClassesCard extends Component {
                             </Descriptions>
                           </Col>
                           <Col md={2}>
-                            <Button className="float-right" type="primary" onClick={() => this.showEditDepartmentModal(department)}>
+                            <Button type="primary" className="float-right" icon={<EditOutlined />} onClick={() => this.showEditDepartmentModal(department)}>
                               Edit Department
                             </Button>
                           </Col>
@@ -137,8 +138,8 @@ class ClassesCard extends Component {
                             <div>
                               <div className="card__title">
                                 <h5 className="bold-text">Manage Classes</h5>
-                                <Button className="card__actions" type="primary" onClick={() => this.showAddEditClassModal(department)}>
-                                  Add
+                                <Button type="primary" className="card__actions" icon={<PlusOutlined />} onClick={() => this.showAddEditClassModal(department)}>
+                                  Add Class
                                 </Button>
                               </div>
                               <ClassesTable departmentCode={department.code} />
