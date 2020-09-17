@@ -105,6 +105,9 @@ function* updateFaculty({ payload }) {
   const tenantId = yield select(getSelectedTenantId);
   const postBody = JSON.stringify(payload);
   yield callApi(`${baseApiUrl}faculties/update`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'PUT', body: postBody }).then(res => res.json());
+
+  openNotification('success', 'Done', 'Faculty information updated successfully!');
+
   yield put({ type: 'GET_FACULTIES_BY_DEPARTMENTCODE', departmentCode: payload.data.departmentCode });
 }
 
