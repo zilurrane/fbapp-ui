@@ -3,8 +3,8 @@ import { put, takeLatest, all, select } from 'redux-saga/effects';
 import { callApi } from '../../shared/helpers/fetch-helper';
 import { openNotification } from '../../shared/helpers/notification-helper';
 
-const baseApiUrl = 'https://run-fbapp-api.cfapps.io/api/';
-const baseGraphQLUrl = 'https://run-fbapp-api.cfapps.io/graphql';
+const baseApiUrl = 'http://13.233.201.178:9000/api/';
+const baseGraphQLUrl = 'http://13.233.201.178:9000/graphql';
 
 const getSelectedTenantId = state => (state.tenant.selectedTenant || {})._id;
 
