@@ -59,6 +59,9 @@
     "deploy": "npm run build && cd build && cf push",
     "lint:fix": "npx eslint src --fix"
   },
+  "engines": {
+    "node": "12.16.x"
+  },
   "devDependencies": {
     "@babel/core": "7.1.0",
     "@svgr/webpack": "2.4.1",
