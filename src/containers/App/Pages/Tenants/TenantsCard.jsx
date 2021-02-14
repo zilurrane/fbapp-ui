@@ -2,6 +2,7 @@ import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
 import { Card, CardBody, Row, Col } from 'reactstrap';
 import { Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import TenantsTable from './TenantsTable';
 import AddEditTenantForm from './AddEditTenantForm';
 import { createTenant, updateTenant } from '../../../../redux/actions/tenantActions';
@@ -61,8 +62,8 @@ class TenantsCard extends Component {
                         <div>
                           <div className="card__title">
                             <h5 className="bold-text">&nbsp;</h5>
-                            <Button className="card__actions" type="primary" onClick={this.openAddTenantPopup}>
-                              Add
+                            <Button className="card__actions" type="primary" icon={<PlusOutlined />} onClick={this.openAddTenantPopup}>
+                              Add Tenant
                             </Button>
                           </div>
                           <TenantsTable openEditTenantPopup={item => this.openUpdateTenantPopup(item)} />

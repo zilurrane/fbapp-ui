@@ -51,7 +51,7 @@ $themes: (
   @return map-get($theme-map, $key);
 }
 
-$color-accent: #4ce1b6;
+$color-accent: #1890ff;
 $color-accent-hover: darken($color-accent, 10%);
 $color-additional: #999999;
 $color-additional-hover: darken($color-additional, 10%);

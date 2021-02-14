@@ -38,7 +38,7 @@ class AnalyticsCard extends Component {
       },
       data,
     });
-    callUnAuthApi('https://run-fbapp-report-api.cfapps.io/report/faculty/feedback/comparison', { method: 'POST', body: postBody })
+    callUnAuthApi('https://fbapp-report-api.herokuapp.com/report/faculty/feedback/comparison', { method: 'POST', body: postBody })
       .then((response) => {
         if (response.status === 200) {
           filename = response.headers.get('content-disposition');
