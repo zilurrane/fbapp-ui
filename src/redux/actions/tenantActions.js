@@ -7,6 +7,11 @@ export const createTenant = tenantRequest => ({
   tenantRequest,
 });
 
+export const updateTenant = payload => ({
+  type: 'UPDATE_TENANT',
+  payload,
+});
+
 export const setSelectedTenant = selectedTenant => ({
   type: 'SET_SELECTED_TENANT',
   selectedTenant,
