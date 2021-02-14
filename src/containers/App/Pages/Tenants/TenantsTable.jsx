@@ -3,7 +3,10 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
+import { Button } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 import { getAllTenants } from '../../../../redux/actions/tenantActions';
+import { ActiveStatus } from '../../../../shared/components/ActiveStatus';
 
 class TenantsTable extends Component {
   static propTypes = {
@@ -15,6 +18,7 @@ class TenantsTable extends Component {
       isActive: PropTypes.bool.isRequired,
     })).isRequired,
     getAllTenants: PropTypes.func.isRequired,
+    openEditTenantPopup: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -32,7 +36,8 @@ class TenantsTable extends Component {
               <th>Code</th>
               <th>Name</th>
               <th>E-Mail</th>
-              <th>Status</th>
+              <th className="text-center">Status</th>
+              <th className="text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -44,7 +49,12 @@ class TenantsTable extends Component {
                     <td>{tenant.code}</td>
                     <td>{tenant.name}</td>
                     <td>{tenant.email}</td>
-                    <td>{tenant.isActive ? 'Active' : 'In-Active'}</td>
+                    <td className="text-center">
+                      <ActiveStatus isActive={tenant.isActive} />
+                    </td>
+                    <td className="text-center">
+                      <Button size="small" type="primary" onClick={() => this.props.openEditTenantPopup(tenant)} icon={<EditOutlined />} />
+                    </td>
                   </tr>
                 ))
                 :

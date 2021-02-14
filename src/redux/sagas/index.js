@@ -281,7 +281,15 @@ function* getTenants() {
 function* createTenant({ tenantRequest }) {
   const tenantId = yield select(getSelectedTenantId);
   const postBody = JSON.stringify(tenantRequest);
-  yield callApi(`${baseApiUrl}tenants/create`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  yield callApi(`${baseApiUrl}tenants`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  yield put({ type: 'GET_TENANTS' });
+}
+
+function* updateTenant({ payload }) {
+  const tenantId = yield select(getSelectedTenantId);
+  const postBody = JSON.stringify(payload);
+  yield callApi(`${baseApiUrl}tenants`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'PUT', body: postBody }).then(res => res.json());
+  openNotification('success', 'Done', 'Tenant information updated successfully!');
   yield put({ type: 'GET_TENANTS' });
 }
 
@@ -350,6 +358,7 @@ function* actionWatcher() {
     takeLatest('GET_FACULTY_FEEDBACK', getFacultyFeedback),
     takeLatest('GET_TENANTS', getTenants),
     takeLatest('CREATE_TENANT', createTenant),
+    takeLatest('UPDATE_TENANT', updateTenant),
     takeLatest('GET_USERS', getUsers),
     takeLatest('CREATE_USER', createUser),
     takeLatest('UPDATE_USER', updateUser),

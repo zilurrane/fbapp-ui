@@ -1,26 +1,50 @@
 import React, { Fragment, Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Card, CardBody, Row, Col } from 'reactstrap';
 import { Button } from 'antd';
 import TenantsTable from './TenantsTable';
 import AddEditTenantForm from './AddEditTenantForm';
-import { createTenant } from '../../../../redux/actions/tenantActions';
+import { createTenant, updateTenant } from '../../../../redux/actions/tenantActions';
 
 class TenantsCard extends Component {
-  static propTypes = {
-    createTenant: PropTypes.func.isRequired,
+  constructor() {
+    super();
+    this.onAddTenant = this.handleAddTenant.bind(this);
+    this.onUpdateTenant = this.handleUpdateTenant.bind(this);
+    this.openAddTenantPopup = this.openAddTenantPopupEvent.bind(this);
+    this.openUpdateTenantPopup = this.openUpdateTenantPopupEvent.bind(this);
+    this.state = { visible: false, isEditView: false, selectedTenant: {} };
   }
 
-  state = { visible: false };
-
-  onCreate(values) {
+  handleAddTenant(values) {
     this.props.createTenant(values);
-    this.setVisible(false);
+    this.setState({ visible: false });
   }
 
-  setVisible(value) {
-    this.setState({ visible: value });
+  handleUpdateTenant(values) {
+    this.props.updateTenant({
+      query: {
+        _id: this.state.selectedTenant._id,
+      },
+      data: values,
+    });
+    this.setState({ visible: false });
+  }
+
+  openUpdateTenantPopupEvent(selectedTenant) {
+    this.setState({ visible: true, selectedTenant, isEditView: true });
+  }
+
+  openAddTenantPopupEvent() {
+    this.setState({ visible: true, selectedTenant: {}, isEditView: false });
+  }
+
+  processModalSubmit(values) {
+    if (this.state.isEditView) {
+      this.handleUpdateTenant(values);
+    } else {
+      this.handleAddTenant(values);
+    }
   }
 
   render() {
@@ -37,11 +61,11 @@ class TenantsCard extends Component {
                         <div>
                           <div className="card__title">
                             <h5 className="bold-text">&nbsp;</h5>
-                            <Button className="card__actions" type="primary" onClick={() => this.setVisible(true)}>
+                            <Button className="card__actions" type="primary" onClick={this.openAddTenantPopup}>
                               Add
                             </Button>
                           </div>
-                          <TenantsTable />
+                          <TenantsTable openEditTenantPopup={item => this.openUpdateTenantPopup(item)} />
                         </div>
                       </Col>
                     </Row>
@@ -52,11 +76,12 @@ class TenantsCard extends Component {
           </Row>
         </Col>
         <AddEditTenantForm
+          selectedTenant={this.state.selectedTenant}
           visible={this.state.visible}
-          isEditView={false}
-          onCreate={values => this.onCreate(values)}
+          isEditView={this.state.isEditView}
+          onSubmit={values => this.processModalSubmit(values)}
           onCancel={() => {
-            this.setVisible(false);
+            this.setState({ visible: false });
           }}
         />
       </Fragment>
@@ -65,5 +90,5 @@ class TenantsCard extends Component {
 }
 
 const mapStateToProps = () => ({});
-const mapDispatchToProps = { createTenant };
+const mapDispatchToProps = { createTenant, updateTenant };
 export default connect(mapStateToProps, mapDispatchToProps)(TenantsCard);

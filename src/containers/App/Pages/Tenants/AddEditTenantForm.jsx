@@ -1,11 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import { Modal, Form, Input, Radio } from 'antd';
 
 const AddEditTenantForm = ({
-  visible, onCreate, onCancel, isEditView,
+  visible, onSubmit, onCancel, isEditView, selectedTenant,
 }) => {
   const [form] = Form.useForm();
+  useEffect(() => {
+    form.setFieldsValue({
+      isActive: selectedTenant.isActive ? 'true' : 'false',
+      code: selectedTenant.code,
+      name: selectedTenant.name,
+      email: selectedTenant.email,
+    });
+  }, [selectedTenant]);
   return (
     <Modal
       visible={visible}
@@ -18,7 +25,7 @@ const AddEditTenantForm = ({
           .validateFields()
           .then((values) => {
             form.resetFields();
-            onCreate(values);
+            onSubmit(values);
           });
       }}
     >
@@ -26,9 +33,6 @@ const AddEditTenantForm = ({
         form={form}
         layout="vertical"
         name="form_in_modal"
-        initialValues={{
-          isActive: 'true',
-        }}
       >
         <Form.Item
           name="code"
@@ -40,7 +44,7 @@ const AddEditTenantForm = ({
             },
           ]}
         >
-          <Input />
+          <Input disabled={isEditView} />
         </Form.Item>
         <Form.Item
           name="name"
@@ -76,13 +80,6 @@ const AddEditTenantForm = ({
       </Form>
     </Modal>
   );
-};
-
-AddEditTenantForm.propTypes = {
-  visible: PropTypes.bool.isRequired,
-  onCreate: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  isEditView: PropTypes.bool.isRequired,
 };
 
 export default AddEditTenantForm;
