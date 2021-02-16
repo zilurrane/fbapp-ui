@@ -24,7 +24,7 @@ class Topbar extends PureComponent {
               changeSidebarVisibility={changeSidebarVisibility}
             />
             <Link className="topbar__logo" to="/app/dashboard" >
-              <h3 className="topbar__logo__text">FbApp</h3>
+              <h3 className="topbar__logo__text">Abhipray</h3>
             </Link>
           </div>
           <div className="topbar__right">

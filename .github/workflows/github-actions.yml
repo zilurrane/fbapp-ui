@@ -35,5 +35,5 @@ jobs:
           auth_token: ${{ secrets.auth_token }}
           to_number: ${{ secrets.to_whatsapp_no }}
           from_number: ${{ secrets.from_whatsapp_no }}
-          message:  "FbApp - Successfully deployed latest changes. Browse it on http://fbapp.lifecompilers.in/"
+          message:  "Abhipray - Successfully deployed latest changes. Browse it on http://fbapp.lifecompilers.in/"
       uses: zilurrane/whatsapp-actions@0.0.1
