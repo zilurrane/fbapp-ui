@@ -17,7 +17,7 @@ import ClassesPage from './Pages/Classes';
 import FacultiesPage from './Pages/Faculties';
 import SubjectsPage from './Pages/Subjects';
 import StudentsPage from './Pages/Students';
-import BackupPage from './Pages/Backup';
+import ExportPage from './Pages/Export';
 import analyticsPage from './Pages/Analytics';
 import EvaluationFormPage from '../Evaluation/Form';
 import { studentRoleValue } from '../../shared/constants/common-constants';
@@ -71,7 +71,7 @@ const appRoutes = () => (
         <ProtectedRoute path="/app/subjects" component={SubjectsPage} />
         <ProtectedRoute path="/app/students" component={StudentsPage} />
         <ProtectedRoute path="/app/analytics" component={analyticsPage} />
-        <ProtectedRoute path="/app/backup" component={BackupPage} />
+        <ProtectedRoute path="/app/export" component={ExportPage} />
         {/* TEST */}
         <ProtectedRoute path="/app/one" component={ExamplePageOne} />
         <ProtectedRoute path="/app/two" component={ExamplePageTwo} />

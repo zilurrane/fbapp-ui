@@ -23,7 +23,7 @@ class SidebarContent extends Component {
           <SidebarLink icon="user" title="Faculties" route="/app/faculties" onClick={this.hideSidebar} />
           <SidebarLink icon="user" title="Students" route="/app/students" onClick={this.hideSidebar} />
           <SidebarLink icon="chart-bars" title="Analytics" route="/app/analytics" onClick={this.hideSidebar} />
-          <SidebarLink icon="layers" title="Backup" route="/app/backup" onClick={this.hideSidebar} />
+          <SidebarLink icon="layers" title="Export" route="/app/export" onClick={this.hideSidebar} />
         </ul>
       </div>
     );
