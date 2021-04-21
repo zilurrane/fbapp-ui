@@ -118,6 +118,7 @@ function* linkFacultyToSubject({ payload }) {
   const tenantId = yield select(getSelectedTenantId);
   const postBody = JSON.stringify(payload);
   yield callApi(`${baseApiUrl}subjects/link/faculty`, tenantId, { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: postBody }).then(res => res.json());
+  openNotification('success', 'Done', 'Assigned Faculty updated successfully!');
 }
 
 function* getLinkedFacultiesToSubject({ payload }) {
