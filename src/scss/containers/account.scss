@@ -6,9 +6,12 @@
   overflow-y: auto;
   flex-direction: column;
 
-  @include themify($themes) {
-    background: themed('colorBackgroundBody');
-  }
+  background: url(../shared/img/home2.jpg) no-repeat;
+  background-size: cover;
+
+  // @include themify($themes) {
+  //   background: themed('colorBackgroundBody');
+  // }
 
   &.account--photo {
     background: url(../shared/img/404/bg_404.png) no-repeat center;
